@@ -1,0 +1,11 @@
+@import 'normalize.css';
+@import '~foundation-sites/scss/foundation';
+@include foundation-global-styles;
+@include foundation-visibility-classes;
+@include foundation-flex-classes;
+@include foundation-flex-grid;
+
+body {
+  font-family: source-han-sans-traditional,Noto Sans TC,PingFang TC,Apple LiGothic Medium,Roboto,Microsoft JhengHei,Lucida Grande,Lucida Sans Unicode,sans-serif;
+  line-height: 1.43;
+}

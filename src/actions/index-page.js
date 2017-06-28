@@ -19,7 +19,7 @@ const _ = {
 export function fetchIndexPageContent() {
   return (dispatch, getState) => {
     const state = getState()
-    const indexPage = _.get(state, fieldNames.indexPage)
+    const indexPage = _.get(state, fieldNames.indexPage, {})
     const fields = [fieldNames.latest, fieldNames.editorPicks, fieldNames.latestTopic, fieldNames.reviews]
     let isContentReady = true
 
@@ -29,7 +29,7 @@ export function fetchIndexPageContent() {
       }
     })
     if (isContentReady) {
-      return null
+      return Promise.resolve()
     }
 
     const path = `${apiEndpoints.indexPage}`

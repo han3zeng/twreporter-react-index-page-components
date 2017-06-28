@@ -13,6 +13,20 @@
  *    entities: {
  *      posts: {},
  *      topics: {},
+ *    },
+ *    lists: {
+ *      listID1: {
+ *        total: 10,
+ *        items: [],
+ *      },
+ *      listID2: {
+ *        total: 15,
+ *        items: []
+ *      }
+ *    },
+ *    topics: {
+ *      total: 10,
+ *      items: []
  *    }
  *  }
  *
@@ -29,7 +43,8 @@ const reviews = 'reviews'
 const relateds = 'relateds'
 const photographies = 'photography_section'
 const infographics = 'infographic_section'
-
+const lists = 'lists'
+const selectedArticle = 'selected_article'
 
 export default {
   indexPage,
@@ -43,4 +58,6 @@ export default {
   relateds,
   photographies,
   infographics,
+  lists,
+  selectedArticle,
 }

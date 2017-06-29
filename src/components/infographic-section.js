@@ -12,7 +12,6 @@ import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { fetchInfographicPostsOnIndexPage } from '../actions/posts'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { truncate } from '../utils/style-utils'
@@ -175,11 +174,7 @@ Infographic.propTypes = {
   isPortrait: PropTypes.bool,
 }
 
-class InfographicSection extends React.Component {
-  componentWillMount() {
-    this.props.fetchInfographicPostsOnIndexPage()
-  }
-
+class InfographicSection extends React.PureComponent {
   render() {
     const { items } = this.props
     const listNumber = 3
@@ -230,25 +225,10 @@ class InfographicSection extends React.Component {
 
 InfographicSection.defaultProps = {
   items: [],
-  fetchInfographicPostsOnIndexPage: () => {},
 }
 
 InfographicSection.propTypes = {
   items: PropTypes.array,
-  fetchInfographicPostsOnIndexPage: PropTypes.func,
 }
 
-function mapStateToProps(state) {
-  let postSlugs = _.get(state, `${fieldNames.indexPage}.${fieldNames.infographics}`, [])
-  const entities = _.get(state, `${fieldNames.entities}.${fieldNames.posts}`, {})
-
-  postSlugs = postSlugs.map((slug) => {
-    return entities[slug]
-  })
-
-  return {
-    items: postSlugs,
-  }
-}
-
-export default connect(mapStateToProps, { fetchInfographicPostsOnIndexPage })(InfographicSection)
+export default InfographicSection

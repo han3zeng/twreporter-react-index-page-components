@@ -14,7 +14,6 @@ import sectionStrings from '../constants/section-strings'
 import get from 'lodash/get'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { fetchTopicsOnIndexPage } from '../actions/topics'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { media } from '../utils/style-utils'
@@ -171,10 +170,6 @@ Topic.propTypes = {
 }
 
 class TopicsSection extends React.PureComponent {
-  componentWillMount() {
-    this.props.fetchTopicsOnIndexPage()
-  }
-
   render() {
     const totalTopics = 4
     const { items } = this.props
@@ -222,25 +217,10 @@ class TopicsSection extends React.PureComponent {
 
 TopicsSection.defaultProps = {
   items: [],
-  fetchTopicsOnIndexPage: () => {},
 }
 
 TopicsSection.propTypes = {
   items: PropTypes.array,
-  fetchTopicsOnIndexPage: PropTypes.func,
 }
 
-function mapStateToProps(state) {
-  let topicSlugs = _.get(state, `${fieldNames.indexPage}.${fieldNames.topics}`, [])
-  const entities = _.get(state, `entities.${fieldNames.topics}`, {})
-
-  topicSlugs = topicSlugs.map((slug) => {
-    return entities[slug]
-  })
-
-  return {
-    items: topicSlugs,
-  }
-}
-
-export default connect(mapStateToProps, { fetchTopicsOnIndexPage })(TopicsSection)
+export default TopicsSection

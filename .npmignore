@@ -18,6 +18,7 @@ README.md
 constributors/
 node_modules/
 spec/
+pages/
 
 # NPM debug
 npm-debug.log

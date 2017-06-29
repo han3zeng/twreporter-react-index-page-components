@@ -11,7 +11,6 @@ import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { fetchPhotographyPostsOnIndexPage } from '../actions/posts'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 
@@ -186,7 +185,6 @@ class PhotographySection extends React.Component {
 
   componentDidMount() {
     // fetch the posts in advance
-    this.props.fetchPhotographyPostsOnIndexPage()
     this._checkViewportWidth()
 
     let resizeTimeout
@@ -276,25 +274,10 @@ class PhotographySection extends React.Component {
 
 PhotographySection.defaultProps = {
   items: [],
-  fetchPhotographyPostsOnIndexPage: () => {},
 }
 
 PhotographySection.propTypes = {
   items: PropTypes.array,
-  fetchPhotographyPostsOnIndexPage: PropTypes.func,
 }
 
-function mapStateToProps(state) {
-  let postSlugs = _.get(state, `${fieldNames.indexPage}.${fieldNames.photographies}`, [])
-  const entities = _.get(state, `${fieldNames.entities}.${fieldNames.posts}`, {})
-
-  postSlugs = postSlugs.map((slug) => {
-    return entities[slug]
-  })
-
-  return {
-    items: postSlugs,
-  }
-}
-
-export default connect(mapStateToProps, { fetchPhotographyPostsOnIndexPage })(PhotographySection)
+export default PhotographySection

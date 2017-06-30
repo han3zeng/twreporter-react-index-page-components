@@ -26,12 +26,16 @@ const Wrapper = styled.div`
   }
 `
 
+const TextSpan = styled.span`
+  color: ${(props) => { return props.isDarkBg ? colors.lightBlue : colors.blue }};
+`
+
 const BottomLink = (props) => {
   return (
     <Wrapper
       isDarkBg={props.isDarkBg}
     >
-      <Link to={props.path}><span>{props.text}</span></Link>
+      <Link to={props.path}><TextSpan>{props.text}</TextSpan></Link>
       {props.isDarkBg ? <LinkIcon /> : <DarkBgIcon />}
     </Wrapper>
   )

@@ -1,3 +1,5 @@
+import LogoDesktop from '../static/logo-desktop.svg'
+import LogoMobile from '../static/logo-mobile.svg'
 import React from 'react'
 import styled from 'styled-components'
 import SearchBox from './search-box'
@@ -5,8 +7,6 @@ import TRLink from './common-utils/twreporter-link'
 import { headerPadding } from '../styles/common-variables'
 import ContentWrapper from './common-utils/section-content-wrapper'
 
-const LogoPath = '../static/logo-desk.png'
-const mobileLogoPath = '../static/logo-mobile.svg'
 const tabletWidth = '916px'
 const mobileWidth = '550px'
 
@@ -28,19 +28,19 @@ const LogoFrame = styled.div`
   float: left;
 `
 
-const Logo = styled.div`
+const LogoDesktopContainer = styled.div`
   width: 220px;
-  height: 40px;
-  background-image: url(${LogoPath});
-  background-size: contain;
+  cursor: pointer;
   @media (max-width: ${mobileWidth}) {
-    background-image: url(${mobileLogoPath});
-    background-size: contain;
-    width: 119px;
-    border: none;
+    display: none;
   }
-  &:hover {
-    cursor: pointer;
+`
+
+const LogoMobileContainer = styled.div`
+  display: none;
+  @media (max-width: ${mobileWidth}) {
+    display: inline;
+    width: 119px;
   }
 `
 
@@ -49,7 +49,12 @@ const Header = () => {
     <ContentContainer>
       <LogoFrame>
         <TRLink href={'/'}>
-          <Logo />
+          <LogoDesktopContainer>
+            <LogoDesktop width="220px" />
+          </LogoDesktopContainer>
+          <LogoMobileContainer>
+            <LogoMobile width="119px" />
+          </LogoMobileContainer>
         </TRLink>
       </LogoFrame>
       <SearchBox />

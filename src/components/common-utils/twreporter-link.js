@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const Container = styled.a`
+const Container = styled.div`
   cursor: ${props => (props.noCursor ? '' : 'pointer')};
   &:hover {
     text-decoration: ${props => (props.noTxtDec ? '' : 'underline')};

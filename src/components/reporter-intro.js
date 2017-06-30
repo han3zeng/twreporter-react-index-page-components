@@ -73,6 +73,7 @@ const ItemTitle = styled.h3`
   ${media.largeMobile`
     margin: 6px;
   `}
+  color: ${colors.textGrey};
 `
 
 const ItemIconContainer = styled.div`

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
+import SearchIcon from '../static/search.svg'
 import { colors } from '../styles/common-variables'
 
-const SearchImgSrc = '../static/search.svg'
 const mobileWidth = '400px'
 
 const Conatiner = styled.span`
@@ -13,16 +13,14 @@ const Conatiner = styled.span`
   float: right;
 `
 
-const SearchImg = styled.img`
+const SearchIconContainer = styled.div`
   width: 20px;
   height: 20px;
   box-sizing: border-box;
   display: block;
   vertical-align: middle;
   margin-right: ${props => (props.isToggled ? '10px' : '0px')};
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `
 
 const Input = styled.input`
@@ -104,11 +102,12 @@ class SearchBox extends React.Component {
   render() {
     return (
       <Conatiner>
-        <SearchImg
-          src={SearchImgSrc}
+        <SearchIconContainer
           onClick={this.onToggle}
           isToggled={this.state.isToggled}
-        />
+        >
+          <SearchIcon width="20px" height="20px" />
+        </SearchIconContainer>
         <SearchInput
           isToggled={this.state.isToggled}
         />

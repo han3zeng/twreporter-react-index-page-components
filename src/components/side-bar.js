@@ -1,5 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import Waypoint from 'react-waypoint'
 import sectionStrings from '../constants/section-strings'
 import smoothScroll from 'smoothscroll'
@@ -15,13 +15,14 @@ for (const key in sectionStrings) {
   }
 }
 
+// right: calc((100% - 1024px)/2 + 1px);
 const Container = styled.div`
   font-size: ${fonts.size.base};
   position: fixed;
-  right: calc((100% - 1024px)/2 + 1px);
   color: ${colors.primaryColor};
   z-index: 2;
-  margin-top: 104px;
+  right: 10px;
+  margin-top: 93px;
   @media (max-width: 1038px) {
     right: 1px;
   }
@@ -33,7 +34,7 @@ const Container = styled.div`
 const SectionButton = styled.div`
   writing-mode: vertical-rl;
   letter-spacing: 2px;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   padding: 3px 0;
   font-weight: 500;
   &:hover {
@@ -46,43 +47,25 @@ const SectoinAnchor = styled.a`
   text-decoration: none;
 `
 
-class SideBar extends React.Component {
+class Anchors extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentSection: '',
-      previousSection: '',
+      currentSection: props.curretSection,
     }
-    this.handleOnEnter = this._handleOnEnter.bind(this)
-    this.handleOnLeave = this._handleOnLeave.bind(this)
-    this.moduleMap = {}
+    this.changeHighlight = this._changeHighlight.bind(this)
     this.scrollTo = this._scrollTo.bind(this)
   }
 
-  componentWillUnmount() {
-    this.moduleMap = {}
-  }
-
-  _handleOnEnter(nextSection) {
-    const { currentSection } = this.state
+  _changeHighlight(currentSection) {
     this.setState({
-      currentSection: nextSection,
-      previousSection: currentSection,
+      currentSection,
     })
   }
 
-  _handleOnLeave(onLeaveSection) {
-    const { currentSection, previousSection } = this.state
-    if (onLeaveSection === currentSection) {
-      this.setState({
-        currentSection: previousSection,
-        previousSection: onLeaveSection,
-      })
-    }
-  }
-
-  _scrollTo(moduleId) {
-    const node = this.moduleMap[moduleId]
+  _scrollTo(moduleId, e) {
+    e.preventDefault()
+    const node = this.props.moduleMap[moduleId]
     if (node) {
       return smoothScroll(node.offsetTop)
     }
@@ -95,7 +78,7 @@ class SideBar extends React.Component {
         <SectoinAnchor
           href={`#${value}`}
           key={`SectionButton_${value}`}
-          onClick={() => { this.scrollTo(value) }}
+          onClick={(e) => { this.scrollTo(value, e) }}
         >
           <SectionButton
             highlight={value === this.state.currentSection}
@@ -105,6 +88,53 @@ class SideBar extends React.Component {
         </SectoinAnchor>
       )
     })
+    return (
+      <div>
+        { navBarSections }
+      </div>
+    )
+  }
+}
+
+Anchors.defaultProps = {
+  moduleMap: {},
+  curretSection: '',
+}
+
+Anchors.propTypes = {
+  moduleMap: PropTypes.object,
+  curretSection: PropTypes.string,
+}
+
+class SideBar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleOnEnter = this._handleOnEnter.bind(this)
+    this.handleOnLeave = this._handleOnLeave.bind(this)
+    this.moduleMap = {}
+    this.currentSection = ''
+    this.previousSection = ''
+  }
+
+  componentWillUnmount() {
+    this.moduleMap = {}
+  }
+
+  _handleOnEnter(nextSection) {
+    this.anchorsNode.changeHighlight(nextSection)
+    this.previousSection = this.currentSection
+    this.currentSection = nextSection
+  }
+
+  _handleOnLeave(onLeaveSection) {
+    if (onLeaveSection === this.currentSection) {
+      this.currentSection = this.previousSection
+      this.anchorsNode.changeHighlight(this.previousSection)
+      this.previousSection = onLeaveSection
+    }
+  }
+
+  render() {
     const webSiteContent = this.props.children.map((singleModule, index) => {
       const { moduleId } = singleModule.props
       if (anchorsList.includes(moduleId)) {
@@ -112,27 +142,31 @@ class SideBar extends React.Component {
           <Waypoint
             key={`Single_Module_${moduleId}`}
             onLeave={() => { this.handleOnLeave(moduleId) }}
-            onEnter={(obj) => { this.handleOnEnter(moduleId, obj.previousPosition) }}
+            onEnter={() => { this.handleOnEnter(moduleId) }}
             fireOnRapidScroll
             topOffset="4%"
             bottomOffset={(index + 1) === this.props.children.length ? '50%' : '95%'}
           >
             <div
               id={moduleId}
-              ref={(input) => { this.moduleMap[moduleId] = input }}
+              ref={(node) => { this.moduleMap[moduleId] = node }}
             >
               {singleModule}
             </div>
           </Waypoint>
         )
       }
-      return <span />
+      return <span key={`${moduleId}`} />
     })
 
     return (
       <div>
         <Container>
-          {navBarSections}
+          <Anchors
+            ref={(node) => { this.anchorsNode = node }}
+            curretSection={anchorsList[0]}
+            moduleMap={this.moduleMap}
+          />
         </Container>
         {webSiteContent}
       </div>

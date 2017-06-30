@@ -1,6 +1,6 @@
-import React from 'react'
 import { VelocityComponent } from 'velocity-react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 class FadeInFadeOut extends React.Component {
   constructor(props) {
@@ -12,8 +12,8 @@ class FadeInFadeOut extends React.Component {
   }
 
   componentDidMount() {
-    if (this.textField) {
-      this.textField.style.display = 'inline'
+    if (this.Node && this.props.isSelected === false && this.state.onAnimate === false) {
+      this.Node.style.display = 'none'
     }
   }
 
@@ -28,23 +28,32 @@ class FadeInFadeOut extends React.Component {
         onAnimate: false,
       })
     }
+    if (!this.props.isSelected) {
+      this.Node.style.display = 'none'
+    }
   }
 
   render() {
     const { isSelected } = this.props
     return (
       <VelocityComponent
-        animation={isSelected ? { opacity: 1 } : { opacity: 0 }}
+        animation={
+          isSelected
+          ?
+          (() => {
+            if (this.Node) {
+              this.Node.style.display = 'inline'
+            }
+            return { opacity: 1 }
+          })()
+          :
+          { opacity: 0 }
+        }
         duration={500}
         complete={this.onAnimationFinish}
       >
         <div
-          ref={(node) => {
-            this.textField = node
-          }}
-          style={{
-            display: 'none',
-          }}
+          ref={(node) => { this.Node = node }}
         >
           {this.props.children}
         </div>

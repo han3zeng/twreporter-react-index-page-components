@@ -43,6 +43,7 @@ const reviews = 'reviews'
 const relateds = 'relateds'
 const photographies = 'photography_section'
 const infographics = 'infographic_section'
+const category = 'category'
 const lists = 'lists'
 const selectedArticle = 'selected_article'
 
@@ -60,4 +61,5 @@ export default {
   infographics,
   lists,
   selectedArticle,
+  category,
 }

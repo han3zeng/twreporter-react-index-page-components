@@ -1,20 +1,19 @@
-import React from 'react'
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileList from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
+import React from 'react'
 import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
 import TruncatText from './truncat-text'
-import fieldNames from '../constants/redux-state-fields'
+import TRLink from './common-utils/twreporter-link'
 import strings from '../constants/strings'
 import sectionStrings from '../constants/section-strings'
 import get from 'lodash/get'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { fonts } from '../styles/common-variables'
+import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { media } from '../utils/style-utils'
 
@@ -25,6 +24,11 @@ const _ = {
 // If window is less than oneColumnWidth,
 // there will be only one column.
 const oneColumnWidth = '600px'
+const desktopWidth = '1024px'
+
+const Container = styled.div`
+  background-color: #f2f2f2;
+`
 
 const List = styled.div`
   list-style-type: none;
@@ -41,8 +45,10 @@ const List = styled.div`
 
 const Item = styled.div`
   padding-bottom: 60px;
-  max-width: 369px;
-
+  max-width: 544px;
+  @media (max-width: ${desktopWidth}) {
+    max-width: 369px;
+  }
   &:nth-child(odd) {
     margin-right: 32px;
   }
@@ -79,30 +85,29 @@ const Title = styled.div`
   font-size: ${fonts.size.title.large};
   margin-bottom: 15px;
   margin-top: 4px;
-
   @media (max-width: ${oneColumnWidth}) {
     font-size: ${fonts.size.title.medium};
   }
 `
 
 const Img = styled.div`
-  cursor: pointer;
-  width: 369px;
-  height: 247px;
+  width: 544px;
+  height: 364px;
   margin: 0 auto;
-
+  @media (max-width: ${desktopWidth}) {
+    width: 369px;
+    height: 247px;
+  }
   ${media.tablet`
     width: 280px;
     height: 186px;
   `}
-
   @media (max-width: ${oneColumnWidth}) {
     width: 100%;
   }
 `
 
 const Desc = styled.div`
-  cursor: pointer;
   margin: 15px auto 0 auto;
   max-width: 323px;
   height: 140px;
@@ -111,7 +116,7 @@ const Desc = styled.div`
     margin: 0;
     text-align: justify;
   }
-
+  color: ${colors.textGrey};
   ${media.tablet`
     max-width: 240px;
   `}
@@ -129,24 +134,30 @@ const More = styled.div`
 
 class Topic extends React.PureComponent {
   render() {
-    const { title, topicName, desc, imgObj } = this.props
-
+    const { title, topicName, desc, imgObj, slug } = this.props
+    const href = `topics/${slug}`
     return (
       <Item>
         <TopicName>{`${strings.topic}${strings.fullShapeDot}${topicName}`}</TopicName>
-        <Title>{title}</Title>
-        <Img>
-          <ImgWrapper
-            src={_.get(imgObj, 'resized_targets.mobile.url')}
-            alt={_.get(imgObj, 'description')}
-            srcSet={getImageSrcSet(imgObj)}
-          />
-        </Img>
+        <TRLink href={href}>
+          <Title>
+            {title}
+          </Title>
+        </TRLink>
+        <TRLink href={href}>
+          <Img>
+            <ImgWrapper
+              src={_.get(imgObj, 'resized_targets.mobile.url')}
+              alt={_.get(imgObj, 'description')}
+              srcSet={getImageSrcSet(imgObj)}
+            />
+          </Img>
+        </TRLink>
         <Desc>
           <TruncatText
             backgroundColor={'#f2f2f2'}
             lines={7}
-            lineHeight={1.43}
+            lineHeight={1.5}
             dangerouslySetInnerHTML={{ __html: desc }}
           />
         </Desc>
@@ -160,6 +171,7 @@ Topic.defaultProps = {
   topicName: '',
   desc: '',
   imgObj: {},
+  slug: '',
 }
 
 Topic.propTypes = {
@@ -167,6 +179,7 @@ Topic.propTypes = {
   topicName: PropTypes.string,
   desc: PropTypes.string,
   imgObj: PropTypes.object,
+  slug: PropTypes.string,
 }
 
 class TopicsSection extends React.PureComponent {
@@ -183,34 +196,37 @@ class TopicsSection extends React.PureComponent {
           topicName={_.get(item, 'topic_name')}
           desc={desc}
           imgObj={imgObj}
+          slug={_.get(item, 'slug')}
         />
       )
     })
 
     return (
-      <Section
-        mobileWidth={oneColumnWidth}
-      >
-        <SectionName
+      <Container>
+        <Section
           mobileWidth={oneColumnWidth}
         >
-          <span>{sectionStrings.topic}</span>
-        </SectionName>
-        <List>
-          {topicComps}
-        </List>
-        <MobileList
-          maxWidth={oneColumnWidth}
-        >
-          <MobileFlexSwipeable.SwipableFlexItems
+          <SectionName
             mobileWidth={oneColumnWidth}
-            maxSwipableItems={totalTopics - 1}
           >
+            <span>{sectionStrings.topic}</span>
+          </SectionName>
+          <List>
             {topicComps}
-          </MobileFlexSwipeable.SwipableFlexItems>
-        </MobileList>
-        <More><BottomLink text="更多報導者專題" /></More>
-      </Section>
+          </List>
+          <MobileList
+            maxWidth={oneColumnWidth}
+          >
+            <MobileFlexSwipeable.SwipableFlexItems
+              mobileWidth={oneColumnWidth}
+              maxSwipableItems={totalTopics - 1}
+            >
+              {topicComps}
+            </MobileFlexSwipeable.SwipableFlexItems>
+          </MobileList>
+          <More><BottomLink text="更多報導者專題" path="moretopicssection" /></More>
+        </Section>
+      </Container>
     )
   }
 }

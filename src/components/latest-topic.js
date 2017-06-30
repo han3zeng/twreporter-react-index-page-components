@@ -1,11 +1,12 @@
-import React from 'react'
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
+import TRLink from './common-utils/twreporter-link'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListUtils from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
+import React from 'react'
 import strings from '../constants/strings'
 import styled from 'styled-components'
 import Section from './common-utils/section'
@@ -22,13 +23,15 @@ const _ = {
 }
 
 const categoryPrefix = strings.topic + strings.fullShapeDot
-const moreText = '更多血淚漁場專題文章'
 const mobileWidth = '730px'
 const tabletWidth = '914px'
+const desktopWidth = '1024px'
 
-const Container = Section.extend`
-  width: 100%;
-  display: inline-block;
+const Container = styled.div`
+  background-color: #f2f2f2;
+`
+
+const ContentContainer = Section.extend`
   text-align: center;
 `
 
@@ -44,10 +47,10 @@ const Title = styled.div`
   width: 374px;
   font-size: ${fonts.size.title.large};
   font-weight: ${fonts.weight.semiBold};
-  line-height: 1.55;
+  line-height: 1.25;
   color: ${colors.textGrey};
   text-align: center;
-  margin: 6px auto 0 auto;
+  margin: 2px auto 0 auto;
   @media (max-width: ${mobileWidth}) {
     font-size: ${fonts.size.title.medium};
     width: ${itemWidthPct}%;
@@ -55,10 +58,10 @@ const Title = styled.div`
 `
 
 const Description = styled.div`
-  margin-top: 6px;
+  margin-top: 12px;
   width: 447px;
-  font-size: ${fonts.size.large};
-  line-height: 1.43;
+  font-size: ${fonts.size.medium};
+  line-height: 1.5;
   text-align: justify;
   color: ${colors.textGrey};
   @media (max-width: ${mobileWidth}) {
@@ -82,7 +85,10 @@ const FlexBox = styled.div`
 // container for each related articles
 const FlexItem = styled.div`
   min-height: 335px;
-  max-width: 290px;
+  max-width: 426px;
+  @medai  (max-width: ${desktopWidth}) {
+    max-width: 290px;
+  }
   &:nth-child(2) {
     margin: 0 20px;
   }
@@ -107,12 +113,11 @@ const RelatedsContentFrame = styled.div`
 
 const RelatedCategory = CategoryName.extend`
   text-align: left;
-  margin: 6px 0;
+  margin: 12px 0 2px 0;
 `
 
 const RelatedTitle = styled.div`
-  height: auto;
-  font-size: ${fonts.size.medium};
+  font-size: ${fonts.size.title.base};
   font-weight: ${fonts.weight.semiBold};
   color: ${colors.textGrey};
   @media (max-width: ${tabletWidth}) {
@@ -122,9 +127,9 @@ const RelatedTitle = styled.div`
 `
 
 const RelatedDescription = styled.div`
-  margin-top: 6px;
+  margin-top: 8px;
   height: auto;
-  font-size: ${fonts.size.base};
+  font-size: ${fonts.size.medium};
   line-height: 20px;
   color: ${colors.textGrey};
   ${truncate('relative', 1.43, 3, '#f2f2f2')};
@@ -140,33 +145,42 @@ const MoreFrame = styled.div`
 `
 
 const ImgFrame = styled.div`
-  height: 186px;
+  height: 274px;
+  @media (max-width: ${desktopWidth}) {
+    height: 186px;
+  }
 `
 
 class LatestTopic extends React.PureComponent {
+
   render() {
     const { data } = this.props
     const maxSwipableItems = 2
     const relateds = _.get(data, 'relateds', []).slice(0, 3).map((post) => {
+      const href = `a/${_.get(post, 'slug')}`
       return (
         <FlexItem
           key={_.get(post, 'id')}
           mobileWidth={mobileWidth}
         >
-          <ImgFrame>
-            <ImgWrapper
-              alt={_.get(post, 'hero_image.description')}
-              src={_.get(post, 'hero_image.resized_targets.mobile.url')}
-              srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
-            />
-          </ImgFrame>
+          <TRLink href={href}>
+            <ImgFrame>
+              <ImgWrapper
+                alt={_.get(post, 'hero_image.description')}
+                src={_.get(post, 'hero_image.resized_targets.mobile.url')}
+                srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
+              />
+            </ImgFrame>
+          </TRLink>
           <RelatedsContentFrame>
             <RelatedCategory>
               {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
             </RelatedCategory>
-            <RelatedTitle>
-              {_.get(post, 'title', '')}
-            </RelatedTitle>
+            <TRLink href={href}>
+              <RelatedTitle>
+                {_.get(post, 'title', '')}
+              </RelatedTitle>
+            </TRLink>
             <RelatedDescription>
               {_.get(post, 'og_description', '')}
             </RelatedDescription>
@@ -176,37 +190,40 @@ class LatestTopic extends React.PureComponent {
     })
 
     return (
-      <Container
-        mobileWidth={mobileWidth}
-      >
-        <SectionName
+      <Container>
+        <ContentContainer
           mobileWidth={mobileWidth}
         >
-          <span>{sectionStrings.latestTopic}</span>
-        </SectionName>
-        <TopicFrame>
-          <CategoryName>{`${categoryPrefix}${_.get(data, 'topic_name', '')}`}</CategoryName>
-          <Title>{_.get(data, 'title', '')}</Title>
-          <Description>{_.get(data, 'og_description', '')}</Description>
-        </TopicFrame>
-        <FlexBox>
-          {relateds}
-        </FlexBox>
-        <MobileList
-          maxWidth={mobileWidth}
-        >
-          <MobileFlexSwipeable.SwipableFlexItems
+          <SectionName
             mobileWidth={mobileWidth}
-            maxSwipableItems={maxSwipableItems}
           >
+            <span>{sectionStrings.latestTopic}</span>
+          </SectionName>
+          <TopicFrame>
+            <CategoryName>{`${categoryPrefix}${_.get(data, 'topic_name', '')}`}</CategoryName>
+            <Title>{_.get(data, 'title', '')}</Title>
+            <Description>{_.get(data, 'og_description', '')}</Description>
+          </TopicFrame>
+          <FlexBox>
             {relateds}
-          </MobileFlexSwipeable.SwipableFlexItems>
-        </MobileList>
-        <MoreFrame>
-          <BottomLink
-            text={moreText}
-          />
-        </MoreFrame>
+          </FlexBox>
+          <MobileList
+            maxWidth={mobileWidth}
+          >
+            <MobileFlexSwipeable.SwipableFlexItems
+              mobileWidth={mobileWidth}
+              maxSwipableItems={maxSwipableItems}
+            >
+              {relateds}
+            </MobileFlexSwipeable.SwipableFlexItems>
+          </MobileList>
+          <MoreFrame>
+            <BottomLink
+              text={`更多${_.get(data, 'topic_name', '')}文章`}
+              path={`topics/${_.get(data, 'slug', '')}`}
+            />
+          </MoreFrame>
+        </ContentContainer>
       </Container>
     )
   }

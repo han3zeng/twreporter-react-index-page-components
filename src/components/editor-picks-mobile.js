@@ -1,16 +1,17 @@
-import React from 'react'
 import CategoryName from './common-utils/category-name'
 import FadeInFadeOut from './animations/fadein-fadeout'
 import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import PropTypes from 'prop-types'
+import React from 'react'
 import Swipeable from 'react-swipeable'
 import SwipableMixin from './common-utils/swipable-mixin'
 import styled from 'styled-components'
 import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
+import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
@@ -88,15 +89,20 @@ class EditorPicksMobile extends SwipableMixin {
     }
 
     const ImageComp = (post) => {
+      const href = `a/${_.get(post, 'slug', 'error')}`
       const { hero_image } = post
       return (
-        <ImgFrame>
-          <ImgWrapper
-            alt={_.get(hero_image, 'description')}
-            src={_.get(hero_image, 'resized_targets.mobile.url')}
-            srcSet={getImageSrcSet(hero_image)}
-          />
-        </ImgFrame>
+        <TRLink
+          href={href}
+        >
+          <ImgFrame>
+            <ImgWrapper
+              alt={_.get(hero_image, 'description')}
+              src={_.get(hero_image, 'resized_targets.mobile.url')}
+              srcSet={getImageSrcSet(hero_image)}
+            />
+          </ImgFrame>
+        </TRLink>
       )
     }
 
@@ -113,13 +119,20 @@ class EditorPicksMobile extends SwipableMixin {
     })
 
     const textFrameContent = data.map((post, index) => {
+      const href = `a/${_.get(post, 'slug', 'error')}`
       return (
         <FadeInFadeOut
           key={_.get(post, 'id')}
           isSelected={index === this.state.selected}
         >
           <Category>{_.get(post, 'categories[0].name', '')}</Category>
-          <Title>{_.get(post, 'title', '')}</Title>
+          <TRLink
+            href={href}
+          >
+            <Title>
+              {_.get(post, 'title', '')}
+            </Title>
+          </TRLink>
           <Description>{_.get(post, 'og_description', '')}</Description>
         </FadeInFadeOut>
       )

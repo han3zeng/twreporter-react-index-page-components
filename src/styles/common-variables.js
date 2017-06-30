@@ -37,4 +37,17 @@ const colors = {
   sectionGrey: '#f2f2f2',
 }
 
-export { fonts, colors }
+const headerPadding = {
+  desktop: '47px',
+  tablet: '34px',
+  mobile: '16px',
+}
+
+const contentMaxWidth = '1440px'
+
+export {
+  fonts,
+  colors,
+  headerPadding,
+  contentMaxWidth,
+}

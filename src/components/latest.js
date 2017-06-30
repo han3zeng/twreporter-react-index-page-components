@@ -1,16 +1,20 @@
-import React from 'react'
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
+import ContentWrapper from './common-utils/section-content-wrapper'
+import TRLink from './common-utils/twreporter-link'
 import { connect } from 'react-redux'
-import { fonts } from '../styles/common-variables'
+import { fonts, headerPadding } from '../styles/common-variables'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
   get,
 }
 
+const desktopMidWidth = '1300px'
+const desktopMinWidth = '1140px'
 const tabletMaxWidth = '1023px'
 const tabletMidWidth = '916px'
 const tabletMinWidth = '761px'
@@ -18,26 +22,34 @@ const mobileMaxWidth = '600px'
 const mobileMidWidth = '550px'
 const mobileMinWidth = '414px'
 
-const LatestContainer = styled.div`
+const Container = styled.div`
   background-color: #f2f2f2;
+`
+
+const ContentContainer = ContentWrapper.extend`
   display: flex;
-  padding: 30px 47px;
+  padding: 30px ${headerPadding.desktop};
   overflow-x: hidden;
   justify-content: space-between;
   @media (max-width: ${tabletMidWidth}) {
-    padding: 30px 34px;
+    padding: 30px ${headerPadding.tablet};
   }
-  @media (max-width: 480px) {
-    padding: 30px 16px;
+  @media (max-width: ${tabletMidWidth}) {
+    padding: 30px ${headerPadding.tablet};
+  }
+  @media (max-width: ${mobileMidWidth}) {
+    padding: 30px ${headerPadding.mobile};
   }
 `
 const ItemFrame = styled.div`
-  width: 130px;
-  height: auto;
+  width: 200px;
   padding: 0;
   margin-left: 30px;
   &:first-child {
     margin: 0;
+  }
+  @media (max-width: ${desktopMinWidth}) {
+    width: 130px;
   }
   @media (max-width: ${tabletMaxWidth}) {
     width: 159px;
@@ -70,11 +82,17 @@ const ItemFrame = styled.div`
 
 const Image = styled.div`
   width: 100%;
-  height: 90px;
+  height: 128px;
   background: ${props => (props.background ? `url(${props.background})` : 'backgroun-image')};
   background-size: cover;
   background-position: center;
   display: block;
+  @media (max-width: ${desktopMidWidth}) {
+    height: 110px;
+  }
+  @media (max-width: ${desktopMinWidth}) {
+    height: 90px;
+  }
   @media (max-width: ${tabletMaxWidth}) {
     height: 100px;
   }
@@ -93,19 +111,17 @@ const Image = styled.div`
 `
 
 const ContentFrame = styled.div`
-  width: 128px;
+  width: 114px;
   margin: 0 auto;
-  overflow: hidden;
 `
 
 const Category = styled(CategoryName)`
   height: 16px;
   line-height: 1.33;
-  margin-top: 13px;
-  margin-bottom: 3px;
+  margin-top: 12px;
+  margin-bottom: 4px;
 `
 const Title = styled.div`
-  width: 128px;
   height: auto;
   font-size: ${fonts.size.medium};
   font-weight: ${fonts.weight.semiBold};
@@ -120,23 +136,29 @@ class Latest extends React.PureComponent {
         <ItemFrame
           key={_.get(item, 'id')}
         >
-          <Image background={_.get(item, 'hero_image.resized_targets.mobile.url', '')} />
+          <TRLink href={`a/${_.get(item, 'slug', 'error')}`}>
+            <Image
+              background={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
+            />
+          </TRLink>
           <ContentFrame>
             <Category>
               {_.get(item, 'categories[0].name', '')}
             </Category>
-            <Title>
-              {_.get(item, 'title', '')}
-            </Title>
+            <TRLink href={`a/${_.get(item, 'slug', 'error')}`}>
+              <Title>{_.get(item, 'title', '')}</Title>
+            </TRLink>
           </ContentFrame>
         </ItemFrame>
       )
     })
 
     return (
-      <LatestContainer>
-        {latestItems}
-      </LatestContainer>
+      <Container>
+        <ContentContainer>
+          {latestItems}
+        </ContentContainer>
+      </Container>
     )
   }
 }

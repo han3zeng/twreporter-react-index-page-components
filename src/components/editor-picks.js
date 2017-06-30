@@ -7,6 +7,7 @@ import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
+import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { truncate } from '../utils/style-utils'
@@ -136,11 +137,6 @@ class EditorPicks extends React.Component {
     }
     this.onShiftToLeft = this._onShiftToLeft.bind(this)
     this.onShiftToRight = this._onShiftToRight.bind(this)
-    this.onRedirect = this._onRedirect.bind(this)
-  }
-
-  _onRedirect(slug) {
-    this.context.router.push(`${slug}`)
   }
 
   _onShiftToLeft() {
@@ -169,6 +165,7 @@ class EditorPicks extends React.Component {
     }
     const FlexItems = (() => {
       return data.map((obj, i) => {
+        const href = `a/${_.get(obj, 'slug', 'error')}`
         const propsMap = {
           middle: false,
           onClick: () => {},
@@ -177,7 +174,7 @@ class EditorPicks extends React.Component {
           propsMap.onClick = this.onShiftToRight
         } else if (i === this.state.selected) {
           propsMap.middle = true
-          propsMap.onClick = this.onRedirect
+          propsMap.onClick = () => {}
         } else if (i === this.state.selected + 1) {
           propsMap.onClick = this.onShiftToLeft
         }
@@ -188,9 +185,17 @@ class EditorPicks extends React.Component {
             onClick={() => { propsMap.onClick(`a/${_.get(obj, 'slug', 'error')}`) }}
             key={`key_${obj.title}`}
           >
-            <Title middle={propsMap.middle}>
-              <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
-            </Title>
+            { i === this.state.selected ?
+              <TRLink href={href}>
+                <Title middle={propsMap.middle}>
+                  <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
+                </Title>
+              </TRLink>
+            :
+              <Title middle={propsMap.middle}>
+                <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
+              </Title>
+            }
           </FlexItem>
         )
       })
@@ -253,20 +258,21 @@ class EditorPicks extends React.Component {
 
     const Images = data.map((post, index) => {
       const { hero_image } = post
+      const href = `a/${_.get(post, 'slug', 'error')}`
       return (
         <FadeInFadeOut
           key={_.get(post, 'hero_image.id')}
           isSelected={index === this.state.selected}
         >
-          <ImgFrame
-            onClick={() => { this.onRedirect(`a/${_.get(post, 'slug', 'error')}`) }}
-          >
-            <ImgWrapper
-              alt={_.get(hero_image, 'description')}
-              src={_.get(hero_image, 'resized_targets.tablet.url')}
-              srcSet={getImageSrcSet(hero_image)}
-            />
-          </ImgFrame>
+          <TRLink href={href}>
+            <ImgFrame>
+              <ImgWrapper
+                alt={_.get(hero_image, 'description')}
+                src={_.get(hero_image, 'resized_targets.tablet.url')}
+                srcSet={getImageSrcSet(hero_image)}
+              />
+            </ImgFrame>
+          </TRLink>
         </FadeInFadeOut>
       )
     })

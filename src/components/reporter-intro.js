@@ -133,7 +133,7 @@ class ReporterIntro extends React.PureComponent {
           <ReporterIconWrapper>
             <ReporterIcon />
           </ReporterIconWrapper>
-          <span itemProp="description">{appConfig.intro}</span>
+          <span itemProp="description">{appConfig.description}</span>
         </TopContainer>
         <FlexContainer>
           <Item>

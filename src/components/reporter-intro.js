@@ -101,7 +101,7 @@ const ItemDescription = styled.div`
   `}
 `
 
-const ItemLink = styled.a`
+const ItemLink = styled.div`
   margin: 7px;
   padding: 15px 5px;
 `

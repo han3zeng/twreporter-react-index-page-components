@@ -173,7 +173,7 @@ class Infographic extends React.PureComponent {
     const href = `i/${slug}`
     return (
       <Item>
-        <TRLink href={href} noTxtDec >
+        <TRLink href={href} noTxtDec target={'_blank'}>
           <ImgFrame
             isPortrait={isPortrait}
           >

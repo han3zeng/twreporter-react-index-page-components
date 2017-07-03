@@ -10,9 +10,10 @@ const Container = styled.div`
   }
 `
 const TRLink = (props) => {
-  const { href, noTxtDec } = props
+  const { href, noTxtDec, target } = props
+  const targetValue = target || '_self'
   return (
-    <Link to={href}>
+    <Link to={href} target={targetValue}>
       <Container noTxtDec={noTxtDec} >
         {props.children}
       </Container>
@@ -23,12 +24,14 @@ const TRLink = (props) => {
 TRLink.defaultProps = {
   href: '',
   noTxtDec: null,
+  target: '',
 }
 
 TRLink.propTypes = {
   href: PropTypes.string,
   noTxtDec: PropTypes.bool,
   children: PropTypes.any.isRequired,
+  target: PropTypes.string,
 }
 
 

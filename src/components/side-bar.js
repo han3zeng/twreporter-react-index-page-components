@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Waypoint from 'react-waypoint'
@@ -14,7 +15,6 @@ for (const key in sectionStrings) {
     moduleIdObj[key] = key
   }
 }
-
 // right: calc((100% - 1024px)/2 + 1px);
 const Container = styled.div`
   font-size: ${fonts.size.base};
@@ -42,9 +42,6 @@ const SectionButton = styled.div`
   }
   color: ${props => (props.highlight ? 'white' : `${colors.primaryColor}`)};
   background: ${props => (props.highlight ? `${colors.primaryColor}` : 'none')};
-`
-const SectoinAnchor = styled.a`
-  text-decoration: none;
 `
 
 class Anchors extends React.Component {
@@ -75,8 +72,8 @@ class Anchors extends React.Component {
   render() {
     const navBarSections = anchorsList.map((value) => {
       return (
-        <SectoinAnchor
-          href={`#${value}`}
+        <Link
+          to={`/#${value}`}
           key={`SectionButton_${value}`}
           onClick={(e) => { this.scrollTo(value, e) }}
         >
@@ -85,7 +82,7 @@ class Anchors extends React.Component {
           >
             {sectionStrings[value]}
           </SectionButton>
-        </SectoinAnchor>
+        </Link>
       )
     })
     return (

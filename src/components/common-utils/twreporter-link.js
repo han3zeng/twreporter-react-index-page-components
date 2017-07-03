@@ -8,10 +8,25 @@ const Container = styled.div`
   &:hover {
     text-decoration: ${props => (props.noTxtDec ? '' : 'underline')};
   }
+  color: ${props => (props.visitedColor ? props.visitedColor : 'black')};
 `
+
+const A = styled.a`
+  text-decoration: none;
+`
+
 const TRLink = (props) => {
-  const { href, noTxtDec, target } = props
+  const { href, noTxtDec, target, redirect, visitedColor } = props
   const targetValue = target || '_self'
+  if (redirect) {
+    return (
+      <A href={href} target={targetValue} rel="noreferrer noopener">
+        <Container noTxtDec={noTxtDec} visitedColor={visitedColor}>
+          {props.children}
+        </Container>
+      </A>
+    )
+  }
   return (
     <Link to={href} target={targetValue}>
       <Container noTxtDec={noTxtDec} >
@@ -25,6 +40,8 @@ TRLink.defaultProps = {
   href: '',
   noTxtDec: null,
   target: '',
+  redirect: false,
+  visitedColor: '',
 }
 
 TRLink.propTypes = {
@@ -32,6 +49,8 @@ TRLink.propTypes = {
   noTxtDec: PropTypes.bool,
   children: PropTypes.any.isRequired,
   target: PropTypes.string,
+  redirect: PropTypes.bool,
+  visitedColor: PropTypes.string,
 }
 
 

@@ -148,7 +148,7 @@ class ReporterIntro extends React.PureComponent {
             <ItemDescription>
               果八現程使無生數我考書天然體朋可話的別想著地面指
             </ItemDescription>
-            <ItemLink><BottomLink text="開啟贊助頁" path={donationHref} /></ItemLink>
+            <ItemLink><BottomLink text="前往贊助頁" path={donationHref} redirect target={'_blank'} /></ItemLink>
           </Item>
         </FlexContainer>
       </ContentContainer>

@@ -1,17 +1,16 @@
-import React from 'react'
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListBase from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
+import React from 'react'
 import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
-import fieldNames from '../constants/redux-state-fields'
+import TRLink from './common-utils/twreporter-link'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { truncate } from '../utils/style-utils'
@@ -24,6 +23,11 @@ const _ = {
 // there will be only one column. Default is three columns.
 const oneColumnWidth = '700px'
 const tabletWidth = '929px'
+const desktopWidth = '1445px'
+
+const Container = styled.div`
+  background-color: #f2f2f2;
+`
 
 const UpperList = styled.div`
   list-style-type: none;
@@ -48,6 +52,11 @@ const LowerList = UpperList.extend`
     margin-top: -170px;
     margin-bottom: 59px;
   }
+
+  @media (min-width: ${desktopWidth}) {
+    margin-top: -282px;
+  }
+
 `
 
 const MobileList = MobileListBase.extend`
@@ -55,7 +64,8 @@ const MobileList = MobileListBase.extend`
 `
 
 const Item = styled.div`
-  max-width: 290px;
+  max-width: 430px;
+  transition: 300ms all linear;
   &:first-child {
     margin-right: 30px;
   }
@@ -63,6 +73,11 @@ const Item = styled.div`
   &:last-child {
     margin-left: 30px;
   }
+
+  @media( max-width: ${desktopWidth}) {
+    max-width: 290px;
+  }
+
   @media (max-width: ${tabletWidth}) {
     max-width: 220px;
     &:first-child {
@@ -83,12 +98,22 @@ const Item = styled.div`
       margin-right: 0;
     }
   }
+
+  @media (min-width: ${oneColumnWidth}) {
+    &:hover {
+      box-shadow: 10px 10px 15px grey;
+    }
+  }
 `
 const WordBlock = styled.div`
   background-color: #fff;
-  width: 300px;
+  width: 430px;
   min-height: 115px;
   padding: 8px 20px 15px 12px;
+
+  @media( max-width: ${desktopWidth}) {
+    max-width: 290px;
+  }
 
   @media (max-width: ${tabletWidth}) {
     margin: 0 auto;
@@ -118,9 +143,13 @@ const Title = styled.h3`
 
 const ImgFrame = styled.div`
   position: relative;
-  cursor: pointer;
-  width: 300px;
-  height: ${(props) => { return props.isPortrait ? '390px' : '190px' }};
+  width: 430px;
+  height: ${(props) => { return props.isPortrait ? '596px' : '282px' }};
+
+  @media( max-width: ${desktopWidth}) {
+    max-width: 290px;
+    height: ${(props) => { return props.isPortrait ? '390px' : '190px' }};
+  }
 
   @media (max-width: ${tabletWidth}) {
     margin: 0 auto;
@@ -140,23 +169,25 @@ const More = styled.div`
 
 class Infographic extends React.PureComponent {
   render() {
-    const { title, imgObj, isPortrait } = this.props
-
+    const { title, imgObj, isPortrait, slug } = this.props
+    const href = `i/${slug}`
     return (
       <Item>
-        <ImgFrame
-          isPortrait={isPortrait}
-        >
-          <ImgWrapper
-            alt={_.get(imgObj, 'description')}
-            src={_.get(imgObj, 'resized_targets.mobile.url')}
-            srcSet={getImageSrcSet(imgObj)}
-          />
-        </ImgFrame>
-        <WordBlock>
-          <CategoryName>{sectionStrings.infographic}</CategoryName>
-          <Title>{title}</Title>
-        </WordBlock>
+        <TRLink href={href} noTxtDec target={'_blank'}>
+          <ImgFrame
+            isPortrait={isPortrait}
+          >
+            <ImgWrapper
+              alt={_.get(imgObj, 'description')}
+              src={_.get(imgObj, 'resized_targets.mobile.url')}
+              srcSet={getImageSrcSet(imgObj)}
+            />
+          </ImgFrame>
+          <WordBlock>
+            <CategoryName>{sectionStrings.infographic}</CategoryName>
+            <Title>{title}</Title>
+          </WordBlock>
+        </TRLink>
       </Item>
     )
   }
@@ -166,12 +197,14 @@ Infographic.defaultProps = {
   title: '',
   imgObj: {},
   isPortrait: false,
+  slug: '',
 }
 
 Infographic.propTypes = {
   title: PropTypes.string,
   imgObj: PropTypes.object,
   isPortrait: PropTypes.bool,
+  slug: PropTypes.string,
 }
 
 class InfographicSection extends React.PureComponent {
@@ -187,38 +220,41 @@ class InfographicSection extends React.PureComponent {
           imgObj={_.get(item, 'hero_image')}
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
+          slug={_.get(item, 'slug')}
         />
       )
     })
 
     return (
-      <Section
-        mobileWidth={oneColumnWidth}
-      >
-        <SectionName
+      <Container>
+        <Section
           mobileWidth={oneColumnWidth}
         >
-          <span>{sectionStrings.infographic}</span>
-        </SectionName>
-        <UpperList>
-          {postComps.slice(0, listNumber)}
-        </UpperList>
-        <LowerList>
-          {postComps.slice(listNumber, listNumber * 2)}
-        </LowerList>
-        <MobileList
-          maxWidth={oneColumnWidth}
-        >
-          <MobileFlexSwipeable.SwipableFlexItems
+          <SectionName
             mobileWidth={oneColumnWidth}
-            maxSwipableItems={5}
-            alignItems="flex-start"
           >
-            {postComps}
-          </MobileFlexSwipeable.SwipableFlexItems>
-        </MobileList>
-        <More><BottomLink text="更多多媒體新聞" isDarkBg /></More>
-      </Section>
+            <span>{sectionStrings.infographic}</span>
+          </SectionName>
+          <UpperList>
+            {postComps.slice(0, listNumber)}
+          </UpperList>
+          <LowerList>
+            {postComps.slice(listNumber, listNumber * 2)}
+          </LowerList>
+          <MobileList
+            maxWidth={oneColumnWidth}
+          >
+            <MobileFlexSwipeable.SwipableFlexItems
+              mobileWidth={oneColumnWidth}
+              maxSwipableItems={5}
+              alignItems="flex-start"
+            >
+              {postComps}
+            </MobileFlexSwipeable.SwipableFlexItems>
+          </MobileList>
+          <More><BottomLink text="更多多媒體新聞" isDarkBg /></More>
+        </Section>
+      </Container>
     )
   }
 }

@@ -6,7 +6,7 @@ export default {
   editorPick: strings.editorPick,
   latestTopic: strings.latestTopic,
   review: strings.review,
-  // category: strings.category,
+  category: strings.category,
   topic: strings.topic,
   photography: strings.photography,
   infographic: strings.infographic,

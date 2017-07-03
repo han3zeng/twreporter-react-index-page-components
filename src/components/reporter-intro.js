@@ -2,33 +2,37 @@ import AboutAuthorIcon from '../static/about-author.svg'
 import AboutDonateIcon from '../static/about-donate.svg'
 import AboutSubscribeIcon from '../static/about-subscribe.svg'
 import BottomLink from './common-utils/bottom-link'
-import React from 'react'
 import ReporterIcon from '../static/reporter-large.svg'
+import React from 'react'
 import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
+import Section from './common-utils/section'
+import TRLink from './common-utils/twreporter-link'
 import appConfig from '../conf/app-config.json'
 import { centerBlock, media } from '../utils/style-utils'
 import { colors, fonts } from '../styles/common-variables'
 
 const mobileWidth = '730px'
+const desktopWidth = '1300px'
 
-const Section = styled.div`
+const ContentContainer = Section.extend`
   position: relative;
-  margin: 65px 8px;
   color: ${colors.textGrey};
 `
 
 const TopContainer = styled.div`
-  max-width: 500px;
-  padding: 25px 10px 5px 10px;
-  padding-top: 25px;
+  padding: 0 10px 5px 10px;
   ${centerBlock}
   font-size: ${fonts.size.medium};
   ${media.largeMobile`
     padding-left: 10%;
     padding-right: 10%;
   `}
+  max-width: 660px;
+  @media (max-width: ${desktopWidth}) {
+    max-width: 500px;
+  }
 `
 
 const ReporterIconWrapper = styled.div`
@@ -69,6 +73,7 @@ const ItemTitle = styled.h3`
   ${media.largeMobile`
     margin: 6px;
   `}
+  color: ${colors.textGrey};
 `
 
 const ItemIconContainer = styled.div`
@@ -96,16 +101,29 @@ const ItemDescription = styled.div`
   `}
 `
 
-const ItemLink = styled.a`
+const ItemLink = styled.div`
   margin: 7px;
   padding: 15px 5px;
 `
 
-class ReporterIntro extends React.Component {
+const A = styled.a`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:visited {
+    color: ${colors.textGrey};
+  }
+`
 
+class ReporterIntro extends React.PureComponent {
   render() {
+    const authorHref = 'authors'
+    const donationHref = 'https://twreporter.backme.tw/cashflow/checkout?project_id=175&reward_id=718'
     return (
-      <Section>
+      <ContentContainer
+        mobileWidth={mobileWidth}
+      >
         <SectionName
           mobileWidth={mobileWidth}
         >
@@ -115,12 +133,16 @@ class ReporterIntro extends React.Component {
           <ReporterIconWrapper>
             <ReporterIcon />
           </ReporterIconWrapper>
-          <span itemProp="description">{appConfig.intro}</span>
+          <span itemProp="description">{appConfig.description}</span>
         </TopContainer>
         <FlexContainer>
           <Item>
-            <ItemTitle>作者群</ItemTitle>
-            <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
+            <TRLink href={authorHref}>
+              <ItemTitle>作者群</ItemTitle>
+            </TRLink>
+            <TRLink href={authorHref}>
+              <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
+            </TRLink>
             <ItemDescription>
               果八現程使無生數我考書天然體朋可話的別想著地面指
             </ItemDescription>
@@ -134,15 +156,29 @@ class ReporterIntro extends React.Component {
             </ItemDescription>
           </Item>
           <Item>
-            <ItemTitle>贊助我們</ItemTitle>
-            <ItemIconContainer><AboutDonateIcon /></ItemIconContainer>
+            <A
+              href={donationHref}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <ItemTitle>贊助我們</ItemTitle>
+            </A>
+            <ItemIconContainer>
+              <a
+                href={donationHref}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <AboutDonateIcon />
+              </a>
+            </ItemIconContainer>
             <ItemDescription>
               果八現程使無生數我考書天然體朋可話的別想著地面指
             </ItemDescription>
             <ItemLink><BottomLink text="無生數我考書" /></ItemLink>
           </Item>
         </FlexContainer>
-      </Section>
+      </ContentContainer>
     )
   }
 }

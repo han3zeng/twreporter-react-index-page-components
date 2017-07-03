@@ -1,4 +1,3 @@
-import React from 'react'
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
@@ -6,10 +5,12 @@ import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListUtils from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
+import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { truncate } from '../utils/style-utils'
@@ -18,6 +19,8 @@ const _ = {
   get,
 }
 
+const desktopMidWidth = '1280px'
+const desktopMinWidth = '1024px'
 // 4 columns: tabletMaxWidth, tabletMidWidth
 // 3 columns: tabletMinWidth
 const tabletMaxWidth = '1023px'
@@ -29,7 +32,9 @@ const moreText = '更多觀點文章'
 
 const Container = Section.extend`
   background-color: white;
-  width: 100%;
+  @media(max-width: ${tabletMaxWidth}) {
+    padding-top: 36px;
+  }
 `
 
 const FlexBox = styled.div`
@@ -45,7 +50,10 @@ const FlexBox = styled.div`
 `
 
 const FlexItem = styled.div`
-  width: 210px;
+  width: 312px;
+  @media (max-width: ${desktopMinWidth}) {
+    width: 210px;
+  }
   &:nth-child(3) {
     margin-left: 30px;
   }
@@ -76,13 +84,20 @@ const FlexItem = styled.div`
     width: 189px;
   }
   @media(max-width: ${mobileWidth}) {
+    margin-top: 10px;
     width: 100%;
   }
 `
 
 const ImgFrame = styled.div`
   width: 100%;
-  height: 136px;
+  height: 202px;
+  @media (max-width: ${desktopMidWidth}) {
+    height: 166px;
+  }
+  @media (max-width: ${desktopMinWidth}) {
+    height: 136px;
+  }
   @media(max-width: ${tabletMaxWidth}) {
     height: 110px;
   }
@@ -98,7 +113,7 @@ const ImgFrame = styled.div`
 `
 
 const TextFrame = styled.div`
-  margin: 13px auto 0 auto;
+  margin: 12px auto 0 auto;
   width: 92%;
 `
 
@@ -110,8 +125,8 @@ const Category = CategoryName.extend`
 `
 
 const Title = styled.div`
-  margin-top: 4px;
-  font-size: ${fonts.size.medium};
+  margin-top: 2px;
+  font-size: ${fonts.size.title.base};
   font-weight: ${fonts.weight.semiBold};
   line-height: 1.5;
   color: ${colors.textGrey};
@@ -119,9 +134,9 @@ const Title = styled.div`
 
 const Description = styled.div`
   margin-top: 8px;
-  font-size: ${fonts.size.base};
+  font-size: ${fonts.size.medium};
   color: ${colors.textGrey};
-  ${truncate('relative', 1.43, 3, 'white', 'left')}
+  ${truncate('relative', 1.5, 3, 'white', 'left')}
 `
 
 const More = styled.div`
@@ -129,28 +144,33 @@ const More = styled.div`
   margin: 60px auto 0 auto;
 `
 
-class Reviews extends React.Component {
+class Reviews extends React.PureComponent {
   render() {
     const { data } = this.props
     const ReviewsItem = data.map((post) => {
+      const href = `a/${_.get(post, 'slug', 'error')}`
       return (
         <FlexItem
           key={_.get(post, 'id')}
         >
-          <ImgFrame>
-            <ImgWrapper
-              alt={_.get(post, 'hero_image.description')}
-              src={_.get(post, 'hero_image.resized_targets.mobile.url')}
-              srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
-            />
-          </ImgFrame>
+          <TRLink href={href}>
+            <ImgFrame>
+              <ImgWrapper
+                alt={_.get(post, 'hero_image.description')}
+                src={_.get(post, 'hero_image.resized_targets.mobile.url')}
+                srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
+              />
+            </ImgFrame>
+          </TRLink>
           <TextFrame>
             <Category>
               {_.get(post, 'subtitle', '')}
             </Category>
-            <Title>
-              {_.get(post, 'title', '')}
-            </Title>
+            <TRLink href={href}>
+              <Title>
+                {_.get(post, 'title', '')}
+              </Title>
+            </TRLink>
             <Description>
               {_.get(post, 'og_description', '')}
             </Description>
@@ -175,13 +195,20 @@ class Reviews extends React.Component {
           maxWidth={mobileWidth}
         >
           <MobileFlexSwipeable.SwipableFlexItems
+            alignItems={'flex-start'}
             mobileWidth={mobileWidth}
             maxSwipableItems={maxSwipableItems}
           >
             {ReviewsItem}
           </MobileFlexSwipeable.SwipableFlexItems>
         </MobileListUtils>
-        <More><BottomLink text={moreText} isDarkBg /></More>
+        <More>
+          <BottomLink
+            text={moreText}
+            isDarkBg
+            path={'category/review'}
+          />
+        </More>
       </Container>
     )
   }

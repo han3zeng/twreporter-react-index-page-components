@@ -1,16 +1,15 @@
-import React from 'react'
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
+import React from 'react'
 import SectionName from './common-utils/section-name'
+import TRLink from './common-utils/twreporter-link'
 import Waypoint from 'react-waypoint'
-import fieldNames from '../constants/redux-state-fields'
 import categoryStrings from '../constants/category-strings'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 
@@ -22,6 +21,7 @@ const _ = {
 // there will be only one column. Default is two columns.
 const oneColumnWidth = 700
 const tabletWidth = 928
+const desktopMinWidth = 1445
 
 const Section = styled.div`
   position: relative;
@@ -36,10 +36,14 @@ const Section = styled.div`
 
 const Listing = styled.ul`
   padding-left: 0px;
-  max-width: 928px;
+  max-width: 1344px;
   margin: 0 auto;
   position: relative;
   padding-bottom: 60px;
+
+  @media (max-width: ${desktopMinWidth}px) {
+    max-width: 928px;
+  }
 
   @media (max-width: ${tabletWidth}px) {
     max-width: 700px;
@@ -53,9 +57,13 @@ const Listing = styled.ul`
 `
 
 const Item = styled.li`
-  max-width: 464px;
+  max-width: 672px;
   display: inline-block;
   vertical-align: bottom;
+
+  @media (max-width: ${desktopMinWidth}px) {
+    max-width: 464px;
+  }
 
   @media (max-width: ${tabletWidth}px) {
     max-width: 349px;
@@ -76,7 +84,6 @@ const Title = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  cursor: pointer;
   line-height: 1.5;
   text-align: justify;
   font-weight: ${fonts.weight.medium};
@@ -84,9 +91,13 @@ const Title = styled.div`
 
 const Img = styled.div`
   position: relative;
-  cursor: pointer;
-  width: 464px;
-  height: 310px;
+  width: 672px;
+  height: 450px;
+
+  @media (max-width: ${desktopMinWidth}px) {
+    width: 464px;
+    height: 310px;
+  }
 
   @media (max-width: ${tabletWidth}px) {
     margin: 0 auto;
@@ -127,28 +138,30 @@ const More = styled.div`
 
 class Photography extends React.PureComponent {
   render() {
-    const { title, imgObj, isHover } = this.props
-
+    const { title, imgObj, isHover, slug } = this.props
+    const href = `a/${slug}`
     return (
       <Item>
-        <Img>
-          <ImgWrapper
-            alt={_.get(imgObj, 'description')}
-            src={_.get(imgObj, 'resized_targets.mobile.url')}
-            srcSet={getImageSrcSet(imgObj)}
-          >
-            <Overlay
-              isHover={isHover}
+        <TRLink href={href}>
+          <Img>
+            <ImgWrapper
+              alt={_.get(imgObj, 'description')}
+              src={_.get(imgObj, 'resized_targets.mobile.url')}
+              srcSet={getImageSrcSet(imgObj)}
             >
-              <Title>
-                <CategoryName>
-                  {categoryStrings.photography}
-                </CategoryName>
-                {title}
-              </Title>
-            </Overlay>
-          </ImgWrapper>
-        </Img>
+              <Overlay
+                isHover={isHover}
+              >
+                <Title>
+                  <CategoryName>
+                    {categoryStrings.photography}
+                  </CategoryName>
+                  {title}
+                </Title>
+              </Overlay>
+            </ImgWrapper>
+          </Img>
+        </TRLink>
       </Item>
     )
   }
@@ -158,12 +171,14 @@ Photography.defaultProps = {
   title: '',
   imgObj: {},
   isHover: false,
+  slug: '',
 }
 
 Photography.propTypes = {
   title: PropTypes.string,
   imgObj: PropTypes.object,
   isHover: PropTypes.bool,
+  slug: PropTypes.string,
 }
 
 class PhotographySection extends React.Component {
@@ -241,6 +256,7 @@ class PhotographySection extends React.Component {
               title={_.get(item, 'title')}
               imgObj={imgObj}
               isHover={isHover}
+              slug={_.get(item, 'slug')}
             />
           </span>
         </Waypoint>
@@ -264,7 +280,7 @@ class PhotographySection extends React.Component {
             <Listing>
               {postComps}
             </Listing>
-            <More><BottomLink text="更多影像新聞" isDarkBg /></More>
+            <More><BottomLink text="更多影像新聞" isDarkBg path="photography" /></More>
           </Section>
         </div>
       </Waypoint>

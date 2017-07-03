@@ -1,6 +1,6 @@
 {
   "name": "twreporter-react-index-page-components",
-  "version": "1.0.0-alpha-0.3",
+  "version": "1.0.0-alpha-0.12",
   "description": "twreporter index page version 2",
   "main": "index.js",
   "scripts": {
@@ -38,9 +38,10 @@
     "prop-types": "^15.5.10",
     "qs": "^6.4.0",
     "raw-loader": "^0.5.1",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "15.4.1",
+    "react-dom": "15.4.1",
     "react-redux": "^5.0.5",
+    "react-router": "^2.5.1",
     "react-swipeable": "^4.0.1",
     "react-waypoint": "^7.0.3",
     "redux": "^3.6.0",

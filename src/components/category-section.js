@@ -91,19 +91,19 @@ const More = styled.div`
 class Category extends React.PureComponent {
   render() {
     const items = this.props.data.map((item) => {
-      const href = _.get(item, 'slug', 'test')
+      const href = `/a/${_.get(item, 'slug')}`
       return (
         <FlexItem
           key={_.get(item, 'id')}
         >
           <CategoryName>
-            {_.get(item, 'name')}
+            {_.get(item, 'listName')}
           </CategoryName>
           <TRLink href={href}>
             <ImgFrame>
               <ImgWrapper
-                alt={_.get(item, 'mockup img')}
-                src={_.get(item, 'img')}
+                alt={_.get(item, 'img.description')}
+                src={_.get(item, 'img.src')}
               />
             </ImgFrame>
           </TRLink>
@@ -114,8 +114,8 @@ class Category extends React.PureComponent {
           </TRLink>
           <More>
             <BottomLink
-              text={`更多${_.get(item, 'name')}`}
-              path={'morecategory'}
+              text={`更多${_.get(item, 'listName')}`}
+              path={_.get(item, 'moreURL')}
             />
           </More>
         </FlexItem>
@@ -156,7 +156,17 @@ Category.defaultProps = {
 }
 
 Category.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    img: PropTypes.shape({
+      src: PropTypes.string,
+      description: PropTypes.string,
+    }),
+    title: PropTypes.string.isRequired,
+    listName: PropTypes.string.isRequired,
+    moreURL: PropTypes.string.isRequired,
+  }))
 }
 
 export default Category

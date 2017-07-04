@@ -1,8 +1,8 @@
 {
   "name": "twreporter-react-index-page-components",
-  "version": "1.0.0-alpha-0.22",
+  "version": "1.0.0",
   "description": "twreporter index page version 2",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha $(find src -name '*.test.js') --compilers js:babel-core/register",
     "dev": "node server.js",
@@ -33,11 +33,7 @@
     "autoprefixer": "^7.1.1",
     "axios": "^0.16.1",
     "lodash": "^4.17.4",
-    "postcss-easy-import": "^2.0.0",
-    "postcss-loader": "^2.0.5",
     "prop-types": "^15.5.10",
-    "qs": "^6.4.0",
-    "raw-loader": "^0.5.1",
     "react": "15.4.1",
     "react-dom": "15.4.1",
     "react-redux": "^5.0.5",
@@ -72,7 +68,10 @@
     "eslint-plugin-react": "^7.0.1",
     "mocha": "^3.4.2",
     "nock": "^9.0.13",
+    "postcss-easy-import": "^2.0.0",
+    "postcss-loader": "^2.0.5",
     "precommit-hook": "^3.0.0",
+    "raw-loader": "^0.5.1",
     "redux-mock-store": "^1.2.3",
     "rimraf": "^2.6.1",
     "webpack": "^2.6.1"

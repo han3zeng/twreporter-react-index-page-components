@@ -111,7 +111,7 @@ const WordBlock = styled.div`
   min-height: 115px;
   padding: 8px 20px 15px 12px;
 
-  @media( max-width: ${desktopWidth}) {
+  @media( max-width: ${desktopWidth}) and (min-width: ${oneColumnWidth}) {
     max-width: 290px;
   }
 
@@ -146,7 +146,7 @@ const ImgFrame = styled.div`
   width: 430px;
   height: ${(props) => { return props.isPortrait ? '596px' : '282px' }};
 
-  @media( max-width: ${desktopWidth}) {
+  @media( max-width: ${desktopWidth}) and (min-width: ${oneColumnWidth}) {
     max-width: 290px;
     height: ${(props) => { return props.isPortrait ? '390px' : '190px' }};
   }

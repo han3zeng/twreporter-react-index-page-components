@@ -8,7 +8,7 @@ import PhotographySection from './components/photography-section'
 import ReporterIntro from './components/reporter-intro'
 import ReviewsSection from './components/reviews'
 import SeachBox from './components/search-box'
-import SideBar from './components/side-bar'
+import SideBar, { moduleIdObj } from './components/side-bar'
 import TopicsSection from './components/topics-section'
 
 export default {
@@ -25,5 +25,8 @@ export default {
     SeachBox,
     SideBar,
     TopicsSection,
+  },
+  utility: {
+    moduleIdObj,
   },
 }

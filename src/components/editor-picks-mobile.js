@@ -126,13 +126,13 @@ class EditorPicksMobile extends SwipableMixin {
           isSelected={index === this.state.selected}
         >
           <Category>{_.get(post, 'categories[0].name', '')}</Category>
-          <TRLink
-            href={href}
-          >
-            <Title>
+          <Title>
+            <TRLink
+              href={href}
+            >
               {_.get(post, 'title', '')}
-            </Title>
-          </TRLink>
+            </TRLink>
+          </Title>
           <Description>{_.get(post, 'og_description', '')}</Description>
         </FadeInFadeOut>
       )

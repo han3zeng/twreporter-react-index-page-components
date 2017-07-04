@@ -210,6 +210,7 @@ class LatestTopic extends React.PureComponent {
             maxWidth={mobileWidth}
           >
             <MobileFlexSwipeable.SwipableFlexItems
+              alignItems={'flex-start'}
               mobileWidth={mobileWidth}
               maxSwipableItems={maxSwipableItems}
             >

@@ -109,7 +109,7 @@ const Img = styled.div`
 
 const Desc = styled.div`
   margin: 15px auto 0 auto;
-  max-width: 323px;
+  max-width: 504px;
   height: 140px;
   font-size: ${fonts.size.medium};
   p {
@@ -120,6 +120,10 @@ const Desc = styled.div`
   ${media.tablet`
     max-width: 240px;
   `}
+
+  @media (max-width: ${desktopWidth}) {
+    max-width: 323px;
+  }
 
   @media (max-width: ${oneColumnWidth}) {
     max-width: 100%;

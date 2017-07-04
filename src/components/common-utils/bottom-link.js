@@ -30,13 +30,23 @@ const TextSpan = styled.span`
   color: ${(props) => { return props.isDarkBg ? colors.lightBlue : colors.blue }};
 `
 
+const A = styled.a`
+  text-decoration: none;
+  &:visited {
+    color: ${(props) => { return props.isDarkBg ? colors.lightBlue : colors.blue }};
+  }
+`
+
 const BottomLink = (props) => {
+  const { path, isDarkBg, text, target, redirect } = props
+  const targetValue = target || '_self'
   return (
     <Wrapper
-      isDarkBg={props.isDarkBg}
+      isDarkBg={isDarkBg}
     >
-      <Link to={props.path}><TextSpan>{props.text}</TextSpan></Link>
-      {props.isDarkBg ? <LinkIcon /> : <DarkBgIcon />}
+      {redirect ? <A href={path} target={targetValue} rel="noreferrer noopener" isDarkBg={isDarkBg}><TextSpan>{text}</TextSpan></A> :
+      <Link to={path} target={targetValue}><TextSpan>{text}</TextSpan></Link> }
+      {isDarkBg ? <LinkIcon /> : <DarkBgIcon />}
     </Wrapper>
   )
 }
@@ -45,11 +55,15 @@ BottomLink.propTypes = {
   isDarkBg: PropTypes.bool,
   text: PropTypes.string.isRequired,
   path: PropTypes.string,
+  target: PropTypes.string,
+  redirect: PropTypes.bool,
 }
 
 BottomLink.defaultProps = {
   isDarkBg: false,
   path: '',
+  target: '',
+  redirect: false,
 }
 
 export default BottomLink

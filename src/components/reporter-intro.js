@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
-import TRLink from './common-utils/twreporter-link'
 import appConfig from '../conf/app-config.json'
 import { centerBlock, media } from '../utils/style-utils'
 import { colors, fonts } from '../styles/common-variables'
@@ -106,16 +105,6 @@ const ItemLink = styled.div`
   padding: 15px 5px;
 `
 
-const A = styled.a`
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-  &:visited {
-    color: ${colors.textGrey};
-  }
-`
-
 class ReporterIntro extends React.PureComponent {
   render() {
     const authorHref = 'authors'
@@ -137,16 +126,12 @@ class ReporterIntro extends React.PureComponent {
         </TopContainer>
         <FlexContainer>
           <Item>
-            <TRLink href={authorHref}>
-              <ItemTitle>作者群</ItemTitle>
-            </TRLink>
-            <TRLink href={authorHref}>
-              <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
-            </TRLink>
+            <ItemTitle>作者群</ItemTitle>
+            <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
             <ItemDescription>
               果八現程使無生數我考書天然體朋可話的別想著地面指
             </ItemDescription>
-            <ItemLink><BottomLink text="告治共經賽為" /></ItemLink>
+            <ItemLink><BottomLink text="前往作者頁" path={authorHref} /></ItemLink>
           </Item>
           <Item>
             <ItemTitle>訂閱</ItemTitle>
@@ -156,26 +141,14 @@ class ReporterIntro extends React.PureComponent {
             </ItemDescription>
           </Item>
           <Item>
-            <A
-              href={donationHref}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <ItemTitle>贊助我們</ItemTitle>
-            </A>
+            <ItemTitle>贊助我們</ItemTitle>
             <ItemIconContainer>
-              <a
-                href={donationHref}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <AboutDonateIcon />
-              </a>
+              <AboutDonateIcon />
             </ItemIconContainer>
             <ItemDescription>
               果八現程使無生數我考書天然體朋可話的別想著地面指
             </ItemDescription>
-            <ItemLink><BottomLink text="無生數我考書" /></ItemLink>
+            <ItemLink><BottomLink text="前往贊助頁" path={donationHref} redirect target={'_blank'} /></ItemLink>
           </Item>
         </FlexContainer>
       </ContentContainer>

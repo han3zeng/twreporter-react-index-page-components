@@ -2,13 +2,14 @@ import styled from 'styled-components'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { colors } from '../../styles/common-variables'
 
 const Container = styled.div`
   cursor: ${props => (props.noCursor ? '' : 'pointer')};
   &:hover {
     text-decoration: ${props => (props.noTxtDec ? '' : 'underline')};
   }
-  color: ${props => (props.visitedColor ? props.visitedColor : 'black')};
+  color: ${props => (props.visitedColor ? props.visitedColor : colors.textGrey)};
 `
 
 const A = styled.a`

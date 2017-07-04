@@ -12,8 +12,8 @@ class FadeInFadeOut extends React.Component {
   }
 
   componentDidMount() {
-    if (this.Node && this.props.isSelected === false && this.state.onAnimate === false) {
-      this.Node.style.display = 'none'
+    if (this.Node && this.props.isSelected) {
+      this.Node.style.display = 'inline'
     }
   }
 
@@ -54,6 +54,9 @@ class FadeInFadeOut extends React.Component {
       >
         <div
           ref={(node) => { this.Node = node }}
+          style={{
+            display: 'none',
+          }}
         >
           {this.props.children}
         </div>

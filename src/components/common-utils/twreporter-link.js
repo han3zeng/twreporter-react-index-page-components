@@ -28,7 +28,7 @@ const TRLink = (props) => {
     )
   }
   return (
-    <Link to={href} target={targetValue}>
+    <Link to={`/${href}`} target={targetValue}>
       <Container noTxtDec={noTxtDec} >
         {props.children}
       </Container>

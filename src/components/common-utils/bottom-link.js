@@ -45,7 +45,7 @@ const BottomLink = (props) => {
       isDarkBg={isDarkBg}
     >
       {redirect ? <A href={path} target={targetValue} rel="noreferrer noopener" isDarkBg={isDarkBg}><TextSpan>{text}</TextSpan></A> :
-      <Link to={path} target={targetValue}><TextSpan>{text}</TextSpan></Link> }
+      <Link to={`/${path}`} target={targetValue}><TextSpan>{text}</TextSpan></Link> }
       {isDarkBg ? <LinkIcon /> : <DarkBgIcon />}
     </Wrapper>
   )

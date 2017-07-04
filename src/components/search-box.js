@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -57,7 +58,7 @@ class SearchInput extends React.Component {
 
   _handleSubmit(e) {
     e.preventDefault()
-    this.context.router.push(`/search?q=${this.state.inputValue}`)
+    browserHistory.push(`/search?q=${this.state.inputValue}`)
   }
 
   render() {

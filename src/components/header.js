@@ -48,7 +48,7 @@ const Header = () => {
   return (
     <ContentContainer>
       <LogoFrame>
-        <TRLink href={'/'}>
+        <TRLink href={''}>
           <LogoDesktopContainer>
             <LogoDesktop width="220px" />
           </LogoDesktopContainer>

@@ -5,7 +5,6 @@ import React from 'react'
 import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
-import { connect } from 'react-redux'
 import { fonts, headerPadding } from '../styles/common-variables'
 import { truncate } from '../utils/style-utils'
 
@@ -171,4 +170,4 @@ Latest.propTypes = {
   data: PropTypes.array,
 }
 
-export default connect()(Latest)
+export default Latest

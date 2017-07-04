@@ -166,7 +166,7 @@ Category.propTypes = {
     title: PropTypes.string.isRequired,
     listName: PropTypes.string.isRequired,
     moreURL: PropTypes.string.isRequired,
-  }))
+  })),
 }
 
 export default Category

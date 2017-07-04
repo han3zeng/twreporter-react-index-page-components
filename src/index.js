@@ -24,6 +24,6 @@ export default {
     ReviewsSection,
     SeachBox,
     SideBar,
-    TopicsSection
-  }
+    TopicsSection,
+  },
 }

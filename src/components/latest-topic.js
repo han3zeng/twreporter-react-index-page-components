@@ -12,7 +12,6 @@ import styled from 'styled-components'
 import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
-import { connect } from 'react-redux'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
@@ -237,4 +236,4 @@ LatestTopic.propTypes = {
   data: PropTypes.object,
 }
 
-export default connect()(LatestTopic)
+export default LatestTopic

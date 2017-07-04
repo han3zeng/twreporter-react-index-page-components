@@ -1,4 +1,4 @@
-import BottomLink from './common-utils/bottom-link'
+// import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
@@ -132,9 +132,11 @@ const Desc = styled.div`
   }
 `
 
+  /*
 const More = styled.div`
   text-align: center;
 `
+*/
 
 class Topic extends React.PureComponent {
   render() {
@@ -228,7 +230,7 @@ class TopicsSection extends React.PureComponent {
               {topicComps}
             </MobileFlexSwipeable.SwipableFlexItems>
           </MobileList>
-          <More><BottomLink text="更多報導者專題" path="moretopicssection" /></More>
+          {/* <More><BottomLink text="更多報導者專題" path="moretopicssection" /></More>*/}
         </Section>
       </Container>
     )

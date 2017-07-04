@@ -206,7 +206,7 @@ class Reviews extends React.PureComponent {
           <BottomLink
             text={moreText}
             isDarkBg
-            path={'category/review'}
+            path={'category/reviews'}
           />
         </More>
       </Container>

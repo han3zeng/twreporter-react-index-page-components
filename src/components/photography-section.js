@@ -1,4 +1,4 @@
-import BottomLink from './common-utils/bottom-link'
+// import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
@@ -132,9 +132,11 @@ const Overlay = styled.div`
   }
 `
 
+  /*
 const More = styled.div`
   text-align: center;
 `
+*/
 
 class Photography extends React.PureComponent {
   render() {
@@ -280,7 +282,7 @@ class PhotographySection extends React.Component {
             <Listing>
               {postComps}
             </Listing>
-            <More><BottomLink text="更多影像新聞" isDarkBg path="photography" /></More>
+            {/* <More><BottomLink text="更多影像新聞" isDarkBg path="photography" /></More>*/}
           </Section>
         </div>
       </Waypoint>

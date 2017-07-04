@@ -1,4 +1,4 @@
-import BottomLink from './common-utils/bottom-link'
+// import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
@@ -163,9 +163,11 @@ const ImgFrame = styled.div`
   }
 `
 
+  /*
 const More = styled.div`
   text-align: center;
 `
+*/
 
 class Infographic extends React.PureComponent {
   render() {
@@ -252,7 +254,7 @@ class InfographicSection extends React.PureComponent {
               {postComps}
             </MobileFlexSwipeable.SwipableFlexItems>
           </MobileList>
-          <More><BottomLink text="更多多媒體新聞" isDarkBg /></More>
+          {/* <More><BottomLink text="更多多媒體新聞" isDarkBg /></More>*/}
         </Section>
       </Container>
     )

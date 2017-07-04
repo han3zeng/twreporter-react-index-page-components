@@ -15,12 +15,12 @@ const A = styled.a`
   text-decoration: none;
 `
 
+// noTxtDec = noTextDecoration
 const TRLink = (props) => {
   const { href, noTxtDec, target, redirect, visitedColor } = props
-  const targetValue = target || '_self'
   if (redirect) {
     return (
-      <A href={href} target={targetValue} rel="noreferrer noopener">
+      <A href={href} target={target} rel="noreferrer noopener">
         <Container noTxtDec={noTxtDec} visitedColor={visitedColor}>
           {props.children}
         </Container>
@@ -28,7 +28,7 @@ const TRLink = (props) => {
     )
   }
   return (
-    <Link to={`/${href}`} target={targetValue}>
+    <Link to={`/${href}`}>
       <Container noTxtDec={noTxtDec} >
         {props.children}
       </Container>

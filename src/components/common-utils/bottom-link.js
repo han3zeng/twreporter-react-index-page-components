@@ -39,13 +39,12 @@ const A = styled.a`
 
 const BottomLink = (props) => {
   const { path, isDarkBg, text, target, redirect } = props
-  const targetValue = target || '_self'
   return (
     <Wrapper
       isDarkBg={isDarkBg}
     >
-      {redirect ? <A href={path} target={targetValue} rel="noreferrer noopener" isDarkBg={isDarkBg}><TextSpan>{text}</TextSpan></A> :
-      <Link to={`/${path}`} target={targetValue}><TextSpan>{text}</TextSpan></Link> }
+      {redirect ? <A href={path} target={target} rel="noreferrer noopener" isDarkBg={isDarkBg}><TextSpan>{text}</TextSpan></A> :
+      <Link to={`/${path}`}><TextSpan>{text}</TextSpan></Link> }
       {isDarkBg ? <LinkIcon /> : <DarkBgIcon />}
     </Wrapper>
   )

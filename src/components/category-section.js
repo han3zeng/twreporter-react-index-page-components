@@ -91,7 +91,7 @@ const More = styled.div`
 class Category extends React.PureComponent {
   render() {
     const items = this.props.data.map((item) => {
-      const href = `/a/${_.get(item, 'slug')}`
+      const href = `a/${_.get(item, 'slug')}`
       return (
         <FlexItem
           key={_.get(item, 'id')}

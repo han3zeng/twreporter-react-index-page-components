@@ -202,11 +202,11 @@ class PhotographySection extends React.Component {
 
   componentDidMount() {
     // fetch the posts in advance
-    this._checkViewportWidth()
+    const _checkViewportWidth = this._checkViewportWidth.bind(this)
+    _checkViewportWidth()
 
     let resizeTimeout
     function resizeThrottler() {
-      const _checkViewportWidth = this._checkViewportWidth.bind(this)
       // ignore resize events as long as an actualResizeHandler execution is in the queue
       if (!resizeTimeout) {
         resizeTimeout = setTimeout(() => {

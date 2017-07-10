@@ -24,7 +24,7 @@ const _ = {
 // If window is less than oneColumnWidth,
 // there will be only one column.
 const oneColumnWidth = '600px'
-const desktopWidth = '1024px'
+const hdWidth = '1440px'
 
 const Container = styled.div`
   background-color: #f2f2f2;
@@ -38,6 +38,17 @@ const List = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
+
+  @media (min-width: ${hdWidth}) {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: ${hdWidth}) {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+
   @media (max-width: ${oneColumnWidth}) {
     display: none;
   }
@@ -46,14 +57,15 @@ const List = styled.div`
 const Item = styled.div`
   padding-bottom: 60px;
   max-width: 544px;
-  @media (max-width: ${desktopWidth}) {
-    max-width: 369px;
-  }
   &:nth-child(odd) {
     margin-right: 32px;
   }
   &:nth-child(even) {
     margin-right: 0px;
+  }
+
+  @media (max-width: ${hdWidth}) {
+    max-width: 369px;
   }
 
   ${media.tablet`
@@ -94,7 +106,7 @@ const Img = styled.div`
   width: 544px;
   height: 364px;
   margin: 0 auto;
-  @media (max-width: ${desktopWidth}) {
+  @media (max-width: ${hdWidth}) {
     width: 369px;
     height: 247px;
   }
@@ -121,7 +133,7 @@ const Desc = styled.div`
     max-width: 240px;
   `}
 
-  @media (max-width: ${desktopWidth}) {
+  @media (max-width: ${hdWidth}) {
     max-width: 323px;
   }
 

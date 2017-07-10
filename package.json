@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha $(find src -name '*.test.js') --compilers js:babel-core/register",
-    "dev": "node server.js",
+    "dev": "gulp",
     "build": "npm run prebuild:lib && npm run build:lib",
     "prebuild:lib": "rimraf lib/*",
     "build:lib": "babel --out-dir lib src --copy-files",
@@ -32,6 +32,9 @@
   "dependencies": {
     "autoprefixer": "^7.1.1",
     "axios": "^0.16.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-rename": "^1.2.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "15.4.1",

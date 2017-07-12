@@ -1,29 +1,29 @@
-
 /* eslint-disable */
-var gulp = require("gulp");
-var babel = require("gulp-babel");
-var rename = require("gulp-rename");
+var gulp = require("gulp")
+var babel = require("gulp-babel")
 
-var theBase = { base: './src' };
+var theBase = { base: './src' }
 
-gulp.task('copy', () => {
-    return gulp
-        .src('./src/**/*')
-        .pipe(gulp.dest('lib'));
-});
+var dest = 'lib'
 
+function copy() {
+  return gulp
+    .src('./src/**/*')
+    .pipe(gulp.dest(dest))
+}
 
-gulp.task('transform', ['copy'], () => {
-    return gulp.src('./src/**/*.js', theBase)
-        .pipe(babel({
-            presets: ['stage-0']
-        }))
-        .pipe(gulp.dest('lib'));
-});
+function transform() {
+  return gulp.src('./src/**/*.js', theBase)
+    .pipe(babel({
+        presets: ['stage-0']
+    }))
+    .pipe(gulp.dest(dest))
+}
 
-// Rerun the task when a file changes
-gulp.task('watch', function() {
-  gulp.watch('./src/**/*.js', ['transform']);
-});
+function watch() {
+  gulp.watch('./src/**/*.js', transform)
+}
 
-gulp.task('default', ['watch', 'transform']);
+var build = gulp.series(copy, transform, watch)
+
+gulp.task('default', build)

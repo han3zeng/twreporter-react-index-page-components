@@ -110,7 +110,7 @@ const Image = styled.div`
 `
 
 const ContentFrame = styled.div`
-  width: 114px;
+  width: 88%;
   margin: 0 auto;
 `
 

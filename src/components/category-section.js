@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import BottomLink from './common-utils/bottom-link'
 import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
@@ -10,17 +11,21 @@ import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import TRLink from './common-utils/twreporter-link'
+import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
 
 const _ = {
   get,
 }
 
-const mobileWidth = '730px'
+// const desktopWidth = '1440px'
+// const tabletWidth = '1024px'
+const mobileWidth = breakPoints.mobileMaxWidth
 const maxSwipableItems = 7
+const backgroundColor = '#e2e2e2'
 
 const Container = styled.div`
-  background-color: #e2e2e2;
+  background-color: ${backgroundColor};
 `
 
 const SectionWrapper = Section.extend`
@@ -31,60 +36,105 @@ const SectionWrapper = Section.extend`
 const FlexBox = styled.div`
   display: flex;
   flex-wrap:wrap;
-  width: 690px;
+  width: 1002px;
   margin: 0 auto;
   justify-content: center;
-  @media (max-width: ${mobileWidth}) {
+  ${finalMedia.desktop`
+    width: 690px;
+  `}
+  ${finalMedia.tablet`
+    width: 690px;
+  `}
+  ${finalMedia.mobile`
     display: none;
-  }
+  `}
 `
 
 const FlexItem = styled.div`
-  width: 210px;
+  background-color: white;
+  position: relative;
   margin-bottom: 70px;
+  padding-bottom: 36px;
+  width: 314px;
   &:nth-child(3n+2) {
     margin-right: 30px;
     margin-left: 30px;
   }
-  @media (max-width: ${mobileWidth}) {
+  ${finalMedia.desktop`
+    width: 210px;
+  `}
+  ${finalMedia.tablet`
+    width: 210px;
+  `}
+  ${finalMedia.mobile`
     width: 100%;
-    margin: 0 0 60px 0;
-  }
+    margin: 0 0 24px 0;
+  `}
 `
 
 const ImgFrame = styled.div`
-  height: 138px;
-  margin-top: 8px;
-  @media (max-width: ${mobileWidth}) {
+  height: 202px;
+  ${finalMedia.desktop`
+    height: 138px;
+  `}
+  ${finalMedia.tablet`
+    height: 138px;
+  `}
+  ${finalMedia.mobile`
     height: 198px;
-  }
+  `}
 `
 
 const CategoryName = styled.div`
+  background-color: ${backgroundColor};
+  width: 100%;
   color: ${colors.textGrey};
-  font-weight: ${fonts.weight.medium};
+  font-weight: ${fonts.weight.semiBold};
   line-height: 1.4;
   text-align: center;
   font-size: ${fonts.size.title.base};
+  padding-bottom: 8px;
+`
+
+const TextFrame = styled.div`
+  background: white;
+  padding: 16px 0 20px 0;
+  min-height: 94px;
 `
 
 const Title = styled.div`
-  font-weight: ${fonts.weight.medium};
+  font-weight: ${fonts.weight.semiBold};
   font-size: ${fonts.size.title.base};
   color: ${colors.textGrey};
   line-height: 1.4;
-  width: 192px;
-  margin: 16px auto 20px auto;
+  width: 92%;
+  margin: 0 auto;
   @media (max-width: ${mobileWidth}) {
     width: 95%;
   }
 `
 
-const More = styled.div`
-  margin: 16px auto 0 auto;
+// margin: 16px auto 0 auto;
+// text-align: center;
+const MoreFrame = styled.div`
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  width: 101%;
+  background-color: ${backgroundColor};
+  height: 36px;
   text-align: center;
+`
+
+const More = styled.div`
+  position: absolute;
+  text-align: center;
+  width: 115px;
+  left: 50%;
+  bottom:0;
+  transform: translateX(-50%);
   @media (max-width: ${mobileWidth}) {
-    margin-top: 40px;
+    bottom: -24px;
   }
 `
 
@@ -107,17 +157,21 @@ class Category extends React.PureComponent {
               />
             </ImgFrame>
           </TRLink>
-          <TRLink href={href}>
-            <Title>
-              {_.get(item, 'title')}
-            </Title>
-          </TRLink>
-          <More>
-            <BottomLink
-              text={`更多${_.get(item, 'listName')}`}
-              path={_.get(item, 'moreURL')}
-            />
-          </More>
+          <TextFrame>
+            <TRLink href={href}>
+              <Title>
+                {_.get(item, 'title')}
+              </Title>
+            </TRLink>
+          </TextFrame>
+          <MoreFrame>
+            <More>
+              <BottomLink
+                text={`更多${_.get(item, 'listName')}`}
+                path={_.get(item, 'moreURL')}
+              />
+            </More>
+          </MoreFrame>
         </FlexItem>
       )
     })
@@ -139,9 +193,10 @@ class Category extends React.PureComponent {
             maxWidth={mobileWidth}
           >
             <MobileFlexSwipeable.SwipableFlexItems
-              alignItems={'flex-start'}
+              alignItems={'stretch'}
               mobileWidth={mobileWidth}
               maxSwipableItems={maxSwipableItems}
+              categorySection
             >
               {items}
             </MobileFlexSwipeable.SwipableFlexItems>

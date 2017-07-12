@@ -17,11 +17,12 @@ const Wrapper = styled.div`
   svg {
     width: 7px;
     margin-bottom: -1px;
+    margin-left: 7px;
     transition: 0.3s all ease-out;
   }
   &:hover {
     > svg {
-      transform: translateX(8px);
+      transform: translateX(5px);
     }
   }
 `

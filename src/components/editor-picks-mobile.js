@@ -12,6 +12,7 @@ import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import TRLink from './common-utils/twreporter-link'
+import { browserHistory } from 'react-router'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
@@ -46,16 +47,16 @@ const Category = styled(CategoryName)`
   text-align: center;
 `
 
-const Title = styled.div`
+const Title = styled.a`
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
   width: ${itemWidthPct}%;
   font-size: ${fonts.size.title.medium};
   font-weight: ${fonts.weight.semiBold};
-  line-height: 1.33;
   color: ${colors.textGrey};
-  ${truncate('absolute', 1.33, 3, `${colors.sectionWhite}`, 'center')}
+  height: 3.99;
+  ${truncate('absolute', 1.33, 3, `${colors.sectionWhite}`, 'center')};
 `
 
 const Description = styled.div`
@@ -66,7 +67,7 @@ const Description = styled.div`
   width: ${itemWidthPct}%;
   text-align: left;
   color: ${colors.textGrey};
-  ${truncate('absolute', 1.43, 3, 'white')}
+  ${truncate('absolute', 1.43, 3, 'white')};
 `
 
 const ImgFrame = styled.div`
@@ -74,8 +75,17 @@ const ImgFrame = styled.div`
 `
 
 class EditorPicksMobile extends SwipableMixin {
+  constructor(props) {
+    super(props)
+    this.redirect = this._redirect.bind(this)
+  }
+
   componentWillMount() {
     this.onSetMaxItems(numberOfSwipableItems)
+  }
+
+  _redirect(href) {
+    browserHistory.push(`/${href}`)
   }
 
   render() {
@@ -118,6 +128,10 @@ class EditorPicksMobile extends SwipableMixin {
       )
     })
 
+    // <TRLink
+    //   href={href}
+    // >
+    //   </TRLink>
     const textFrameContent = data.map((post, index) => {
       const href = `a/${_.get(post, 'slug', 'error')}`
       return (
@@ -126,12 +140,8 @@ class EditorPicksMobile extends SwipableMixin {
           isSelected={index === this.state.selected}
         >
           <Category>{_.get(post, 'categories[0].name', '')}</Category>
-          <Title>
-            <TRLink
-              href={href}
-            >
-              {_.get(post, 'title', '')}
-            </TRLink>
+          <Title onClick={() => { this.redirect(href) }}>
+            {_.get(post, 'title', '')}
           </Title>
           <Description>{_.get(post, 'og_description', '')}</Description>
         </FadeInFadeOut>

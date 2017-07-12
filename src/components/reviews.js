@@ -140,8 +140,8 @@ const Description = styled.div`
 `
 
 const More = styled.div`
-  width: 98px;
-  margin: 60px auto 0 auto;
+  text-align: center;
+  margin-top: 60px;
 `
 
 class Reviews extends React.PureComponent {
@@ -205,7 +205,6 @@ class Reviews extends React.PureComponent {
         <More>
           <BottomLink
             text={moreText}
-            isDarkBg
             path={'category/reviews'}
           />
         </More>

@@ -100,7 +100,7 @@ const Item = styled.div`
 
   @media (min-width: ${oneColumnWidth}) {
     &:hover {
-      box-shadow: 10px 10px 15px grey;
+      box-shadow: 5px 5px 10px grey;
     }
   }
 `
@@ -127,7 +127,7 @@ const WordBlock = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-weight: ${fonts.weight.medium};
+  font-weight: ${fonts.weight.semiBold};
   font-size: ${fonts.size.title.base};
   color: #4a4a4a;
   @media (min-width: ${tabletWidth}) {

@@ -7,5 +7,5 @@ npm publish
 ```
 
 ### Why to build this pkg?
-1. Make sure all the react components, redux actions and reducers are decoulped from any other existing framework/boilerplates/starter.
+1. Make sure all the react components are decoulped from any other existing framework/boilerplates/starter.
 2. Make sure clients(who want to require this pkg) don't have to configure extra settings to get styled components.

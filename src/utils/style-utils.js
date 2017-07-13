@@ -41,9 +41,12 @@ export const media = {
 }
 
 export const breakPoints = {
-  desktopMaxWidth: '1440px',
-  tabletMaxWidth: '1024px',
-  mobileMaxWidth: '768px',
+  overDesktopMinWidth: '1440px',
+  desktopMaxWidth: '1439px',
+  desktopMinWidth: '1024px',
+  tabletMaxWidth: '1023px',
+  tabletMinWidth: '768px',
+  mobileMaxWidth: '767px',
 }
 
 export const finalMedia = {
@@ -53,17 +56,17 @@ export const finalMedia = {
     }
   `,
   tablet: (...args) => css`
-    @media (min-width: ${breakPoints.mobileMaxWidth}) and (max-width: ${breakPoints.tabletMaxWidth}) {
+    @media (min-width: ${breakPoints.tabletMinWidth}) and (max-width: ${breakPoints.tabletMaxWidth}) {
       ${css(...args)}
     }
   `,
   desktop: (...args) => css`
-    @media (min-width: ${breakPoints.tabletMaxWidth}) and (max-width: ${breakPoints.desktopMaxWidth}) {
+    @media (min-width: ${breakPoints.desktopMinWidth}) and (max-width: ${breakPoints.desktopMaxWidth}) {
       ${css(...args)}
     }
   `,
   overDesktop: (...args) => css`
-    @media (min-width: ${breakPoints.desktopMaxWidth}) {
+    @media (min-width: ${breakPoints.overDesktopMinWidth}) {
       ${css(...args)}
     }
   `,

@@ -12,6 +12,7 @@ import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from './common-utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
@@ -174,8 +175,9 @@ const More = styled.div`
 
 class Infographic extends React.PureComponent {
   render() {
-    const { title, imgObj, isPortrait, slug } = this.props
-    const href = `https://www.twreporter.org/i/${slug}`
+    const { title, imgObj, isPortrait, slug, style } = this.props
+    const path = getHref(slug, style)
+    const href = `https://www.twreporter.org/${path}`
     return (
       <Item>
         <A href={href} target="_blank">
@@ -203,6 +205,7 @@ Infographic.defaultProps = {
   imgObj: {},
   isPortrait: false,
   slug: '',
+  style: '',
 }
 
 Infographic.propTypes = {
@@ -210,6 +213,7 @@ Infographic.propTypes = {
   imgObj: PropTypes.object,
   isPortrait: PropTypes.bool,
   slug: PropTypes.string,
+  style: PropTypes.string,
 }
 
 class InfographicSection extends React.PureComponent {
@@ -226,6 +230,7 @@ class InfographicSection extends React.PureComponent {
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}
+          style={_.get(item, 'style')}
         />
       )
     })

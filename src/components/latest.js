@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, headerPadding } from '../styles/common-variables'
+import { getHref } from './common-utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
@@ -131,8 +132,8 @@ const Title = styled.div`
 class Latest extends React.PureComponent {
   render() {
     const latestItems = this.props.data.map((item) => {
-      const href = `a/${_.get(item, 'slug', 'error')}`
       const style = _.get(item, 'style', '')
+      const href = getHref(_.get(item, 'slug', 'error'), style)
       return (
         <ItemFrame
           key={_.get(item, 'id')}

@@ -12,6 +12,7 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import TRLink from './common-utils/twreporter-link'
 import { breakPoints, finalMedia } from '../utils/style-utils'
+import { getHref } from './common-utils/getHref'
 import { fonts, colors } from '../styles/common-variables'
 
 const _ = {
@@ -134,8 +135,8 @@ const More = styled.div`
 class Category extends React.PureComponent {
   render() {
     const items = this.props.data.map((item) => {
-      const href = `a/${_.get(item, 'slug')}`
       const style = _.get(item, 'style', '')
+      const href = getHref(_.get(item, 'slug', 'error'), style)
       return (
         <FlexItem
           key={_.get(item, 'id')}

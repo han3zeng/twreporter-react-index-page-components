@@ -15,6 +15,7 @@ import TRLink from './common-utils/twreporter-link'
 import { browserHistory } from 'react-router'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from './common-utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
 import { truncate } from '../utils/style-utils'
 
@@ -104,8 +105,8 @@ class EditorPicksMobile extends SwipableMixin {
     }
 
     const ImageComp = (post) => {
-      const href = `a/${_.get(post, 'slug', 'error')}`
       const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       const { hero_image } = post
       return (
         <TRLink
@@ -136,8 +137,8 @@ class EditorPicksMobile extends SwipableMixin {
     })
 
     const textFrameContent = data.map((post, index) => {
-      const href = `a/${_.get(post, 'slug', 'error')}`
       const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FadeInFadeOut
           key={_.get(post, 'id')}

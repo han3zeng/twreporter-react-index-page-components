@@ -12,6 +12,7 @@ import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from './common-utils/getHref'
 
 const _ = {
   get,
@@ -141,7 +142,7 @@ const More = styled.div`
 class Photography extends React.PureComponent {
   render() {
     const { title, imgObj, isHover, slug, style } = this.props
-    const href = `a/${slug}`
+    const href = getHref(slug, style)
     return (
       <Item>
         <TRLink href={href} redirect={style === 'interactive'}>

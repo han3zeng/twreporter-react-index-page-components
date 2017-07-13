@@ -13,6 +13,7 @@ import Section from './common-utils/section'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from './common-utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
@@ -148,8 +149,8 @@ class Reviews extends React.PureComponent {
   render() {
     const { data } = this.props
     const ReviewsItem = data.map((post) => {
-      const href = `a/${_.get(post, 'slug', 'error')}`
       const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FlexItem
           key={_.get(post, 'id')}

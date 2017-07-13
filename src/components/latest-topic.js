@@ -14,6 +14,7 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from './common-utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
 import { truncate } from '../utils/style-utils'
 
@@ -156,8 +157,8 @@ class LatestTopic extends React.PureComponent {
     const { data } = this.props
     const maxSwipableItems = 2
     const relateds = _.get(data, 'relateds', []).slice(0, 3).map((post) => {
-      const href = `a/${_.get(post, 'slug')}`
       const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FlexItem
           key={_.get(post, 'id')}

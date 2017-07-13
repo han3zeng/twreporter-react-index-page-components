@@ -152,17 +152,17 @@ const More = styled.div`
 
 class Topic extends React.PureComponent {
   render() {
-    const { title, topicName, desc, imgObj, slug } = this.props
+    const { title, topicName, desc, imgObj, slug, style } = this.props
     const href = `topics/${slug}`
     return (
       <Item>
         <TopicName>{`${strings.topic}${strings.fullShapeDot}${topicName}`}</TopicName>
-        <TRLink href={href}>
+        <TRLink href={href} redirect={style === 'interactive'}>
           <Title>
             {title}
           </Title>
         </TRLink>
-        <TRLink href={href}>
+        <TRLink href={href} redirect={style === 'interactive'}>
           <Img>
             <ImgWrapper
               src={_.get(imgObj, 'resized_targets.mobile.url')}
@@ -190,6 +190,7 @@ Topic.defaultProps = {
   desc: '',
   imgObj: {},
   slug: '',
+  style: '',
 }
 
 Topic.propTypes = {
@@ -198,6 +199,7 @@ Topic.propTypes = {
   desc: PropTypes.string,
   imgObj: PropTypes.object,
   slug: PropTypes.string,
+  style: PropTypes.string,
 }
 
 class TopicsSection extends React.PureComponent {
@@ -215,6 +217,7 @@ class TopicsSection extends React.PureComponent {
           desc={desc}
           imgObj={imgObj}
           slug={_.get(item, 'slug')}
+          style={_.get(item, 'style', '')}
         />
       )
     })

@@ -131,11 +131,16 @@ const Title = styled.div`
 class Latest extends React.PureComponent {
   render() {
     const latestItems = this.props.data.map((item) => {
+      const href = `a/${_.get(item, 'slug', 'error')}`
+      const style = _.get(item, 'style', '')
       return (
         <ItemFrame
           key={_.get(item, 'id')}
         >
-          <TRLink href={`a/${_.get(item, 'slug', 'error')}`}>
+          <TRLink
+            href={href}
+            redirect={style === 'interactive'}
+          >
             <Image
               background={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
             />
@@ -144,7 +149,10 @@ class Latest extends React.PureComponent {
             <Category>
               {_.get(item, 'categories[0].name', '')}
             </Category>
-            <TRLink href={`a/${_.get(item, 'slug', 'error')}`}>
+            <TRLink
+              href={href}
+              redirect={style === 'interactive'}
+            >
               <Title>{_.get(item, 'title', '')}</Title>
             </TRLink>
           </ContentFrame>

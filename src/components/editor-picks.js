@@ -166,6 +166,7 @@ class EditorPicks extends React.Component {
     const FlexItems = (() => {
       return data.map((obj, i) => {
         const href = `a/${_.get(obj, 'slug', 'error')}`
+        const style = _.get(obj, 'style', '')
         const propsMap = {
           middle: false,
           onClick: () => {},
@@ -186,7 +187,7 @@ class EditorPicks extends React.Component {
             key={`key_${obj.title}`}
           >
             { i === this.state.selected ?
-              <TRLink href={href}>
+              <TRLink href={href} redirect={style === 'interactive'}>
                 <Title middle={propsMap.middle}>
                   <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
                 </Title>
@@ -259,12 +260,13 @@ class EditorPicks extends React.Component {
     const Images = data.map((post, index) => {
       const { hero_image } = post
       const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
       return (
         <FadeInFadeOut
           key={_.get(post, 'hero_image.id')}
           isSelected={index === this.state.selected}
         >
-          <TRLink href={href}>
+          <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(hero_image, 'description')}

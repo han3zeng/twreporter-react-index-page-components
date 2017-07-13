@@ -162,6 +162,10 @@ const ImgFrame = styled.div`
   }
 `
 
+const A = styled.a`
+  text-decoration: none;
+`
+
   /*
 const More = styled.div`
   text-align: center;
@@ -174,7 +178,7 @@ class Infographic extends React.PureComponent {
     const href = `https://www.twreporter.org/i/${slug}`
     return (
       <Item>
-        <a href={href} target="_blank">
+        <A href={href} target="_blank">
           <ImgFrame
             isPortrait={isPortrait}
           >
@@ -188,7 +192,7 @@ class Infographic extends React.PureComponent {
             <CategoryName>{sectionStrings.infographic}</CategoryName>
             <Title>{title}</Title>
           </WordBlock>
-        </a>
+        </A>
       </Item>
     )
   }

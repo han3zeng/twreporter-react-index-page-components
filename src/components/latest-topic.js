@@ -157,12 +157,13 @@ class LatestTopic extends React.PureComponent {
     const maxSwipableItems = 2
     const relateds = _.get(data, 'relateds', []).slice(0, 3).map((post) => {
       const href = `a/${_.get(post, 'slug')}`
+      const style = _.get(post, 'style', '')
       return (
         <FlexItem
           key={_.get(post, 'id')}
           mobileWidth={mobileWidth}
         >
-          <TRLink href={href}>
+          <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
@@ -175,7 +176,7 @@ class LatestTopic extends React.PureComponent {
             <RelatedCategory>
               {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
             </RelatedCategory>
-            <TRLink href={href}>
+            <TRLink href={href} redirect={style === 'interactive'}>
               <RelatedTitle>
                 {_.get(post, 'title', '')}
               </RelatedTitle>

@@ -149,11 +149,12 @@ class Reviews extends React.PureComponent {
     const { data } = this.props
     const ReviewsItem = data.map((post) => {
       const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
       return (
         <FlexItem
           key={_.get(post, 'id')}
         >
-          <TRLink href={href}>
+          <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
@@ -166,7 +167,7 @@ class Reviews extends React.PureComponent {
             <Category>
               {_.get(post, 'subtitle', '')}
             </Category>
-            <TRLink href={href}>
+            <TRLink href={href} redirect={style === 'interactive'}>
               <Title>
                 {_.get(post, 'title', '')}
               </Title>

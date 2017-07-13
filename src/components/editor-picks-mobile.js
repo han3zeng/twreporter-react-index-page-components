@@ -105,10 +105,12 @@ class EditorPicksMobile extends SwipableMixin {
 
     const ImageComp = (post) => {
       const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
       const { hero_image } = post
       return (
         <TRLink
           href={href}
+          redirect={style === 'interactive'}
         >
           <ImgFrame>
             <ImgWrapper
@@ -135,6 +137,7 @@ class EditorPicksMobile extends SwipableMixin {
 
     const textFrameContent = data.map((post, index) => {
       const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
       return (
         <FadeInFadeOut
           key={_.get(post, 'id')}
@@ -144,6 +147,7 @@ class EditorPicksMobile extends SwipableMixin {
           <Title>
             <TRLink
               href={href}
+              redirect={style === 'interactive'}
             >
               <TitleSpan>{_.get(post, 'title', '')}</TitleSpan>
             </TRLink>

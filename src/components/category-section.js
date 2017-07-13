@@ -135,6 +135,7 @@ class Category extends React.PureComponent {
   render() {
     const items = this.props.data.map((item) => {
       const href = `a/${_.get(item, 'slug')}`
+      const style = _.get(item, 'style', '')
       return (
         <FlexItem
           key={_.get(item, 'id')}
@@ -142,7 +143,7 @@ class Category extends React.PureComponent {
           <CategoryName>
             {_.get(item, 'listName')}
           </CategoryName>
-          <TRLink href={href}>
+          <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(item, 'img.description')}
@@ -151,7 +152,7 @@ class Category extends React.PureComponent {
             </ImgFrame>
           </TRLink>
           <TextFrame>
-            <TRLink href={href}>
+            <TRLink href={href} redirect={style === 'interactive'}>
               <Title>
                 {_.get(item, 'title')}
               </Title>

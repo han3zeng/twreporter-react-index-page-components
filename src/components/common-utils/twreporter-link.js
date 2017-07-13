@@ -18,10 +18,10 @@ const A = styled.a`
 
 // noTxtDec = noTextDecoration
 const TRLink = (props) => {
-  const { href, noTxtDec, target, redirect, visitedColor } = props
+  const { href, noTxtDec, redirect, visitedColor } = props
   if (redirect) {
     return (
-      <A href={href} target={target} rel="noreferrer noopener">
+      <A href={`https://www.twreporter.org/${href}`} target="_blank" rel="noreferrer noopener">
         <Container noTxtDec={noTxtDec} visitedColor={visitedColor}>
           {props.children}
         </Container>
@@ -40,7 +40,6 @@ const TRLink = (props) => {
 TRLink.defaultProps = {
   href: '',
   noTxtDec: null,
-  target: '',
   redirect: false,
   visitedColor: '',
 }
@@ -49,7 +48,6 @@ TRLink.propTypes = {
   href: PropTypes.string,
   noTxtDec: PropTypes.bool,
   children: PropTypes.any.isRequired,
-  target: PropTypes.string,
   redirect: PropTypes.bool,
   visitedColor: PropTypes.string,
 }

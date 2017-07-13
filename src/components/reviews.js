@@ -13,7 +13,7 @@ import Section from './common-utils/section'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
-import { getHref } from './common-utils/getHref'
+import { getHref } from '../utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {

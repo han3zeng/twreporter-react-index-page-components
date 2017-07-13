@@ -12,7 +12,7 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import TRLink from './common-utils/twreporter-link'
 import { breakPoints, finalMedia } from '../utils/style-utils'
-import { getHref } from './common-utils/getHref'
+import { getHref } from '../utils/getHref'
 import { fonts, colors } from '../styles/common-variables'
 
 const _ = {

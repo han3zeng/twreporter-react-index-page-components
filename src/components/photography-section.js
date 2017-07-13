@@ -12,7 +12,7 @@ import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
-import { getHref } from './common-utils/getHref'
+import { getHref } from '../utils/getHref'
 
 const _ = {
   get,

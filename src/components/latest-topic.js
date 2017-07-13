@@ -14,7 +14,7 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
-import { getHref } from './common-utils/getHref'
+import { getHref } from '../utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
 import { truncate } from '../utils/style-utils'
 

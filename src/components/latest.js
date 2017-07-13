@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, headerPadding } from '../styles/common-variables'
-import { getHref } from './common-utils/getHref'
+import { getHref } from '../utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {

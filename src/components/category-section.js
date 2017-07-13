@@ -31,6 +31,9 @@ const Container = styled.div`
 const SectionWrapper = Section.extend`
   background-color: initial;
   padding-bottom: 10px;
+  @media (max-width: ${mobileWidth}) {
+    padding-bottom: 26px;
+  }
 `
 
 const FlexBox = styled.div`
@@ -54,7 +57,7 @@ const FlexItem = styled.div`
   background-color: white;
   position: relative;
   margin-bottom: 70px;
-  padding-bottom: 36px;
+  padding-bottom: 20px;
   width: 314px;
   &:nth-child(3n+2) {
     margin-right: 30px;
@@ -114,25 +117,15 @@ const Title = styled.div`
   }
 `
 
-// margin: 16px auto 0 auto;
-// text-align: center;
-const MoreFrame = styled.div`
-  position: absolute;
-  bottom: -1px;
-  left: -1px;
-  width: 101%;
-  background-color: ${backgroundColor};
-  height: 36px;
-  text-align: center;
-`
-
 const More = styled.div`
   position: absolute;
-  text-align: center;
-  width: 115px;
   left: 50%;
-  bottom:0;
+  bottom: -16px;
+  padding-top: 16px;
   transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  background-color: ${backgroundColor};
   @media (max-width: ${mobileWidth}) {
     bottom: -24px;
   }
@@ -164,14 +157,12 @@ class Category extends React.PureComponent {
               </Title>
             </TRLink>
           </TextFrame>
-          <MoreFrame>
-            <More>
-              <BottomLink
-                text={`更多${_.get(item, 'listName')}`}
-                path={_.get(item, 'moreURL')}
-              />
-            </More>
-          </MoreFrame>
+          <More>
+            <BottomLink
+              text={`更多${_.get(item, 'listName')}`}
+              path={_.get(item, 'moreURL')}
+            />
+          </More>
         </FlexItem>
       )
     })

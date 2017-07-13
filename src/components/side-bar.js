@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-mount-set-state */
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -17,28 +16,15 @@ for (const key in sectionStrings) {
   }
 }
 
-const getBrowserType = () => {
-  navigator.sayswho = (function () {
-    const ua = navigator.userAgent
-    let tem
-    let M
-    M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
-    if (/trident/i.test(M[1])) {
-      tem = /\brv[ :]+(\d+)/g.exec(ua) || []
-      return `IE ${tem[1] || ''}`
+const ifSafari = () => {
+  const ua = navigator.userAgent.toLowerCase()
+  if (ua.includes('safari')) {
+    if (ua.includes('chrome')) {
+      return false
     }
-    if (M[1] === 'Chrome') {
-      tem = ua.match(/\b(OPR|Edge)\/(\d+)/)
-      if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera')
-    }
-    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?']
-    tem = ua.match(/version\/(\d+)/i)
-    if (tem != null) {
-      M.splice(1, 1, tem[1])
-    }
-    return M.join(' ')
-  }())
-  return navigator.sayswho
+    return true
+  }
+  return false
 }
 
 // right: calc((100% - 1024px)/2 + 1px);
@@ -145,12 +131,13 @@ class SideBar extends React.Component {
     this.previousSection = ''
   }
 
-  componentDidMount() {
-    const browserType = getBrowserType()
-    if (browserType.includes('Safari')) {
-      this.setState({
-        isSafari: true,
-      })
+  componentWillMount() {
+    if (typeof window !== 'undefined') {
+      if (ifSafari()) {
+        this.setState({
+          isSafari: true,
+        })
+      }
     }
   }
 

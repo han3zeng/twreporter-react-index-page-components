@@ -12,7 +12,7 @@ function copy() {
     .pipe(gulp.dest(dest))
 }
 
-function transform() {
+function transpile() {
   return gulp.src('./src/**/*.js', theBase)
     .pipe(babel({
         presets: ['stage-0']
@@ -21,9 +21,9 @@ function transform() {
 }
 
 function watch() {
-  gulp.watch('./src/**/*.js', transform)
+  gulp.watch('./src/**/*.js', transpile)
 }
 
-var build = gulp.series(copy, transform, watch)
+var build = gulp.series(copy, transpile, watch)
 
 gulp.task('default', build)

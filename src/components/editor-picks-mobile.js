@@ -47,7 +47,7 @@ const Category = styled(CategoryName)`
   text-align: center;
 `
 
-const Title = styled.a`
+const Title = styled.div`
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
@@ -55,6 +55,11 @@ const Title = styled.a`
   font-size: ${fonts.size.title.medium};
   font-weight: ${fonts.weight.semiBold};
   color: ${colors.textGrey};
+  position: absolute;
+`
+
+const TitleSpan = styled.span`
+  width: 100%;
   height: 3.99;
   ${truncate('absolute', 1.33, 3, `${colors.sectionWhite}`, 'center')};
 `
@@ -128,10 +133,6 @@ class EditorPicksMobile extends SwipableMixin {
       )
     })
 
-    // <TRLink
-    //   href={href}
-    // >
-    //   </TRLink>
     const textFrameContent = data.map((post, index) => {
       const href = `a/${_.get(post, 'slug', 'error')}`
       return (
@@ -140,8 +141,12 @@ class EditorPicksMobile extends SwipableMixin {
           isSelected={index === this.state.selected}
         >
           <Category>{_.get(post, 'categories[0].name', '')}</Category>
-          <Title onClick={() => { this.redirect(href) }}>
-            {_.get(post, 'title', '')}
+          <Title>
+            <TRLink
+              href={href}
+            >
+              <TitleSpan>{_.get(post, 'title', '')}</TitleSpan>
+            </TRLink>
           </Title>
           <Description>{_.get(post, 'og_description', '')}</Description>
         </FadeInFadeOut>

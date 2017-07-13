@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   font-size: ${fonts.size.base};
   color: ${(props) => { return props.isDarkBg ? colors.lightBlue : colors.blue }};
   cursor: pointer;
-
+  display: inline-block;
   > span {
     padding-right: 7px;
   }

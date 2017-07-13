@@ -215,6 +215,7 @@ class TopicsSection extends React.PureComponent {
           desc={desc}
           imgObj={imgObj}
           slug={_.get(item, 'slug')}
+          style={_.get(item, 'style', '')}
         />
       )
     })

@@ -32,7 +32,7 @@ const colors = {
   textGrey: '#4a4949',
   moreBlue: '#55a1e5',
   lightBlue: '#5eb2fe',
-  blue: '#56a2e6',
+  blue: '#5eb2fd',
   sectionWhite: '#ffffff',
   sectionGrey: '#f2f2f2',
 }

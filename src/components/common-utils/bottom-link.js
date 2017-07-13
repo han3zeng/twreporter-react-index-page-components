@@ -10,18 +10,19 @@ const Wrapper = styled.div`
   font-size: ${fonts.size.base};
   color: ${(props) => { return props.isDarkBg ? colors.lightBlue : colors.blue }};
   cursor: pointer;
-
+  display: inline-block;
   > span {
     padding-right: 7px;
   }
   svg {
     width: 7px;
     margin-bottom: -1px;
+    margin-left: 7px;
     transition: 0.3s all ease-out;
   }
   &:hover {
     > svg {
-      transform: translateX(8px);
+      transform: translateX(5px);
     }
   }
 `

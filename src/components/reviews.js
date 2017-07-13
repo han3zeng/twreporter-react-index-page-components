@@ -13,6 +13,7 @@ import Section from './common-utils/section'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from '../utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
@@ -140,20 +141,21 @@ const Description = styled.div`
 `
 
 const More = styled.div`
-  width: 98px;
-  margin: 60px auto 0 auto;
+  text-align: center;
+  margin-top: 60px;
 `
 
 class Reviews extends React.PureComponent {
   render() {
     const { data } = this.props
     const ReviewsItem = data.map((post) => {
-      const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FlexItem
           key={_.get(post, 'id')}
         >
-          <TRLink href={href}>
+          <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
@@ -166,7 +168,7 @@ class Reviews extends React.PureComponent {
             <Category>
               {_.get(post, 'subtitle', '')}
             </Category>
-            <TRLink href={href}>
+            <TRLink href={href} redirect={style === 'interactive'}>
               <Title>
                 {_.get(post, 'title', '')}
               </Title>
@@ -205,7 +207,6 @@ class Reviews extends React.PureComponent {
         <More>
           <BottomLink
             text={moreText}
-            isDarkBg
             path={'category/reviews'}
           />
         </More>

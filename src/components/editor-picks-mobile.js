@@ -12,8 +12,10 @@ import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import TRLink from './common-utils/twreporter-link'
+import { browserHistory } from 'react-router'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from '../utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
 import { truncate } from '../utils/style-utils'
 
@@ -53,9 +55,14 @@ const Title = styled.div`
   width: ${itemWidthPct}%;
   font-size: ${fonts.size.title.medium};
   font-weight: ${fonts.weight.semiBold};
-  line-height: 1.33;
   color: ${colors.textGrey};
-  ${truncate('absolute', 1.33, 3, `${colors.sectionWhite}`, 'center')}
+  position: absolute;
+`
+
+const TitleSpan = styled.span`
+  width: 100%;
+  height: 3.99;
+  ${truncate('absolute', 1.33, 3, `${colors.sectionWhite}`, 'center')};
 `
 
 const Description = styled.div`
@@ -66,7 +73,7 @@ const Description = styled.div`
   width: ${itemWidthPct}%;
   text-align: left;
   color: ${colors.textGrey};
-  ${truncate('absolute', 1.43, 3, 'white')}
+  ${truncate('absolute', 1.43, 3, 'white')};
 `
 
 const ImgFrame = styled.div`
@@ -74,8 +81,17 @@ const ImgFrame = styled.div`
 `
 
 class EditorPicksMobile extends SwipableMixin {
+  constructor(props) {
+    super(props)
+    this.redirect = this._redirect.bind(this)
+  }
+
   componentWillMount() {
     this.onSetMaxItems(numberOfSwipableItems)
+  }
+
+  _redirect(href) {
+    browserHistory.push(`/${href}`)
   }
 
   render() {
@@ -89,11 +105,13 @@ class EditorPicksMobile extends SwipableMixin {
     }
 
     const ImageComp = (post) => {
-      const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       const { hero_image } = post
       return (
         <TRLink
           href={href}
+          redirect={style === 'interactive'}
         >
           <ImgFrame>
             <ImgWrapper
@@ -119,7 +137,8 @@ class EditorPicksMobile extends SwipableMixin {
     })
 
     const textFrameContent = data.map((post, index) => {
-      const href = `a/${_.get(post, 'slug', 'error')}`
+      const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FadeInFadeOut
           key={_.get(post, 'id')}
@@ -129,8 +148,9 @@ class EditorPicksMobile extends SwipableMixin {
           <Title>
             <TRLink
               href={href}
+              redirect={style === 'interactive'}
             >
-              {_.get(post, 'title', '')}
+              <TitleSpan>{_.get(post, 'title', '')}</TitleSpan>
             </TRLink>
           </Title>
           <Description>{_.get(post, 'og_description', '')}</Description>

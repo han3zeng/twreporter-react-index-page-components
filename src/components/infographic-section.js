@@ -12,6 +12,7 @@ import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from '../utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
@@ -100,7 +101,7 @@ const Item = styled.div`
 
   @media (min-width: ${oneColumnWidth}) {
     &:hover {
-      box-shadow: 10px 10px 15px grey;
+      box-shadow: 5px 5px 10px grey;
     }
   }
 `
@@ -127,7 +128,7 @@ const WordBlock = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-weight: ${fonts.weight.medium};
+  font-weight: ${fonts.weight.semiBold};
   font-size: ${fonts.size.title.base};
   color: #4a4a4a;
   @media (min-width: ${tabletWidth}) {
@@ -162,6 +163,10 @@ const ImgFrame = styled.div`
   }
 `
 
+const A = styled.a`
+  text-decoration: none;
+`
+
   /*
 const More = styled.div`
   text-align: center;
@@ -170,11 +175,12 @@ const More = styled.div`
 
 class Infographic extends React.PureComponent {
   render() {
-    const { title, imgObj, isPortrait, slug } = this.props
-    const href = `https://www.twreporter.org/i/${slug}`
+    const { title, imgObj, isPortrait, slug, style } = this.props
+    const path = getHref(slug, style)
+    const href = `https://www.twreporter.org/${path}`
     return (
       <Item>
-        <a href={href} target="_blank">
+        <A href={href} target="_blank">
           <ImgFrame
             isPortrait={isPortrait}
           >
@@ -188,7 +194,7 @@ class Infographic extends React.PureComponent {
             <CategoryName>{sectionStrings.infographic}</CategoryName>
             <Title>{title}</Title>
           </WordBlock>
-        </a>
+        </A>
       </Item>
     )
   }
@@ -199,6 +205,7 @@ Infographic.defaultProps = {
   imgObj: {},
   isPortrait: false,
   slug: '',
+  style: '',
 }
 
 Infographic.propTypes = {
@@ -206,6 +213,7 @@ Infographic.propTypes = {
   imgObj: PropTypes.object,
   isPortrait: PropTypes.bool,
   slug: PropTypes.string,
+  style: PropTypes.string,
 }
 
 class InfographicSection extends React.PureComponent {
@@ -222,6 +230,7 @@ class InfographicSection extends React.PureComponent {
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}
+          style={_.get(item, 'style')}
         />
       )
     })

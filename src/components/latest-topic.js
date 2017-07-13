@@ -14,6 +14,7 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from '../utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
 import { truncate } from '../utils/style-utils'
 
@@ -156,13 +157,14 @@ class LatestTopic extends React.PureComponent {
     const { data } = this.props
     const maxSwipableItems = 2
     const relateds = _.get(data, 'relateds', []).slice(0, 3).map((post) => {
-      const href = `a/${_.get(post, 'slug')}`
+      const style = _.get(post, 'style', '')
+      const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FlexItem
           key={_.get(post, 'id')}
           mobileWidth={mobileWidth}
         >
-          <TRLink href={href}>
+          <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
@@ -175,7 +177,7 @@ class LatestTopic extends React.PureComponent {
             <RelatedCategory>
               {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
             </RelatedCategory>
-            <TRLink href={href}>
+            <TRLink href={href} redirect={style === 'interactive'}>
               <RelatedTitle>
                 {_.get(post, 'title', '')}
               </RelatedTitle>

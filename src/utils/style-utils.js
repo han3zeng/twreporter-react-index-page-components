@@ -40,6 +40,38 @@ export const media = {
   `,
 }
 
+export const breakPoints = {
+  overDesktopMinWidth: '1440px',
+  desktopMaxWidth: '1439px',
+  desktopMinWidth: '1024px',
+  tabletMaxWidth: '1023px',
+  tabletMinWidth: '768px',
+  mobileMaxWidth: '767px',
+}
+
+export const finalMedia = {
+  mobile: (...args) => css`
+    @media (max-width: ${breakPoints.mobileMaxWidth}) {
+      ${css(...args)}
+    }
+  `,
+  tablet: (...args) => css`
+    @media (min-width: ${breakPoints.tabletMinWidth}) and (max-width: ${breakPoints.tabletMaxWidth}) {
+      ${css(...args)}
+    }
+  `,
+  desktop: (...args) => css`
+    @media (min-width: ${breakPoints.desktopMinWidth}) and (max-width: ${breakPoints.desktopMaxWidth}) {
+      ${css(...args)}
+    }
+  `,
+  overDesktop: (...args) => css`
+    @media (min-width: ${breakPoints.overDesktopMinWidth}) {
+      ${css(...args)}
+    }
+  `,
+}
+
 /**
 * @prop {string} position - postion of the content div
 * @prop {number} lineHeight - line-height

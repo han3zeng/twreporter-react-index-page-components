@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, headerPadding } from '../styles/common-variables'
+import { getHref } from '../utils/getHref'
 import { truncate } from '../utils/style-utils'
 
 const _ = {
@@ -110,7 +111,7 @@ const Image = styled.div`
 `
 
 const ContentFrame = styled.div`
-  width: 114px;
+  width: 88%;
   margin: 0 auto;
 `
 
@@ -131,11 +132,16 @@ const Title = styled.div`
 class Latest extends React.PureComponent {
   render() {
     const latestItems = this.props.data.map((item) => {
+      const style = _.get(item, 'style', '')
+      const href = getHref(_.get(item, 'slug', 'error'), style)
       return (
         <ItemFrame
           key={_.get(item, 'id')}
         >
-          <TRLink href={`a/${_.get(item, 'slug', 'error')}`}>
+          <TRLink
+            href={href}
+            redirect={style === 'interactive'}
+          >
             <Image
               background={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
             />
@@ -144,7 +150,10 @@ class Latest extends React.PureComponent {
             <Category>
               {_.get(item, 'categories[0].name', '')}
             </Category>
-            <TRLink href={`a/${_.get(item, 'slug', 'error')}`}>
+            <TRLink
+              href={href}
+              redirect={style === 'interactive'}
+            >
               <Title>{_.get(item, 'title', '')}</Title>
             </TRLink>
           </ContentFrame>

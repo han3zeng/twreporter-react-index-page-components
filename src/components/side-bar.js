@@ -15,13 +15,25 @@ for (const key in sectionStrings) {
     moduleIdObj[key] = key
   }
 }
+
+const ifSafari = () => {
+  const ua = navigator.userAgent.toLowerCase()
+  if (ua.includes('safari')) {
+    if (ua.includes('chrome')) {
+      return false
+    }
+    return true
+  }
+  return false
+}
+
 // right: calc((100% - 1024px)/2 + 1px);
 const Container = styled.div`
   font-size: ${fonts.size.base};
   position: fixed;
   color: ${colors.primaryColor};
   z-index: 2;
-  right: 10px;
+  right: ${props => (props.isSafari ? '30px' : '10px')};
   margin-top: 93px;
   @media (max-width: 1038px) {
     right: 1px;
@@ -29,6 +41,9 @@ const Container = styled.div`
   @media (max-width: 730px) {
     display: none;
   }
+  @media not all and (min-resolution:.001dpcm) { @media {
+    right: 30px;
+  }}
 `
 
 const SectionButton = styled.div`
@@ -106,11 +121,24 @@ Anchors.propTypes = {
 class SideBar extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      isSafari: false,
+    }
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
     this.moduleMap = {}
     this.currentSection = ''
     this.previousSection = ''
+  }
+
+  componentWillMount() {
+    if (typeof window !== 'undefined') {
+      if (ifSafari()) {
+        this.setState({
+          isSafari: true,
+        })
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -158,7 +186,9 @@ class SideBar extends React.Component {
 
     return (
       <div>
-        <Container>
+        <Container
+          isSafari={this.state.isSafari}
+        >
           <Anchors
             ref={(node) => { this.anchorsNode = node }}
             curretSection={anchorsList[0]}

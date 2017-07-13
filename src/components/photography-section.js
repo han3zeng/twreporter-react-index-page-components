@@ -12,6 +12,7 @@ import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
+import { getHref } from '../utils/getHref'
 
 const _ = {
   get,
@@ -140,11 +141,11 @@ const More = styled.div`
 
 class Photography extends React.PureComponent {
   render() {
-    const { title, imgObj, isHover, slug } = this.props
-    const href = `a/${slug}`
+    const { title, imgObj, isHover, slug, style } = this.props
+    const href = getHref(slug, style)
     return (
       <Item>
-        <TRLink href={href}>
+        <TRLink href={href} redirect={style === 'interactive'}>
           <Img>
             <ImgWrapper
               alt={_.get(imgObj, 'description')}
@@ -174,6 +175,7 @@ Photography.defaultProps = {
   imgObj: {},
   isHover: false,
   slug: '',
+  style: '',
 }
 
 Photography.propTypes = {
@@ -181,6 +183,7 @@ Photography.propTypes = {
   imgObj: PropTypes.object,
   isHover: PropTypes.bool,
   slug: PropTypes.string,
+  style: PropTypes.string,
 }
 
 class PhotographySection extends React.Component {
@@ -259,6 +262,7 @@ class PhotographySection extends React.Component {
               imgObj={imgObj}
               isHover={isHover}
               slug={_.get(item, 'slug')}
+              style={_.get(item, 'style', '')}
             />
           </span>
         </Waypoint>

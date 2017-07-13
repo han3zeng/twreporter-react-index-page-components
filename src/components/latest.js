@@ -7,17 +7,13 @@ import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, headerPadding } from '../styles/common-variables'
 import { getHref } from '../utils/getHref'
-import { truncate } from '../utils/style-utils'
+import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
+
 
 const _ = {
   get,
 }
 
-const desktopMidWidth = '1300px'
-const desktopMinWidth = '1140px'
-const tabletMaxWidth = '1023px'
-const tabletMidWidth = '916px'
-const tabletMinWidth = '761px'
 const mobileMaxWidth = '600px'
 const mobileMidWidth = '550px'
 const mobileMinWidth = '414px'
@@ -31,15 +27,12 @@ const ContentContainer = ContentWrapper.extend`
   padding: 30px ${headerPadding.desktop};
   overflow-x: hidden;
   justify-content: space-between;
-  @media (max-width: ${tabletMidWidth}) {
+  ${finalMedia.tablet`
     padding: 30px ${headerPadding.tablet};
-  }
-  @media (max-width: ${tabletMidWidth}) {
-    padding: 30px ${headerPadding.tablet};
-  }
-  @media (max-width: ${mobileMidWidth}) {
+  `}
+  ${finalMedia.mobile`
     padding: 30px ${headerPadding.mobile};
-  }
+  `}
 `
 const ItemFrame = styled.div`
   width: 200px;
@@ -48,23 +41,17 @@ const ItemFrame = styled.div`
   &:first-child {
     margin: 0;
   }
-  @media (max-width: ${desktopMinWidth}) {
-    width: 130px;
-  }
-  @media (max-width: ${tabletMaxWidth}) {
-    width: 159px;
+  @media (max-width: ${breakPoints.tabletMaxWidth}) {
+    width: 189px;
     margin-left: 20px;
     &:nth-child(6) {
       display: none;
     }
-  }
-  @media (max-width: ${tabletMidWidth}) {
-    width: 189px;
     &:nth-child(5) {
       display: none;
     }
   }
-  @media (max-width: ${tabletMinWidth}) {
+  @media (max-width: ${breakPoints.mobileMaxWidth}) {
     &:nth-child(4) {
       display: none;
     }
@@ -87,18 +74,12 @@ const Image = styled.div`
   background-size: cover;
   background-position: center;
   display: block;
-  @media (max-width: ${desktopMidWidth}) {
-    height: 110px;
-  }
-  @media (max-width: ${desktopMinWidth}) {
+  ${finalMedia.desktop`
     height: 90px;
-  }
-  @media (max-width: ${tabletMaxWidth}) {
-    height: 100px;
-  }
-  @media (max-width: ${tabletMidWidth}) {
+  `}
+  ${finalMedia.tablet`
     height: 110px;
-  }
+  `}
   @media (max-width: ${mobileMaxWidth}) {
     height: 100px;
   }

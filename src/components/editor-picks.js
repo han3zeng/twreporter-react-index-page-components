@@ -11,16 +11,15 @@ import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
-import { truncate } from '../utils/style-utils'
+import { truncate, breakPoints } from '../utils/style-utils'
 
 const _ = {
   get,
 }
-const midDesktopWidth = '1328px'
 
 const CarouselContainer = ContentWrapper.extend`
   position: relative;
-  @media (max-width: 720px) {
+  @media (max-width: ${breakPoints.mobileMaxWidth}) {
     display: none;
   }
 `
@@ -30,7 +29,7 @@ const FlexContainer = styled.div`
   display: flex;
   height: 932px;
   align-items: center;
-  @media (max-width: ${midDesktopWidth}) {
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
     height: 702px;
   }
 `
@@ -44,7 +43,7 @@ const FlexItem = styled.div`
   transition: 500ms all linear;
   position: relative;
   cursor: pointer;
-  @media (max-width: ${midDesktopWidth}) {
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
     margin-top: ${props => (props.middle ? '-540px' : '16px')};
   }
 `
@@ -57,11 +56,11 @@ const ImgFrame = styled.div`
   left: 50%;
   top: 236px;
   transform: translateX(-50%);
-  @media (max-width: ${midDesktopWidth}) {
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
     width: 608px;
     height: 391px;
   }
-  @media (max-width: 970px) {
+  @media (max-width: ${breakPoints.tabletMaxWidth}) {
     width: 459.2px;
     height: 295px;
   }
@@ -79,7 +78,7 @@ const SideCategory = CategoryName.extend`
   height: 16px;
   top: 453px;
   left: ${props => (props.left ? props.left : '0')};
-  @media (max-width: ${midDesktopWidth}) {
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
     top: 338px;
   }
 `
@@ -114,7 +113,7 @@ const Title = styled.div`
   &:hover {
     text-decoration:${props => (props.middle ? 'underline' : '')};
   }
-  @media (max-width: 970px) {
+  @media (max-width: ${breakPoints.tabletMaxWidth}) {
     width: ${props => (props.middle ? '450px' : '100px')};
   }
 `

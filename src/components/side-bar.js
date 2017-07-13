@@ -6,6 +6,7 @@ import sectionStrings from '../constants/section-strings'
 import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
 import { fonts, colors } from '../styles/common-variables'
+import { breakPoints } from '../utils/style-utils'
 
 const anchorsList = []
 const moduleIdObj = {}
@@ -38,7 +39,7 @@ const Container = styled.div`
   @media (max-width: 1038px) {
     right: 1px;
   }
-  @media (max-width: 730px) {
+  @media (max-width: ${breakPoints.mobileMaxWidth}) {
     display: none;
   }
   @media not all and (min-resolution:.001dpcm) { @media {

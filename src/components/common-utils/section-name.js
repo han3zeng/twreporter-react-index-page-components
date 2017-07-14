@@ -8,7 +8,7 @@ const SectionName = styled.div`
     font-size: ${fonts.size.small};
     position: absolute;
     letter-spacing: 0.4px;
-    z-index: 1;
+    z-index: 3;
     top: -8px;
     left: 0;
     right: 0;

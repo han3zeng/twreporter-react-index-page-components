@@ -1,5 +1,6 @@
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
+import Header from './header'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -19,7 +20,9 @@ const mobileMidWidth = '550px'
 const mobileMinWidth = '414px'
 
 const Container = styled.div`
+  padding-top: 62px;
   background-color: #f2f2f2;
+  position: relative;
 `
 
 const ContentContainer = ContentWrapper.extend`
@@ -110,7 +113,7 @@ const Title = styled.div`
   ${truncate('relative', 1.5, 4, '#f1f1f1', 'left')}
 `
 
-class Latest extends React.PureComponent {
+class HeaderSection extends React.PureComponent {
   render() {
     const latestItems = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
@@ -144,7 +147,8 @@ class Latest extends React.PureComponent {
 
     return (
       <Container>
-        <ContentContainer>
+        <Header />
+        <ContentContainer id="headerSectionHeight">
           {latestItems}
         </ContentContainer>
       </Container>
@@ -152,12 +156,12 @@ class Latest extends React.PureComponent {
   }
 }
 
-Latest.defaultProps = {
+HeaderSection.defaultProps = {
   data: [],
 }
 
-Latest.propTypes = {
+HeaderSection.propTypes = {
   data: PropTypes.array,
 }
 
-export default Latest
+export default HeaderSection

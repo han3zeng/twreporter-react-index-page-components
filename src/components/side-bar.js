@@ -35,8 +35,8 @@ const Container = styled.div`
   color: ${colors.primaryColor};
   z-index: 2;
   right: ${props => (props.isSafari ? '30px' : '10px')};
-  margin-top: 93px;
-  @media (max-width: 1038px) {
+  top: 93px;
+  @media (max-width: 1050px) {
     right: ${props => (props.isSafari ? '21px' : '1px')};
   }
   @media (max-width: ${breakPoints.mobileMaxWidth}) {
@@ -76,8 +76,9 @@ class Anchors extends React.Component {
   _scrollTo(moduleId, e) {
     e.preventDefault()
     const node = this.props.moduleMap[moduleId]
+    const offsetTop = moduleId === 'editorPick' ? node.offsetTop + 278 : node.offsetTop
     if (node) {
-      return smoothScroll(node.offsetTop)
+      return smoothScroll(offsetTop)
     }
     return null
   }

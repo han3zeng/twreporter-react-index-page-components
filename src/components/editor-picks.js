@@ -11,7 +11,7 @@ import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
-import { truncate, breakPoints } from '../utils/style-utils'
+import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
 const _ = {
   get,
@@ -56,14 +56,14 @@ const ImgFrame = styled.div`
   left: 50%;
   top: 236px;
   transform: translateX(-50%);
-  @media (max-width: ${breakPoints.desktopMaxWidth}) {
+  ${finalMedia.desktop`
     width: 608px;
     height: 391px;
-  }
-  @media (max-width: ${breakPoints.tabletMaxWidth}) {
+  `}
+  ${finalMedia.tablet`
     width: 459.2px;
     height: 295px;
-  }
+  `}
 `
 
 const SideCategory = CategoryName.extend`

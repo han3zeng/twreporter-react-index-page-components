@@ -37,14 +37,11 @@ const Container = styled.div`
   right: ${props => (props.isSafari ? '30px' : '10px')};
   margin-top: 93px;
   @media (max-width: 1038px) {
-    right: 1px;
+    right: ${props => (props.isSafari ? '21px' : '1px')};
   }
   @media (max-width: ${breakPoints.mobileMaxWidth}) {
     display: none;
   }
-  @media not all and (min-resolution:.001dpcm) { @media {
-    right: 30px;
-  }}
 `
 
 const SectionButton = styled.div`

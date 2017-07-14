@@ -32,9 +32,6 @@ const Container = styled.div`
 const SectionWrapper = Section.extend`
   background-color: initial;
   padding-bottom: 10px;
-  @media (max-width: ${mobileWidth}) {
-    padding-bottom: 26px;
-  }
 `
 
 const FlexBox = styled.div`

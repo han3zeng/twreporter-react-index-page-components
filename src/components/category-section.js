@@ -82,7 +82,7 @@ const ImgFrame = styled.div`
     height: 138px;
   `}
   ${finalMedia.mobile`
-    height: 198px;
+    height: 186px;
   `}
 `
 

@@ -10,10 +10,10 @@ import SectionName from './common-utils/section-name'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
+import { breakPoints, finalMedia, truncate } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
-import { truncate } from '../utils/style-utils'
 
 const _ = {
   get,
@@ -21,9 +21,7 @@ const _ = {
 
 // If window is less than oneColumnWidth,
 // there will be only one column. Default is three columns.
-const oneColumnWidth = '700px'
-const tabletWidth = '929px'
-const desktopWidth = '1445px'
+const oneColumnWidth = breakPoints.mobileMaxWidth
 
 const Container = styled.div`
   background-color: #f2f2f2;
@@ -35,28 +33,25 @@ const UpperList = styled.div`
   flex-wrap: nowrap;
   justify-content: center;
   align-items: flex-start;
-  @media (max-width: ${oneColumnWidth}) {
+
+  ${finalMedia.mobile`
     display: none;
-  }
+  `}
 `
 
 const LowerList = UpperList.extend`
   align-items: flex-end;
+  margin-top: -282px;
 
-  @media (max-width: ${tabletWidth}) and (min-width: ${oneColumnWidth}) {
-    margin-top: -130px;
-    margin-bottom: 51px;
-  }
-
-  @media (min-width: ${tabletWidth}) {
+  ${finalMedia.desktop`
     margin-top: -170px;
     margin-bottom: 59px;
-  }
+  `}
 
-  @media (min-width: ${desktopWidth}) {
-    margin-top: -282px;
-  }
-
+  ${finalMedia.tablet`
+    margin-top: -130px;
+    margin-bottom: 51px;
+  `}
 `
 
 const MobileList = MobileListBase.extend`
@@ -74,11 +69,11 @@ const Item = styled.div`
     margin-left: 30px;
   }
 
-  @media( max-width: ${desktopWidth}) {
+  ${finalMedia.desktop`
     max-width: 290px;
-  }
+  `}
 
-  @media (max-width: ${tabletWidth}) {
+  ${finalMedia.tablet`
     max-width: 220px;
     &:first-child {
       margin-right: 20px;
@@ -87,9 +82,9 @@ const Item = styled.div`
     &:last-child {
       margin-left: 20px;
     }
-  }
+  `}
 
-  @media (max-width: ${oneColumnWidth}) {
+  ${finalMedia.mobile`
     max-width: 100%;
     &:first-child {
       margin-left: 0;
@@ -97,7 +92,7 @@ const Item = styled.div`
     &:last-child {
       margin-right: 0;
     }
-  }
+  `}
 
   @media (min-width: ${oneColumnWidth}) {
     &:hover {
@@ -111,19 +106,19 @@ const WordBlock = styled.div`
   min-height: 115px;
   padding: 8px 20px 15px 12px;
 
-  @media( max-width: ${desktopWidth}) and (min-width: ${oneColumnWidth}) {
-    max-width: 290px;
-  }
+  ${finalMedia.desktop`
+    width: 290px;
+  `}
 
-  @media (max-width: ${tabletWidth}) {
+  ${finalMedia.tablet`
     margin: 0 auto;
     width: 220px;
-  }
+  `}
 
-  @media (max-width: ${oneColumnWidth}) {
+  ${finalMedia.mobile`
     width: 100%;
     height: 100%;
-  }
+  `}
 `
 
 const Title = styled.h3`
@@ -131,14 +126,14 @@ const Title = styled.h3`
   font-weight: ${fonts.weight.semiBold};
   font-size: ${fonts.size.title.base};
   color: #4a4a4a;
-  @media (min-width: ${tabletWidth}) {
+  @media (min-width: ${breakPoints.desktopMinWidth}) {
     ${truncate('relative', 1.4, 2, '#fff')};
   }
 
-  @media (max-width: ${tabletWidth}) and (min-width: ${oneColumnWidth}) {
+  ${finalMedia.tablet`
     font-size: 16px;
     ${truncate('relative', 1.4, 3, '#fff')};
-  }
+  `}
 `
 
 const ImgFrame = styled.div`
@@ -146,21 +141,21 @@ const ImgFrame = styled.div`
   width: 430px;
   height: ${(props) => { return props.isPortrait ? '596px' : '282px' }};
 
-  @media( max-width: ${desktopWidth}) and (min-width: ${oneColumnWidth}) {
+  ${finalMedia.desktop`
     max-width: 290px;
     height: ${(props) => { return props.isPortrait ? '390px' : '190px' }};
-  }
+  `}
 
-  @media (max-width: ${tabletWidth}) {
+  ${finalMedia.tablet`
     margin: 0 auto;
     width: 220px;
     height: ${(props) => { return props.isPortrait ? '290px' : '145px' }};
-  }
+  `}
 
-  @media (max-width: ${oneColumnWidth}) {
+  ${finalMedia.mobile`
     width: 100%;
     height: 186px;
-  }
+  `}
 `
 
 const A = styled.a`

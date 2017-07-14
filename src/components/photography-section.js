@@ -10,6 +10,7 @@ import categoryStrings from '../constants/category-strings'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
+import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
@@ -20,9 +21,8 @@ const _ = {
 
 // If window is less than oneColumnWidth,
 // there will be only one column. Default is two columns.
-const oneColumnWidth = 700
-const tabletWidth = 928
-const desktopMinWidth = 1445
+const oneColumnWidth = breakPoints.mobileMaxWidth
+const oneColumnWidthInt = 768
 
 const Section = styled.div`
   position: relative;
@@ -30,9 +30,9 @@ const Section = styled.div`
   padding-bottom: ${(props) => { return props.isAutoHover ? '40px' : '80px' }};
   padding-top: 100px;
 
-  @media (max-width: ${oneColumnWidth}px) {
+  ${finalMedia.mobile`
     padding-top: 0px;
-  }
+  `}
 `
 
 const Listing = styled.ul`
@@ -42,19 +42,19 @@ const Listing = styled.ul`
   position: relative;
   padding-bottom: 60px;
 
-  @media (max-width: ${desktopMinWidth}px) {
+  ${finalMedia.desktop`
     max-width: 928px;
-  }
+  `}
 
-  @media (max-width: ${tabletWidth}px) {
+  ${finalMedia.tablet`
     max-width: 700px;
-  }
+  `}
 
-  @media (max-width: ${oneColumnWidth}px) {
+  ${finalMedia.mobile`
     padding-top: 0px;
     padding-bottom: 40px;
     max-width: 100%;
-  }
+  `}
 `
 
 const Item = styled.li`
@@ -62,20 +62,20 @@ const Item = styled.li`
   display: inline-block;
   vertical-align: bottom;
 
-  @media (max-width: ${desktopMinWidth}px) {
+  ${finalMedia.desktop`
     max-width: 464px;
-  }
+  `}
 
-  @media (max-width: ${tabletWidth}px) {
+  ${finalMedia.tablet`
     max-width: 349px;
-  }
+  `}
 
-  @media (max-width: ${oneColumnWidth}px) {
+  ${finalMedia.mobile`
     max-width: 100%;
     width: 100%;
     height: 100%;
     display: block;
-  }
+  `}
 `
 const Title = styled.div`
   position: absolute;
@@ -95,21 +95,21 @@ const Img = styled.div`
   width: 672px;
   height: 450px;
 
-  @media (max-width: ${desktopMinWidth}px) {
+  ${finalMedia.desktop`
     width: 464px;
     height: 310px;
-  }
+  `}
 
-  @media (max-width: ${tabletWidth}px) {
+  ${finalMedia.tablet`
     margin: 0 auto;
     width: 350px;
     height: 234px;
-  }
+  `}
 
-  @media (max-width: ${oneColumnWidth}px) {
+  ${finalMedia.mobile`
     width: 100%;
     height: 100%;
-  }
+  `}
 `
 
 const Overlay = styled.div`
@@ -126,7 +126,7 @@ const Overlay = styled.div`
   transition: .5s ease;
   background-color: rgba(21, 54, 84, 0.7);
 
-  @media (min-width: ${oneColumnWidth}px) {
+  @media (min-width: ${oneColumnWidth}) {
     &:hover {
       opacity: 1;
     }
@@ -225,9 +225,9 @@ class PhotographySection extends React.Component {
   }
 
   _checkViewportWidth() {
-    const innerW = _.get(window, 'innerWidth', oneColumnWidth)
+    const innerW = _.get(window, 'innerWidth', oneColumnWidthInt)
     this.setState({
-      isAutoHover: innerW < oneColumnWidth,
+      isAutoHover: innerW < oneColumnWidthInt,
     })
   }
 
@@ -279,7 +279,7 @@ class PhotographySection extends React.Component {
             isAutoHover={isAutoHover}
           >
             <SectionName
-              mobileWidth={`${oneColumnWidth}px`}
+              mobileWidth={`${oneColumnWidth}`}
             >
               <span>{sectionStrings.photography}</span>
             </SectionName>

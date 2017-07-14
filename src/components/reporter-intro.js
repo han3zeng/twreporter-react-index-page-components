@@ -9,12 +9,10 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
 import appConfig from '../conf/app-config.json'
-import { centerBlock, media } from '../utils/style-utils'
+import { centerBlock, media, breakPoints } from '../utils/style-utils'
 import { colors, fonts } from '../styles/common-variables'
 
-const mobileWidth = '730px'
-const desktopWidth = '1300px'
-
+const mobileWidth = breakPoints.mobileMaxWidth
 const ContentContainer = Section.extend`
   position: relative;
   color: ${colors.textGrey};
@@ -29,7 +27,7 @@ const TopContainer = styled.div`
     padding-right: 10%;
   `}
   max-width: 660px;
-  @media (max-width: ${desktopWidth}) {
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
     max-width: 500px;
   }
 `

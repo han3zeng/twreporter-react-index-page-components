@@ -13,9 +13,9 @@ import strings from '../constants/strings'
 import sectionStrings from '../constants/section-strings'
 import get from 'lodash/get'
 import styled from 'styled-components'
+import { breakPoints, finalMedia, media } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
-import { media } from '../utils/style-utils'
 
 const _ = {
   get,
@@ -23,13 +23,11 @@ const _ = {
 
 // If window is less than oneColumnWidth,
 // there will be only one column.
-const oneColumnWidth = '600px'
-const hdWidth = '1440px'
+const oneColumnWidth = breakPoints.mobileMaxWidth
 
 const Container = styled.div`
   background-color: #f2f2f2;
 `
-
 const List = styled.div`
   list-style-type: none;
   padding: 0px;
@@ -39,19 +37,9 @@ const List = styled.div`
   justify-content: center;
   align-items: flex-end;
 
-  @media (min-width: ${hdWidth}) {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-
-  @media (max-width: ${hdWidth}) {
-    max-width: 1024px;
-    margin: 0 auto;
-  }
-
-  @media (max-width: ${oneColumnWidth}) {
+  ${finalMedia.mobile`
     display: none;
-  }
+  `}
 `
 
 const Item = styled.div`
@@ -64,24 +52,24 @@ const Item = styled.div`
     margin-right: 0px;
   }
 
-  @media (max-width: ${hdWidth}) {
+  ${finalMedia.desktop`
     max-width: 369px;
-  }
+  `}
 
-  ${media.tablet`
+  ${finalMedia.tablet`
     max-width: 280px;
 
     &:nth-child(odd) {
       margin-right: 20px;
-    }`
-  }
+    }
+  `}
 
-  @media (max-width: ${oneColumnWidth}) {
+  ${finalMedia.mobile`
     max-width: 100%;
     &:nth-child(odd) {
       margin-right: 0px;
     }
-  }
+  `}
 `
 
 const TopicName = CategoryName.extend`
@@ -97,26 +85,26 @@ const Title = styled.div`
   font-size: ${fonts.size.title.large};
   margin-bottom: 15px;
   margin-top: 4px;
-  @media (max-width: ${oneColumnWidth}) {
+
+  ${finalMedia.mobile`
     font-size: ${fonts.size.title.medium};
-  }
+  `}
 `
 
 const Img = styled.div`
-  width: 544px;
   height: 364px;
   margin: 0 auto;
-  @media (max-width: ${hdWidth}) {
-    width: 369px;
+  ${finalMedia.desktop`
     height: 247px;
-  }
-  ${media.tablet`
-    width: 280px;
+  `}
+
+  ${finalMedia.tablet`
     height: 186px;
   `}
-  @media (max-width: ${oneColumnWidth}) {
-    width: 100%;
-  }
+
+  ${finalMedia.mobile`
+    height: 186px;
+  `}
 `
 
 const Desc = styled.div`
@@ -133,15 +121,15 @@ const Desc = styled.div`
     max-width: 240px;
   `}
 
-  @media (max-width: ${hdWidth}) {
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
     max-width: 323px;
   }
 
-  @media (max-width: ${oneColumnWidth}) {
+  ${finalMedia.mobile`
     max-width: 100%;
     height: 208px;
     font-size: ${fonts.size.large};
-  }
+  `}
 `
 
   /*

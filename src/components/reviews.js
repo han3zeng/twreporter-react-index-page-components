@@ -14,20 +14,14 @@ import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
-import { truncate } from '../utils/style-utils'
+import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
 const _ = {
   get,
 }
 
-const desktopMidWidth = '1280px'
-const desktopMinWidth = '1024px'
-// 4 columns: tabletMaxWidth, tabletMidWidth
-// 3 columns: tabletMinWidth
 const tabletMaxWidth = '1023px'
-const tabletMidWidth = '890px'
-const tabletMinWidth = '758px'
-const mobileWidth = '730px'
+const mobileWidth = breakPoints.mobileMaxWidth
 const maxSwipableItems = 3
 const moreText = '更多觀點文章'
 
@@ -41,7 +35,7 @@ const Container = Section.extend`
 const FlexBox = styled.div`
   display: flex;
   padding: 0 47px;
-  justify-content: space-between;
+  justify-content: center;
   @media(max-width: ${tabletMaxWidth}) {
     padding: 0 35px;
   }
@@ -52,65 +46,42 @@ const FlexBox = styled.div`
 
 const FlexItem = styled.div`
   width: 312px;
-  @media (max-width: ${desktopMinWidth}) {
-    width: 210px;
-  }
   &:nth-child(3) {
     margin-left: 30px;
   }
   &:nth-child(even) {
     margin-left: 30px;
   }
-  &:nth-child(4) {
-    @media(max-width: ${tabletMinWidth}) {
-      display: none;
-    }
-    @media(max-width: ${mobileWidth}) {
-      display: inline;
-    }
-  }
-  @media(max-width: ${tabletMaxWidth}) {
-    width: 189px;
+  ${finalMedia.desktop`
+    width: 210px;
+  `}
+
+  ${finalMedia.tablet`
+    width: 160px;
     &:nth-child(3) {
       margin-left: 10px;
     }
     &:nth-child(even) {
       margin-left: 10px;
     }
-  }
-  @media(max-width: ${tabletMidWidth}) {
-    width: 159px;
-  }
-  @media(max-width: ${tabletMinWidth}) {
-    width: 189px;
-  }
-  @media(max-width: ${mobileWidth}) {
+  `}
+  ${finalMedia.mobile`
     margin-top: 10px;
     width: 100%;
-  }
+  `}
 `
-
 const ImgFrame = styled.div`
   width: 100%;
   height: 202px;
-  @media (max-width: ${desktopMidWidth}) {
-    height: 166px;
-  }
-  @media (max-width: ${desktopMinWidth}) {
-    height: 136px;
-  }
-  @media(max-width: ${tabletMaxWidth}) {
-    height: 110px;
-  }
-  @media(max-width: ${tabletMidWidth}) {
+  ${finalMedia.desktop`
+    height: 138px;
+  `}
+  ${finalMedia.tablet`
     height: 102px;
-  }
-  @media(max-width: ${tabletMinWidth}) {
-    height: 110px;
-  }
-  @media(max-width: ${mobileWidth}) {
+  `}
+  ${finalMedia.mobile`
     height: 198px;
-  }
+  `}
 `
 
 const TextFrame = styled.div`
@@ -130,6 +101,9 @@ const Title = styled.div`
   font-size: ${fonts.size.title.base};
   font-weight: ${fonts.weight.semiBold};
   line-height: 1.5;
+  ${finalMedia.tablet`
+    width: 144px;
+  `}
   color: ${colors.textGrey};
 `
 
@@ -137,7 +111,10 @@ const Description = styled.div`
   margin-top: 8px;
   font-size: ${fonts.size.medium};
   color: ${colors.textGrey};
-  ${truncate('relative', 1.5, 3, 'white', 'left')}
+  ${finalMedia.tablet`
+    width: 144px;
+  `}
+  ${truncate('relative', 1.5, 3, 'white')}
 `
 
 const More = styled.div`

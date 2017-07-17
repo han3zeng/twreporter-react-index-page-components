@@ -8,6 +8,11 @@ import styled from 'styled-components'
 import { fonts, colors } from '../styles/common-variables'
 import { breakPoints } from '../utils/style-utils'
 
+let isScrolling = false
+const switchScrollState = () => {
+  isScrolling = !isScrolling
+}
+
 const anchorsList = []
 const moduleIdObj = {}
 for (const key in sectionStrings) {
@@ -65,20 +70,33 @@ class Anchors extends React.Component {
     }
     this.changeHighlight = this._changeHighlight.bind(this)
     this.scrollTo = this._scrollTo.bind(this)
+    this.enterScroll = this._enterScroll.bind(this)
   }
 
   _changeHighlight(currentSection) {
     this.setState({
       currentSection,
     })
+    this.enterScroll(currentSection)
+  }
+
+  _enterScroll(moduleId) {
+    const node = this.props.moduleMap[moduleId]
+    const offsetTop = moduleId === 'editorPick' ? node.offsetTop + this.props.headerSectionHeight : node.offsetTop
+    if (!isScrolling) {
+      smoothScroll(offsetTop)
+    }
   }
 
   _scrollTo(moduleId, e) {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     const node = this.props.moduleMap[moduleId]
-    const offsetTop = moduleId === 'editorPick' ? node.offsetTop + 278 : node.offsetTop
+    const offsetTop = moduleId === 'editorPick' ? node.offsetTop + this.props.headerSectionHeight : node.offsetTop
+    switchScrollState()
     if (node) {
-      return smoothScroll(offsetTop)
+      return smoothScroll(offsetTop, undefined, switchScrollState)
     }
     return null
   }
@@ -110,11 +128,13 @@ class Anchors extends React.Component {
 Anchors.defaultProps = {
   moduleMap: {},
   curretSection: '',
+  headerSectionHeight: 278,
 }
 
 Anchors.propTypes = {
   moduleMap: PropTypes.object,
   curretSection: PropTypes.string,
+  headerSectionHeight: PropTypes.number,
 }
 
 class SideBar extends React.Component {
@@ -125,6 +145,8 @@ class SideBar extends React.Component {
     }
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
+    this.handleOnEnterAuto = this._handleOnEnterAuto.bind(this)
+    this.headerSectionHeight = 278
     this.moduleMap = {}
     this.currentSection = ''
     this.previousSection = ''
@@ -139,11 +161,13 @@ class SideBar extends React.Component {
       }
     }
   }
+  componentDidMount() {
+    this.headerSectionHeight = document.getElementById('headerSectionHeight').offsetHeight
+  }
 
   componentWillUnmount() {
     this.moduleMap = {}
   }
-
   _handleOnEnter(nextSection) {
     this.anchorsNode.changeHighlight(nextSection)
     this.previousSection = this.currentSection
@@ -158,6 +182,10 @@ class SideBar extends React.Component {
     }
   }
 
+  _handleOnEnterAuto(moduleId) {
+    this.anchorsNode.changeHighlight(moduleId)
+  }
+
   render() {
     const webSiteContent = this.props.children.map((singleModule, index) => {
       const { moduleId } = singleModule.props
@@ -165,11 +193,11 @@ class SideBar extends React.Component {
         return (
           <Waypoint
             key={`Single_Module_${moduleId}`}
-            onLeave={() => { this.handleOnLeave(moduleId) }}
-            onEnter={() => { this.handleOnEnter(moduleId) }}
+            onLeave={() => {}}
+            onEnter={() => { this.handleOnEnterAuto(moduleId) }}
             fireOnRapidScroll
-            topOffset="4%"
-            bottomOffset={(index + 1) === this.props.children.length ? '50%' : '95%'}
+            topOffset="50%"
+            bottomOffset={(index + 1) === this.props.children.length ? '19%' : '40%'}
           >
             <div
               id={moduleId}
@@ -192,6 +220,7 @@ class SideBar extends React.Component {
             ref={(node) => { this.anchorsNode = node }}
             curretSection={anchorsList[0]}
             moduleMap={this.moduleMap}
+            headerSectionHeight={this.headerSectionHeight}
           />
         </Container>
         {webSiteContent}

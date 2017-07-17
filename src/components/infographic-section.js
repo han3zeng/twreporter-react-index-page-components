@@ -1,4 +1,4 @@
-// import BottomLink from './common-utils/bottom-link'
+import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
@@ -167,11 +167,9 @@ const A = styled.a`
   text-decoration: none;
 `
 
-  /*
 const More = styled.div`
   text-align: center;
 `
-*/
 
 class Infographic extends React.PureComponent {
   render() {
@@ -218,15 +216,23 @@ Infographic.propTypes = {
 
 class InfographicSection extends React.PureComponent {
   render() {
-    const { items } = this.props
+    const { items, moreURI } = this.props
     const listNumber = 3
 
     const postComps = items.slice(0, 6).map((item, index) => {
+      const leadingImg = _.get(item, 'leading_image_portrait')
+      let imgObj = _.get(item, 'hero_image')
+
+      if ((index === 0 || index === 5)) {
+        if (typeof _.get(leadingImg, 'resized_targets') === 'object') {
+          imgObj = leadingImg
+        }
+      }
       return (
         <Infographic
           key={_.get(item, 'id')}
           category={_.get(item, 'categories.[0].name')}
-          imgObj={_.get(item, 'hero_image')}
+          imgObj={imgObj}
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}
@@ -262,7 +268,7 @@ class InfographicSection extends React.PureComponent {
               {postComps}
             </MobileFlexSwipeable.SwipableFlexItems>
           </MobileList>
-          {/* <More><BottomLink text="更多多媒體新聞" isDarkBg /></More>*/}
+          <More><BottomLink path={moreURI} text="更多多媒體新聞" isDarkBg /></More>
         </Section>
       </Container>
     )
@@ -271,10 +277,12 @@ class InfographicSection extends React.PureComponent {
 
 InfographicSection.defaultProps = {
   items: [],
+  moreURI: 'categories/infographic',
 }
 
 InfographicSection.propTypes = {
   items: PropTypes.array,
+  moreURI: PropTypes.string,
 }
 
 export default InfographicSection

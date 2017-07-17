@@ -147,7 +147,7 @@ const More = styled.div`
 
 class Reviews extends React.PureComponent {
   render() {
-    const { data } = this.props
+    const { data, moreURI } = this.props
     const ReviewsItem = data.map((post) => {
       const style = _.get(post, 'style', '')
       const href = getHref(_.get(post, 'slug', 'error'), style)
@@ -207,7 +207,7 @@ class Reviews extends React.PureComponent {
         <More>
           <BottomLink
             text={moreText}
-            path={'category/reviews'}
+            path={moreURI}
           />
         </More>
       </Container>
@@ -217,10 +217,12 @@ class Reviews extends React.PureComponent {
 
 Reviews.defaultProps = {
   data: [],
+  moreURI: '/categories/reviews',
 }
 
 Reviews.propTypes = {
   data: PropTypes.array,
+  moreURI: PropTypes.string,
 }
 
 export default Reviews

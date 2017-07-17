@@ -162,7 +162,7 @@ class Category extends React.PureComponent {
           <More>
             <BottomLink
               text={`更多${_.get(item, 'listName')}`}
-              path={_.get(item, 'moreURL')}
+              path={_.get(item, 'moreURI')}
             />
           </More>
         </FlexItem>
@@ -214,7 +214,7 @@ Category.propTypes = {
     }),
     title: PropTypes.string.isRequired,
     listName: PropTypes.string.isRequired,
-    moreURL: PropTypes.string.isRequired,
+    moreURI: PropTypes.string.isRequired,
   })),
 }
 

@@ -1,4 +1,4 @@
-// import BottomLink from './common-utils/bottom-link'
+import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
@@ -133,11 +133,9 @@ const Overlay = styled.div`
   }
 `
 
-  /*
 const More = styled.div`
   text-align: center;
 `
-*/
 
 class Photography extends React.PureComponent {
   render() {
@@ -240,7 +238,7 @@ class PhotographySection extends React.Component {
   }
 
   render() {
-    const { items } = this.props
+    const { items, moreURI } = this.props
     const { eleTouchViewportTop, isAutoHover } = this.state
 
     const postComps = items.slice(0, this.itemsToShow).map((item, index) => {
@@ -286,7 +284,13 @@ class PhotographySection extends React.Component {
             <Listing>
               {postComps}
             </Listing>
-            {/* <More><BottomLink text="更多影像新聞" isDarkBg path="photography" /></More>*/}
+            <More>
+              <BottomLink
+                text="更多影像新聞"
+                isDarkBg
+                path={moreURI}
+              />
+            </More>
           </Section>
         </div>
       </Waypoint>
@@ -296,10 +300,12 @@ class PhotographySection extends React.Component {
 
 PhotographySection.defaultProps = {
   items: [],
+  moreURI: 'photography',
 }
 
 PhotographySection.propTypes = {
   items: PropTypes.array,
+  moreURI: PropTypes.string,
 }
 
 export default PhotographySection

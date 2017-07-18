@@ -5,29 +5,15 @@ import React from 'react'
 import styled from 'styled-components'
 import SearchBox from './search-box'
 import TRLink from './common-utils/twreporter-link'
-// import Waypoint from 'react-waypoint'
-import { headerPadding } from '../styles/common-variables'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 
-const mobileWidth = breakPoints.mobileMaxWidth
+export const headerPadding = {
+  desktop: '47px',
+  tablet: '34px',
+  mobile: '16px',
+}
 
-const Container = styled.div`
-  width: 100%;
-  background-color: white;
-  ${(props) => {
-    if (props.ifPinned) {
-      return `
-        position: absolute;
-        bottom: 0;
-      `
-    }
-    return `
-      position: fixed;
-      top: 0;
-    `
-  }};
-  z-index: 2;
-`
+const mobileWidth = breakPoints.mobileMaxWidth
 
 const ContentContainer = ContentWrapper.extend`
   height: 62px;
@@ -65,50 +51,22 @@ const LogoMobileContainer = styled.div`
   }
 `
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      ifPinned: false,
-    }
-    this.headerSectionHeight = 278
-    this.handleScroll = this._handleScroll.bind(this)
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
-    this.headerSectionHeight = document.getElementById('headerSectionHeight').offsetHeight
-  }
-
-  _handleScroll(e) {
-    if (e.srcElement.body.scrollTop >= this.headerSectionHeight) {
-      this.setState({
-        ifPinned: true,
-      })
-    } else {
-      this.setState({
-        ifPinned: false,
-      })
-    }
-  }
-
+class Header extends React.PureComponent {
   render() {
     return (
-      <Container ifPinned={this.state.ifPinned}>
-        <ContentContainer>
-          <LogoFrame>
-            <TRLink href={''}>
-              <LogoDesktopContainer>
-                <LogoDesktop width="220px" />
-              </LogoDesktopContainer>
-              <LogoMobileContainer>
-                <LogoMobile width="119px" />
-              </LogoMobileContainer>
-            </TRLink>
-          </LogoFrame>
-          <SearchBox />
-        </ContentContainer>
-      </Container>
+      <ContentContainer>
+        <LogoFrame>
+          <TRLink href={''}>
+            <LogoDesktopContainer>
+              <LogoDesktop width="220px" />
+            </LogoDesktopContainer>
+            <LogoMobileContainer>
+              <LogoMobile width="119px" />
+            </LogoMobileContainer>
+          </TRLink>
+        </LogoFrame>
+        <SearchBox />
+      </ContentContainer>
     )
   }
 }

@@ -13,7 +13,7 @@ import strings from '../constants/strings'
 import sectionStrings from '../constants/section-strings'
 import get from 'lodash/get'
 import styled from 'styled-components'
-import { breakPoints, finalMedia, media } from '../utils/style-utils'
+import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 
@@ -117,13 +117,14 @@ const Desc = styled.div`
     text-align: justify;
   }
   color: ${colors.textGrey};
-  ${media.tablet`
-    max-width: 240px;
+
+  ${finalMedia.desktop`
+    max-width: 323px;
   `}
 
-  @media (max-width: ${breakPoints.desktopMaxWidth}) {
-    max-width: 323px;
-  }
+  ${finalMedia.tablet`
+    max-width: 240px;
+  `}
 
   ${finalMedia.mobile`
     max-width: 100%;

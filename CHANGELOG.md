@@ -1,6 +1,10 @@
+### 1.0.15
+- Assemble Media Query
+- parallax scroll
+
 ### 1.0.14
 - add infographic more link
-- add photographic more link 
+- add photographic more link
 - change react props from moreURL to moreURI in category-section.js
 - use leading_image_portrait in infographic-section.js for portrait column
 

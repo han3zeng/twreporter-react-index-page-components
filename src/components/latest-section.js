@@ -1,12 +1,12 @@
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
-import Header from './header'
+import Header, { headerPadding } from './header'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
-import { fonts, headerPadding } from '../styles/common-variables'
+import { fonts } from '../styles/common-variables'
 import { getHref } from '../utils/getHref'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
@@ -113,7 +113,51 @@ const Title = styled.div`
   ${truncate('relative', 1.5, 4, '#f1f1f1', 'left')}
 `
 
-class HeaderSection extends React.PureComponent {
+const HeaderContainer = styled.div`
+  width: 100%;
+  background-color: white;
+  ${(props) => {
+    if (props.ifPinned) {
+      return `
+        position: absolute;
+        bottom: 0;
+      `
+    }
+    return `
+      position: fixed;
+      top: 0;
+    `
+  }};
+  z-index: 2;
+`
+
+class LatestSection extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      ifPinned: false,
+    }
+    this.latestSectionHeight = 278
+    this.handleScroll = this._handleScroll.bind(this)
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+    this.latestSectionHeight = document.getElementById('latestSectionHeight').offsetHeight
+  }
+
+  _handleScroll(e) {
+    if (e.srcElement.body.scrollTop >= this.latestSectionHeight) {
+      this.setState({
+        ifPinned: true,
+      })
+    } else {
+      this.setState({
+        ifPinned: false,
+      })
+    }
+  }
+
   render() {
     const latestItems = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
@@ -147,8 +191,10 @@ class HeaderSection extends React.PureComponent {
 
     return (
       <Container>
-        <Header />
-        <ContentContainer id="headerSectionHeight">
+        <HeaderContainer ifPinned={this.state.ifPinned}>
+          <Header />
+        </HeaderContainer>
+        <ContentContainer id="latestSectionHeight">
           {latestItems}
         </ContentContainer>
       </Container>
@@ -156,12 +202,12 @@ class HeaderSection extends React.PureComponent {
   }
 }
 
-HeaderSection.defaultProps = {
+LatestSection.defaultProps = {
   data: [],
 }
 
-HeaderSection.propTypes = {
+LatestSection.propTypes = {
   data: PropTypes.array,
 }
 
-export default HeaderSection
+export default LatestSection

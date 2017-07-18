@@ -9,8 +9,9 @@ import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
 import appConfig from '../conf/app-config.json'
-import { centerBlock, media, breakPoints } from '../utils/style-utils'
+import { centerBlock, finalMedia, breakPoints } from '../utils/style-utils'
 import { colors, fonts } from '../styles/common-variables'
+import { itemPlusPaddingWidthPct } from '../constants/mobile-mockup-specification'
 
 const mobileWidth = breakPoints.mobileMaxWidth
 const ContentContainer = Section.extend`
@@ -22,14 +23,17 @@ const TopContainer = styled.div`
   padding: 0 10px 5px 10px;
   ${centerBlock}
   font-size: ${fonts.size.medium};
-  ${media.largeMobile`
-    padding-left: 10%;
-    padding-right: 10%;
+  ${finalMedia.mobile`
+    padding-left: 5%;
+    padding-right: 5%;
   `}
   max-width: 660px;
   @media (max-width: ${breakPoints.desktopMaxWidth}) {
     max-width: 500px;
   }
+  ${finalMedia.mobile`
+    max-width: ${itemPlusPaddingWidthPct}%;
+  `}
 `
 
 const ReporterIconWrapper = styled.div`
@@ -45,9 +49,9 @@ const FlexContainer = styled.div`
   justify-content: space-around;
   padding: 0 4%;
   margin-top: 15px;
-  ${media.largeMobile`
+  ${finalMedia.mobile`
     flex: 1 100%;
-    padding: 10px 14.5%;
+    padding: 10px 9.5%;
   `}
 `
 
@@ -58,7 +62,7 @@ const Item = styled.div`
   width: 33%;
   margin: 10px 0;
   padding: 5px 3.6%;
-  ${media.largeMobile`
+  ${finalMedia.mobile`
     width: 100%;
     padding: 20px 20px;
   `}
@@ -67,7 +71,7 @@ const Item = styled.div`
 const ItemTitle = styled.h3`
   font-size: ${fonts.size.xlarge};
   font-weight: ${fonts.weight.bold};
-  ${media.largeMobile`
+  ${finalMedia.mobile`
     margin: 6px;
   `}
   color: ${colors.textGrey};
@@ -77,7 +81,7 @@ const ItemIconContainer = styled.div`
   width: 82px;
   height: 82px;
   margin: 40px auto;
-  ${media.largeMobile`
+  ${finalMedia.mobile`
     width: 60px;
     height: 60px;
     order: -1;
@@ -88,12 +92,10 @@ const ItemIconContainer = styled.div`
 const ItemDescription = styled.div`
   line-height: 1.5;
   font-size: ${fonts.size.medium};
-  ${media.largeMobile`
+  ${finalMedia.mobile`
     flex: 1 100%;
     font-size: ${fonts.size.medium};
     line-height: 1.43;
-  `}
-  ${media.mobile`
     font-size: ${fonts.size.large};
   `}
 `

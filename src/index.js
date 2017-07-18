@@ -3,7 +3,7 @@ import EditorPicks from './components/editor-picks'
 import Header from './components/header'
 import InforgraphicSection from './components/infographic-section'
 import LatestTopicSection from './components/latest-topic'
-import HeaderSection from './components/header-section'
+import LatestSection from './components/latest-section'
 import PhotographySection from './components/photography-section'
 import ReporterIntro from './components/reporter-intro'
 import ReviewsSection from './components/reviews'
@@ -18,7 +18,7 @@ export default {
     Header,
     InforgraphicSection,
     LatestTopicSection,
-    HeaderSection,
+    LatestSection,
     PhotographySection,
     ReporterIntro,
     ReviewsSection,

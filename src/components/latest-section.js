@@ -131,23 +131,22 @@ const HeaderContainer = styled.div`
   z-index: 2;
 `
 
-class LatestSection extends React.PureComponent {
+class LatestSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       ifPinned: false,
     }
-    this.latestSectionHeight = 278
     this.handleScroll = this._handleScroll.bind(this)
   }
 
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
-    this.latestSectionHeight = document.getElementById('latestSectionHeight').offsetHeight
   }
 
-  _handleScroll(e) {
-    if (e.srcElement.body.scrollTop >= this.latestSectionHeight) {
+  _handleScroll() {
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    if (currentScrollTop >= (this.ContentContainer.offsetHeight || 278)) {
       this.setState({
         ifPinned: true,
       })
@@ -194,7 +193,7 @@ class LatestSection extends React.PureComponent {
         <HeaderContainer ifPinned={this.state.ifPinned}>
           <Header />
         </HeaderContainer>
-        <ContentContainer id="latestSectionHeight">
+        <ContentContainer innerRef={(node) => { this.ContentContainer = node }}>
           {latestItems}
         </ContentContainer>
       </Container>

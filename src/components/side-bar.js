@@ -1,11 +1,13 @@
-import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Waypoint from 'react-waypoint'
 import sectionStrings from '../constants/section-strings'
 import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
+import ScrollFadein from './animations/scroll-fadein'
+import { breakPoints } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
+import { Link } from 'react-router'
 
 const anchorsList = []
 const moduleIdObj = {}
@@ -34,16 +36,13 @@ const Container = styled.div`
   color: ${colors.primaryColor};
   z-index: 2;
   right: ${props => (props.isSafari ? '30px' : '10px')};
-  margin-top: 93px;
-  @media (max-width: 1038px) {
-    right: 1px;
+  top: 93px;
+  @media (max-width: 1050px) {
+    right: ${props => (props.isSafari ? '21px' : '1px')};
   }
-  @media (max-width: 730px) {
+  @media (max-width: ${breakPoints.mobileMaxWidth}) {
     display: none;
   }
-  @media not all and (min-resolution:.001dpcm) { @media {
-    right: 30px;
-  }}
 `
 
 const SectionButton = styled.div`
@@ -78,8 +77,9 @@ class Anchors extends React.Component {
   _scrollTo(moduleId, e) {
     e.preventDefault()
     const node = this.props.moduleMap[moduleId]
+    const offsetTop = moduleId === 'editorPick' ? node.offsetTop + 278 : node.offsetTop
     if (node) {
-      return smoothScroll(node.offsetTop)
+      return smoothScroll(offsetTop)
     }
     return null
   }
@@ -126,8 +126,10 @@ class SideBar extends React.Component {
     }
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
+    this.handleOnFadeIn = this._handleOnFadeIn.bind(this)
     this.moduleMap = {}
-    this.currentSection = ''
+    this.fadeInSectionMap = {}
+    this.currentSection = 'editorPick'
     this.previousSection = ''
   }
 
@@ -143,6 +145,7 @@ class SideBar extends React.Component {
 
   componentWillUnmount() {
     this.moduleMap = {}
+    this.fadeInSectionMap = {}
   }
 
   _handleOnEnter(nextSection) {
@@ -157,6 +160,10 @@ class SideBar extends React.Component {
       this.anchorsNode.changeHighlight(this.previousSection)
       this.previousSection = onLeaveSection
     }
+  }
+
+  _handleOnFadeIn(upComingSection) {
+    this.fadeInSectionMap[upComingSection].startAnimation()
   }
 
   render() {
@@ -176,7 +183,21 @@ class SideBar extends React.Component {
               id={moduleId}
               ref={(node) => { this.moduleMap[moduleId] = node }}
             >
-              {singleModule}
+              <Waypoint
+                onEnter={() => { this.handleOnFadeIn(moduleId) }}
+                fireOnRapidScroll
+                topOffset="80%"
+                bottomOffset="19%"
+              >
+                <div>
+                  <ScrollFadein
+                    ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
+                    moduleId={moduleId}
+                  >
+                    {singleModule}
+                  </ScrollFadein>
+                </div>
+              </Waypoint>
             </div>
           </Waypoint>
         )

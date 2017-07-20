@@ -7,39 +7,6 @@ export const centerBlock = `
   margin-right: auto;
 `
 
-export const media = {
-  mobile: (...args) => css`
-    @media (max-width: 414px) {
-      ${css(...args)}
-    }
-  `,
-  iPhone5: (...args) => css`
-    @media (max-width: 320px) {
-      ${css(...args)}
-    }
-  `,
-  iPhone6: (...args) => css`
-    @media (max-width: 375px) {
-      ${css(...args)}
-    }
-  `,
-  iPhone6Plus: (...args) => css`
-    @media (max-width: 414px) {
-      ${css(...args)}
-    }
-  `,
-  largeMobile: (...args) => css`
-    @media (max-width: 650px) {
-      ${css(...args)}
-    }
-  `,
-  tablet: (...args) => css`
-    @media (max-width: 768px) {
-      ${css(...args)}
-    }
-  `,
-}
-
 export const breakPoints = {
   overDesktopMinWidth: '1440px',
   desktopMaxWidth: '1439px',

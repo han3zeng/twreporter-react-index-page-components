@@ -17,19 +17,19 @@ import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
-import { truncate } from '../utils/style-utils'
+import { truncate, breakPoints } from '../utils/style-utils'
 
 const _ = {
   get,
 }
 
 const numberOfSwipableItems = 5
-const mobileWidth = '721px'
+const mobileWidth = breakPoints.mobileMaxWidth
 
 const CarouselContainer = Section.extend`
   padding-top: 0;
   background: ${colors.sectionWhite};
-  @media (min-width: ${mobileWidth}) {
+  @media (min-width: ${breakPoints.tabletMinWidth}) {
     display: none;
   }
 `

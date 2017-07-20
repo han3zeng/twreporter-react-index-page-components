@@ -12,21 +12,18 @@ import styled from 'styled-components'
 import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
+import { breakPoints, finalMedia, truncate } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
-import { truncate } from '../utils/style-utils'
 
 const _ = {
   get,
 }
 
 const categoryPrefix = strings.topic + strings.fullShapeDot
-const mobileWidth = '730px'
-const tabletWidth = '914px'
-const desktopWidth = '1024px'
-
+const mobileWidth = breakPoints.mobileMaxWidth
 const Container = styled.div`
   background-color: #f2f2f2;
 `
@@ -38,9 +35,9 @@ const ContentContainer = Section.extend`
 const TopicFrame = styled.div`
   width: 447px;
   margin: 0 auto;
-  @media (max-width: ${mobileWidth}) {
+  ${finalMedia.mobile`
     width: 100%;
-  }
+  `}
 `
 
 const Title = styled.div`
@@ -51,10 +48,10 @@ const Title = styled.div`
   color: ${colors.textGrey};
   text-align: center;
   margin: 2px auto 0 auto;
-  @media (max-width: ${mobileWidth}) {
+  ${finalMedia.mobile`
     font-size: ${fonts.size.title.medium};
     width: ${itemWidthPct}%;
-  }
+  `}
 `
 
 const Description = styled.div`
@@ -64,10 +61,10 @@ const Description = styled.div`
   line-height: 1.5;
   text-align: justify;
   color: ${colors.textGrey};
-  @media (max-width: ${mobileWidth}) {
+  ${finalMedia.mobile`
     width: ${itemWidthPct}%;
     margin: 6px auto 0 auto;
-  }
+  `}
 `
 
 // container for relateds FlexItem
@@ -76,29 +73,31 @@ const FlexBox = styled.div`
   min-height: 335px;
   padding: 0 45px;
   display: flex;
-  justify-content: space-between;
-  @media (max-width: ${mobileWidth}) {
+  justify-content: center;
+  ${finalMedia.tablet`
+    padding: 0 34px;
+  `}
+  ${finalMedia.mobile`
     display: none;
-  }
+  `}
 `
 
 // container for each related articles
 const FlexItem = styled.div`
   min-height: 335px;
-  max-width: 426px;
-  @medai  (max-width: ${desktopWidth}) {
-    max-width: 290px;
-  }
+  width: 426px;
   &:nth-child(2) {
     margin: 0 20px;
   }
-  @media (max-width: ${tabletWidth}) {
-    max-width: 219px;
-  }
-
-  @media (max-width: ${mobileWidth}) {
-    max-width: 100%;
-  }
+  ${finalMedia.desktop`
+    width: 290px;
+  `}
+  ${finalMedia.tablet`
+    width: 219px;
+  `}
+  ${finalMedia.mobile`
+    width: 100%;
+  `}
 `
 
 const MobileList = MobileListUtils.extend`
@@ -120,9 +119,6 @@ const RelatedTitle = styled.div`
   font-size: ${fonts.size.title.base};
   font-weight: ${fonts.weight.semiBold};
   color: ${colors.textGrey};
-  @media (max-width: ${tabletWidth}) {
-    width: 100%;
-  }
   ${truncate('relative', 1.5, 2, '#f2f2f2')};
 `
 
@@ -133,9 +129,6 @@ const RelatedDescription = styled.div`
   line-height: 20px;
   color: ${colors.textGrey};
   ${truncate('relative', 1.43, 3, '#f2f2f2')};
-  @media (max-width: ${tabletWidth}) {
-    width: 100%;
-  }
 `
 const MoreFrame = styled.div`
   margin: 60px auto 0 auto;
@@ -146,9 +139,15 @@ const MoreFrame = styled.div`
 
 const ImgFrame = styled.div`
   height: 274px;
-  @media (max-width: ${desktopWidth}) {
+  ${finalMedia.desktop`
     height: 186px;
-  }
+  `}
+  ${finalMedia.tablet`
+    height: 140px;
+  `}
+  ${finalMedia.mobile`
+    height: 186px;
+  `}
 `
 
 class LatestTopic extends React.PureComponent {
@@ -172,20 +171,18 @@ class LatestTopic extends React.PureComponent {
                 srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
               />
             </ImgFrame>
-          </TRLink>
-          <RelatedsContentFrame>
-            <RelatedCategory>
-              {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
-            </RelatedCategory>
-            <TRLink href={href} redirect={style === 'interactive'}>
+            <RelatedsContentFrame>
+              <RelatedCategory>
+                {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
+              </RelatedCategory>
               <RelatedTitle>
                 {_.get(post, 'title', '')}
               </RelatedTitle>
-            </TRLink>
-            <RelatedDescription>
-              {_.get(post, 'og_description', '')}
-            </RelatedDescription>
-          </RelatedsContentFrame>
+              <RelatedDescription>
+                {_.get(post, 'og_description', '')}
+              </RelatedDescription>
+            </RelatedsContentFrame>
+          </TRLink>
         </FlexItem>
       )
     })

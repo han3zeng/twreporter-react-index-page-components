@@ -1,29 +1,30 @@
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
+import Header, { headerPadding } from './header'
+import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
-import { fonts, headerPadding } from '../styles/common-variables'
+import { fonts } from '../styles/common-variables'
 import { getHref } from '../utils/getHref'
-import { truncate } from '../utils/style-utils'
+import { getImageSrcSet } from '../utils/image-processor'
+import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
+
 
 const _ = {
   get,
 }
 
-const desktopMidWidth = '1300px'
-const desktopMinWidth = '1140px'
-const tabletMaxWidth = '1023px'
-const tabletMidWidth = '916px'
-const tabletMinWidth = '761px'
 const mobileMaxWidth = '600px'
 const mobileMidWidth = '550px'
 const mobileMinWidth = '414px'
 
 const Container = styled.div`
+  padding-top: 62px;
   background-color: #f2f2f2;
+  position: relative;
 `
 
 const ContentContainer = ContentWrapper.extend`
@@ -31,15 +32,12 @@ const ContentContainer = ContentWrapper.extend`
   padding: 30px ${headerPadding.desktop};
   overflow-x: hidden;
   justify-content: space-between;
-  @media (max-width: ${tabletMidWidth}) {
+  ${finalMedia.tablet`
     padding: 30px ${headerPadding.tablet};
-  }
-  @media (max-width: ${tabletMidWidth}) {
-    padding: 30px ${headerPadding.tablet};
-  }
-  @media (max-width: ${mobileMidWidth}) {
+  `}
+  ${finalMedia.mobile`
     padding: 30px ${headerPadding.mobile};
-  }
+  `}
 `
 const ItemFrame = styled.div`
   width: 200px;
@@ -48,23 +46,17 @@ const ItemFrame = styled.div`
   &:first-child {
     margin: 0;
   }
-  @media (max-width: ${desktopMinWidth}) {
-    width: 130px;
-  }
-  @media (max-width: ${tabletMaxWidth}) {
-    width: 159px;
+  @media (max-width: ${breakPoints.tabletMaxWidth}) {
+    width: 189px;
     margin-left: 20px;
     &:nth-child(6) {
       display: none;
     }
-  }
-  @media (max-width: ${tabletMidWidth}) {
-    width: 189px;
     &:nth-child(5) {
       display: none;
     }
   }
-  @media (max-width: ${tabletMinWidth}) {
+  @media (max-width: ${breakPoints.mobileMaxWidth}) {
     &:nth-child(4) {
       display: none;
     }
@@ -80,25 +72,19 @@ const ItemFrame = styled.div`
   }
 `
 
-const Image = styled.div`
+const ImageFrame = styled.div`
   width: 100%;
   height: 128px;
   background: ${props => (props.background ? `url(${props.background})` : 'backgroun-image')};
   background-size: cover;
   background-position: center;
   display: block;
-  @media (max-width: ${desktopMidWidth}) {
-    height: 110px;
-  }
-  @media (max-width: ${desktopMinWidth}) {
+  ${finalMedia.desktop`
     height: 90px;
-  }
-  @media (max-width: ${tabletMaxWidth}) {
-    height: 100px;
-  }
-  @media (max-width: ${tabletMidWidth}) {
+  `}
+  ${finalMedia.tablet`
     height: 110px;
-  }
+  `}
   @media (max-width: ${mobileMaxWidth}) {
     height: 100px;
   }
@@ -129,7 +115,52 @@ const Title = styled.div`
   ${truncate('relative', 1.5, 4, '#f1f1f1', 'left')}
 `
 
-class Latest extends React.PureComponent {
+const HeaderContainer = styled.div`
+  width: 100%;
+  background-color: white;
+  ${(props) => {
+    if (props.ifPinned) {
+      return `
+        position: absolute;
+        bottom: 0;
+      `
+    }
+    return `
+      position: fixed;
+      top: 0;
+    `
+  }};
+  z-index: 2;
+`
+
+class LatestSection extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      ifPinned: false,
+    }
+    this.handleScroll = this._handleScroll.bind(this)
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  _handleScroll() {
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    if (this.ContentContainer) {
+      if (currentScrollTop >= (this.ContentContainer.offsetHeight || 278)) {
+        this.setState({
+          ifPinned: true,
+        })
+      } else {
+        this.setState({
+          ifPinned: false,
+        })
+      }
+    }
+  }
+
   render() {
     const latestItems = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
@@ -142,28 +173,30 @@ class Latest extends React.PureComponent {
             href={href}
             redirect={style === 'interactive'}
           >
-            <Image
-              background={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
-            />
-          </TRLink>
-          <ContentFrame>
-            <Category>
-              {_.get(item, 'categories[0].name', '')}
-            </Category>
-            <TRLink
-              href={href}
-              redirect={style === 'interactive'}
-            >
+            <ImageFrame>
+              <ImgWrapper
+                alt={_.get(item, 'hero_image.description', '')}
+                src={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
+                srcSet={getImageSrcSet(_.get(item, 'hero_image'))}
+              />
+            </ImageFrame>
+            <ContentFrame>
+              <Category>
+                {_.get(item, 'categories[0].name', '')}
+              </Category>
               <Title>{_.get(item, 'title', '')}</Title>
-            </TRLink>
-          </ContentFrame>
+            </ContentFrame>
+          </TRLink>
         </ItemFrame>
       )
     })
 
     return (
       <Container>
-        <ContentContainer>
+        <HeaderContainer ifPinned={this.state.ifPinned}>
+          <Header />
+        </HeaderContainer>
+        <ContentContainer id="latestSection" innerRef={(node) => { this.ContentContainer = node }}>
           {latestItems}
         </ContentContainer>
       </Container>
@@ -171,12 +204,12 @@ class Latest extends React.PureComponent {
   }
 }
 
-Latest.defaultProps = {
+LatestSection.defaultProps = {
   data: [],
 }
 
-Latest.propTypes = {
+LatestSection.propTypes = {
   data: PropTypes.array,
 }
 
-export default Latest
+export default LatestSection

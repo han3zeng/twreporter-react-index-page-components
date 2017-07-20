@@ -193,7 +193,7 @@ class LatestSection extends React.Component {
         <HeaderContainer ifPinned={this.state.ifPinned}>
           <Header />
         </HeaderContainer>
-        <ContentContainer innerRef={(node) => { this.ContentContainer = node }}>
+        <ContentContainer id="latestSection" innerRef={(node) => { this.ContentContainer = node }}>
           {latestItems}
         </ContentContainer>
       </Container>

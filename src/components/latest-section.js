@@ -1,6 +1,7 @@
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
 import Header, { headerPadding } from './header'
+import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -8,6 +9,7 @@ import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
 import { fonts } from '../styles/common-variables'
 import { getHref } from '../utils/getHref'
+import { getImageSrcSet } from '../utils/image-processor'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
 
@@ -70,7 +72,7 @@ const ItemFrame = styled.div`
   }
 `
 
-const Image = styled.div`
+const ImageFrame = styled.div`
   width: 100%;
   height: 128px;
   background: ${props => (props.background ? `url(${props.background})` : 'backgroun-image')};
@@ -146,14 +148,16 @@ class LatestSection extends React.Component {
 
   _handleScroll() {
     const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-    if (currentScrollTop >= (this.ContentContainer.offsetHeight || 278)) {
-      this.setState({
-        ifPinned: true,
-      })
-    } else {
-      this.setState({
-        ifPinned: false,
-      })
+    if (this.ContentContainer) {
+      if (currentScrollTop >= (this.ContentContainer.offsetHeight || 278)) {
+        this.setState({
+          ifPinned: true,
+        })
+      } else {
+        this.setState({
+          ifPinned: false,
+        })
+      }
     }
   }
 
@@ -169,21 +173,20 @@ class LatestSection extends React.Component {
             href={href}
             redirect={style === 'interactive'}
           >
-            <Image
-              background={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
-            />
-          </TRLink>
-          <ContentFrame>
-            <Category>
-              {_.get(item, 'categories[0].name', '')}
-            </Category>
-            <TRLink
-              href={href}
-              redirect={style === 'interactive'}
-            >
+            <ImageFrame>
+              <ImgWrapper
+                alt={_.get(item, 'hero_image.description', '')}
+                src={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
+                srcSet={getImageSrcSet(_.get(item, 'hero_image'))}
+              />
+            </ImageFrame>
+            <ContentFrame>
+              <Category>
+                {_.get(item, 'categories[0].name', '')}
+              </Category>
               <Title>{_.get(item, 'title', '')}</Title>
-            </TRLink>
-          </ContentFrame>
+            </ContentFrame>
+          </TRLink>
         </ItemFrame>
       )
     })

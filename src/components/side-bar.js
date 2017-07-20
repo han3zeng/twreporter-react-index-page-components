@@ -1,12 +1,13 @@
-import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Waypoint from 'react-waypoint'
 import sectionStrings from '../constants/section-strings'
 import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
-import { fonts, colors } from '../styles/common-variables'
+import ScrollFadein from './animations/scroll-fadein'
 import { breakPoints } from '../utils/style-utils'
+import { fonts, colors } from '../styles/common-variables'
+import { Link } from 'react-router'
 
 const anchorsList = []
 const moduleIdObj = {}
@@ -125,8 +126,10 @@ class SideBar extends React.Component {
     }
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
+    this.handleOnFadeIn = this._handleOnFadeIn.bind(this)
     this.moduleMap = {}
-    this.currentSection = ''
+    this.fadeInSectionMap = {}
+    this.currentSection = 'editorPick'
     this.previousSection = ''
   }
 
@@ -142,6 +145,7 @@ class SideBar extends React.Component {
 
   componentWillUnmount() {
     this.moduleMap = {}
+    this.fadeInSectionMap = {}
   }
 
   _handleOnEnter(nextSection) {
@@ -156,6 +160,10 @@ class SideBar extends React.Component {
       this.anchorsNode.changeHighlight(this.previousSection)
       this.previousSection = onLeaveSection
     }
+  }
+
+  _handleOnFadeIn(upComingSection) {
+    this.fadeInSectionMap[upComingSection].startAnimation()
   }
 
   render() {
@@ -175,7 +183,21 @@ class SideBar extends React.Component {
               id={moduleId}
               ref={(node) => { this.moduleMap[moduleId] = node }}
             >
-              {singleModule}
+              <Waypoint
+                onEnter={() => { this.handleOnFadeIn(moduleId) }}
+                fireOnRapidScroll
+                topOffset="80%"
+                bottomOffset="19%"
+              >
+                <div>
+                  <ScrollFadein
+                    ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
+                    moduleId={moduleId}
+                  >
+                    {singleModule}
+                  </ScrollFadein>
+                </div>
+              </Waypoint>
             </div>
           </Waypoint>
         )

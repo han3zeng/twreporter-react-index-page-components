@@ -148,14 +148,12 @@ class Category extends React.PureComponent {
                 src={_.get(item, 'img.src')}
               />
             </ImgFrame>
-          </TRLink>
-          <TextFrame>
-            <TRLink href={href} redirect={style === 'interactive'}>
+            <TextFrame>
               <Title>
                 {_.get(item, 'title')}
               </Title>
-            </TRLink>
-          </TextFrame>
+            </TextFrame>
+          </TRLink>
           <More>
             <BottomLink
               text={`更多${_.get(item, 'listName')}`}

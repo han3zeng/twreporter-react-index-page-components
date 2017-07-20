@@ -171,20 +171,18 @@ class LatestTopic extends React.PureComponent {
                 srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
               />
             </ImgFrame>
-          </TRLink>
-          <RelatedsContentFrame>
-            <RelatedCategory>
-              {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
-            </RelatedCategory>
-            <TRLink href={href} redirect={style === 'interactive'}>
+            <RelatedsContentFrame>
+              <RelatedCategory>
+                {`${categoryPrefix}${_.get(data, 'topic_name', '')}`}
+              </RelatedCategory>
               <RelatedTitle>
                 {_.get(post, 'title', '')}
               </RelatedTitle>
-            </TRLink>
-            <RelatedDescription>
-              {_.get(post, 'og_description', '')}
-            </RelatedDescription>
-          </RelatedsContentFrame>
+              <RelatedDescription>
+                {_.get(post, 'og_description', '')}
+              </RelatedDescription>
+            </RelatedsContentFrame>
+          </TRLink>
         </FlexItem>
       )
     })

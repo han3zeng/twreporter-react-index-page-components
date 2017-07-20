@@ -96,7 +96,7 @@ const Item = styled.div`
 
   @media (min-width: ${oneColumnWidth}) {
     &:hover {
-      box-shadow: 5px 5px 10px grey;
+      opacity: 0.7;
     }
   }
 `

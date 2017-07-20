@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { replaceStorageUrlPrefix } from '../../utils/url-processor'
 
 const _ = {
   get,
@@ -52,14 +53,14 @@ class ImgWrapper extends React.Component {
       <ImgObjectFit>
         <img
           alt={alt}
-          src={src}
+          src={replaceStorageUrlPrefix(src)}
           srcSet={srcSet}
         />
         {this.props.children}
       </ImgObjectFit>
     ) : (
       <ImgFallback
-        url={src}
+        url={replaceStorageUrlPrefix(src)}
       >
         {this.props.children}
       </ImgFallback>

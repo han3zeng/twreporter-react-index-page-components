@@ -40,7 +40,7 @@ const FlexItem = styled.div`
   margin-right: 20%;
   margin-top: ${props => (props.middle ? '-770px' : '16px')};
   transform: ${props => (props.selected !== 0 ? `translateX(-${(props.selected - 1) * (200)}%)` : 'translateX(200%)')};
-  transition: 500ms all linear;
+  transition: 500ms transform linear, 500ms margin-top linear;
   position: relative;
   cursor: pointer;
   @media (max-width: ${breakPoints.desktopMaxWidth}) {
@@ -110,9 +110,6 @@ const Title = styled.div`
   left: 50%;
   transform: translateX(-50%);
   overflow: hidden;
-  &:hover {
-    text-decoration:${props => (props.middle ? 'underline' : '')};
-  }
   @media (max-width: ${breakPoints.tabletMaxWidth}) {
     width: ${props => (props.middle ? '450px' : '100px')};
   }
@@ -134,9 +131,12 @@ class EditorPicks extends React.Component {
     super(props)
     this.state = {
       selected: 1,
+      ifHover: false,
     }
     this.onShiftToLeft = this._onShiftToLeft.bind(this)
     this.onShiftToRight = this._onShiftToRight.bind(this)
+    this.handleOnMouseEnter = this._handleOnMouseEnter.bind(this)
+    this.handleOnMouseLeave = this._handleOnMouseLeave.bind(this)
   }
 
   _onShiftToLeft() {
@@ -153,6 +153,18 @@ class EditorPicks extends React.Component {
         selected: this.state.selected - 1,
       })
     }
+  }
+
+  _handleOnMouseEnter() {
+    this.setState({
+      ifHover: true,
+    })
+  }
+
+  _handleOnMouseLeave() {
+    this.setState({
+      ifHover: false,
+    })
   }
 
   render() {
@@ -187,8 +199,12 @@ class EditorPicks extends React.Component {
             key={`key_${obj.title}`}
           >
             { i === this.state.selected ?
-              <TRLink href={href} redirect={style === 'interactive'}>
-                <Title middle={propsMap.middle}>
+              <TRLink href={href} redirect={style === 'interactive'} codeHover={this.state.ifHover}>
+                <Title
+                  middle={propsMap.middle}
+                  onMouseEnter={this.handleOnMouseEnter}
+                  onMouseLeave={this.handleOnMouseLeave}
+                >
                   <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
                 </Title>
               </TRLink>
@@ -270,7 +286,7 @@ class EditorPicks extends React.Component {
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(hero_image, 'description')}
-                src={_.get(hero_image, 'resized_targets.tablet.url')}
+                src={_.get(hero_image, 'resized_targets.mobile.url')}
                 srcSet={getImageSrcSet(hero_image)}
               />
             </ImgFrame>

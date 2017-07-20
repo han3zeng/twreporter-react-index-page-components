@@ -140,20 +140,18 @@ class Reviews extends React.PureComponent {
                 srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
               />
             </ImgFrame>
-          </TRLink>
-          <TextFrame>
-            <Category>
-              {_.get(post, 'subtitle', '')}
-            </Category>
-            <TRLink href={href} redirect={style === 'interactive'}>
+            <TextFrame>
+              <Category>
+                {_.get(post, 'subtitle', '')}
+              </Category>
               <Title>
                 {_.get(post, 'title', '')}
               </Title>
-            </TRLink>
-            <Description>
-              {_.get(post, 'og_description', '')}
-            </Description>
-          </TextFrame>
+              <Description>
+                {_.get(post, 'og_description', '')}
+              </Description>
+            </TextFrame>
+          </TRLink>
         </FlexItem>
       )
     })

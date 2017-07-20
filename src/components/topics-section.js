@@ -145,13 +145,11 @@ class Topic extends React.PureComponent {
     const href = `topics/${slug}`
     return (
       <Item>
-        <TopicName>{`${strings.topic}${strings.fullShapeDot}${topicName}`}</TopicName>
         <TRLink href={href}>
+          <TopicName>{`${strings.topic}${strings.fullShapeDot}${topicName}`}</TopicName>
           <Title>
             {title}
           </Title>
-        </TRLink>
-        <TRLink href={href}>
           <Img>
             <ImgWrapper
               src={_.get(imgObj, 'resized_targets.mobile.url')}
@@ -159,15 +157,15 @@ class Topic extends React.PureComponent {
               srcSet={getImageSrcSet(imgObj)}
             />
           </Img>
+          <Desc>
+            <TruncatText
+              backgroundColor={'#f2f2f2'}
+              lines={7}
+              lineHeight={1.5}
+              dangerouslySetInnerHTML={{ __html: desc }}
+            />
+          </Desc>
         </TRLink>
-        <Desc>
-          <TruncatText
-            backgroundColor={'#f2f2f2'}
-            lines={7}
-            lineHeight={1.5}
-            dangerouslySetInnerHTML={{ __html: desc }}
-          />
-        </Desc>
       </Item>
     )
   }

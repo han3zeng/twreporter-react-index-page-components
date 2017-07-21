@@ -1,6 +1,7 @@
 ### 1.0.15
 - Assemble Media Query
 - parallax scroll
+- Replace google storage url to twreporter url
 
 ### 1.0.14
 - add infographic more link

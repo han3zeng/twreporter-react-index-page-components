@@ -152,7 +152,7 @@ class Topic extends React.PureComponent {
           </Title>
           <Img>
             <ImgWrapper
-              src={_.get(imgObj, 'resized_targets.mobile.url')}
+              src={_.get(imgObj, 'resized_targets.tiny.url')}
               alt={_.get(imgObj, 'description')}
               srcSet={getImageSrcSet(imgObj)}
             />

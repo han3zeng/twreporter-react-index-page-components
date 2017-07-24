@@ -147,7 +147,7 @@ class Photography extends React.PureComponent {
           <Img>
             <ImgWrapper
               alt={_.get(imgObj, 'description')}
-              src={_.get(imgObj, 'resized_targets.mobile.url')}
+              src={_.get(imgObj, 'resized_targets.tiny.url')}
               srcSet={getImageSrcSet(imgObj)}
             >
               <Overlay

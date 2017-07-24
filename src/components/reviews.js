@@ -136,7 +136,7 @@ class Reviews extends React.PureComponent {
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
-                src={_.get(post, 'hero_image.resized_targets.mobile.url')}
+                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
                 srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
               />
             </ImgFrame>

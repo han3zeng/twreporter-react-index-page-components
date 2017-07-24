@@ -321,7 +321,7 @@ class EditorPicks extends React.Component {
               >
                 <ImgWrapper
                   alt={_.get(hero_image, 'description')}
-                  src={_.get(hero_image, 'resized_targets.mobile.url')}
+                  src={_.get(hero_image, 'resized_targets.tiny.url')}
                   srcSet={getImageSrcSet(hero_image)}
                 />
               </ImgFrame>

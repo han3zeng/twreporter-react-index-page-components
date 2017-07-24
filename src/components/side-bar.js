@@ -77,7 +77,7 @@ class Anchors extends React.Component {
   _scrollTo(moduleId, e) {
     e.preventDefault()
     const node = this.props.moduleMap[moduleId]
-    const offsetTop = moduleId === 'editorPick' ? node.offsetTop + 278 : node.offsetTop
+    const offsetTop = moduleId === anchorsList[0] ? node.offsetTop + 278 : node.offsetTop
     if (node) {
       return smoothScroll(offsetTop)
     }
@@ -129,7 +129,7 @@ class SideBar extends React.Component {
     this.handleOnFadeIn = this._handleOnFadeIn.bind(this)
     this.moduleMap = {}
     this.fadeInSectionMap = {}
-    this.currentSection = 'editorPick'
+    this.currentSection = anchorsList[0]
     this.previousSection = ''
   }
 
@@ -163,7 +163,9 @@ class SideBar extends React.Component {
   }
 
   _handleOnFadeIn(upComingSection) {
-    this.fadeInSectionMap[upComingSection].startAnimation()
+    if (upComingSection !== anchorsList[0]) {
+      this.fadeInSectionMap[upComingSection].startAnimation()
+    }
   }
 
   render() {
@@ -189,14 +191,20 @@ class SideBar extends React.Component {
                 topOffset="80%"
                 bottomOffset="19%"
               >
-                <div>
-                  <ScrollFadein
-                    ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
-                    moduleId={moduleId}
-                  >
-                    {singleModule}
-                  </ScrollFadein>
-                </div>
+                { moduleId === anchorsList[0] ?
+                  <div>
+                    { singleModule }
+                  </div>
+                  :
+                  <div>
+                    <ScrollFadein
+                      ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
+                      moduleId={moduleId}
+                    >
+                      {singleModule}
+                    </ScrollFadein>
+                  </div>
+                }
               </Waypoint>
             </div>
           </Waypoint>

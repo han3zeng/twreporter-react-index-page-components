@@ -115,14 +115,27 @@ const Title = styled.div`
   }
 `
 const Description = styled.div`
+  position: absolute;
   font-size: ${fonts.size.medium};
   width: 450px;
   top: ${props => (props.top ? props.top : '0')};
   left: ${props => (props.left ? props.left : '0')};
   color: ${colors.textGrey};
   transform: translateX(-50%);
-  overflow: hidden;
   ${truncate('absolute', 1.43, 2, 'white')};
+  @media (min-width: ${breakPoints.tabletMinWidth}) {
+    ${props => (props.ifHover ? 'opacity: 0.7' : '')};
+  }
+  z-index: 2;
+`
+
+const HoverEffect = styled.div`
+  cursor: pointer;
+  text-decoration: none;
+  color: ${colors.textGrey};
+  @media (min-width: ${breakPoints.tabletMinWidth}) {
+    ${props => (props.ifHover ? 'opacity: 0.7' : 'opacity: 1')};
+  }
 `
 
 // this is a container
@@ -199,14 +212,16 @@ class EditorPicks extends React.Component {
             key={`key_${obj.title}`}
           >
             { i === this.state.selected ?
-              <TRLink href={href} redirect={style === 'interactive'} codeHover={this.state.ifHover}>
-                <Title
-                  middle={propsMap.middle}
-                  onMouseEnter={this.handleOnMouseEnter}
-                  onMouseLeave={this.handleOnMouseLeave}
-                >
-                  <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
-                </Title>
+              <TRLink href={href} redirect={style === 'interactive'} plain>
+                <HoverEffect ifHover={this.state.ifHover}>
+                  <Title
+                    middle={propsMap.middle}
+                    onMouseEnter={this.handleOnMouseEnter}
+                    onMouseLeave={this.handleOnMouseLeave}
+                  >
+                    <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
+                  </Title>
+                </HoverEffect>
               </TRLink>
             :
               <Title middle={propsMap.middle}>
@@ -250,6 +265,8 @@ class EditorPicks extends React.Component {
 
       return propList.map((theProp) => {
         return data.map((post, index) => {
+          const style = _.get(post, 'style', '')
+          const href = getHref(_.get(post, 'slug', 'error'), style)
           const currentData = _.get(post, theProp.dataPath, '')
           const selectDataToShow = {
             left: this.state.selected - 1,
@@ -261,12 +278,26 @@ class EditorPicks extends React.Component {
               key={_.get(post, 'id')}
               isSelected={index === selectDataToShow[theProp.position]}
             >
-              <theProp.component
-                top={theProp.propsForComponent.top}
-                left={theProp.propsForComponent.left}
-              >
-                {currentData}
-              </theProp.component>
+              { theProp.dataPath === 'og_description' ?
+                <TRLink href={href} redirect={style === 'interactive'} plain>
+                  <theProp.component
+                    ifHover={this.state.ifHover}
+                    top={theProp.propsForComponent.top}
+                    left={theProp.propsForComponent.left}
+                    onMouseEnter={this.handleOnMouseEnter}
+                    onMouseLeave={this.handleOnMouseLeave}
+                  >
+                    {currentData}
+                  </theProp.component>
+                </TRLink>
+                :
+                <theProp.component
+                  top={theProp.propsForComponent.top}
+                  left={theProp.propsForComponent.left}
+                >
+                  {currentData}
+                </theProp.component>
+              }
             </FadeInFadeOut>
           )
         })
@@ -282,14 +313,19 @@ class EditorPicks extends React.Component {
           key={_.get(post, 'hero_image.id')}
           isSelected={index === this.state.selected}
         >
-          <TRLink href={href} redirect={style === 'interactive'}>
-            <ImgFrame>
-              <ImgWrapper
-                alt={_.get(hero_image, 'description')}
-                src={_.get(hero_image, 'resized_targets.mobile.url')}
-                srcSet={getImageSrcSet(hero_image)}
-              />
-            </ImgFrame>
+          <TRLink href={href} redirect={style === 'interactive'} plain>
+            <HoverEffect ifHover={this.state.ifHover}>
+              <ImgFrame
+                onMouseEnter={this.handleOnMouseEnter}
+                onMouseLeave={this.handleOnMouseLeave}
+              >
+                <ImgWrapper
+                  alt={_.get(hero_image, 'description')}
+                  src={_.get(hero_image, 'resized_targets.mobile.url')}
+                  srcSet={getImageSrcSet(hero_image)}
+                />
+              </ImgFrame>
+            </HoverEffect>
           </TRLink>
         </FadeInFadeOut>
       )
@@ -298,8 +334,8 @@ class EditorPicks extends React.Component {
     return (
       <div>
         <CarouselContainer>
-          {Types}
           <FlexContainer>
+            {Types}
             {Images}
             {FlexItems}
           </FlexContainer>

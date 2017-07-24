@@ -42,10 +42,10 @@ const UpperList = styled.div`
 const LowerList = UpperList.extend`
   align-items: flex-end;
   margin-top: -282px;
+  margin-bottom: 59px;
 
   ${finalMedia.desktop`
     margin-top: -170px;
-    margin-bottom: 59px;
   `}
 
   ${finalMedia.tablet`

@@ -2,6 +2,11 @@
 - Assemble Media Query
 - parallax scroll
 - Replace google storage url to twreporter url
+- Two Types of TRLink (with style or without)
+- FadeIn Section 0.5 -> 1
+- Remove First Module from FadeIn Animation
+- Remove Hover Effect from mobile device
+- Editor Pick Section: At first scene, only display selected divs
 
 ### 1.0.14
 - add infographic more link

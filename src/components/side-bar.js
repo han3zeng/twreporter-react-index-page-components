@@ -163,7 +163,9 @@ class SideBar extends React.Component {
   }
 
   _handleOnFadeIn(upComingSection) {
-    this.fadeInSectionMap[upComingSection].startAnimation()
+    if (upComingSection !== 'editorPick') {
+      this.fadeInSectionMap[upComingSection].startAnimation()
+    }
   }
 
   render() {
@@ -189,14 +191,20 @@ class SideBar extends React.Component {
                 topOffset="80%"
                 bottomOffset="19%"
               >
-                <div>
-                  <ScrollFadein
-                    ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
-                    moduleId={moduleId}
-                  >
-                    {singleModule}
-                  </ScrollFadein>
-                </div>
+                { moduleId === 'editorPick' ?
+                  <div>
+                    { singleModule }
+                  </div>
+                  :
+                  <div>
+                    <ScrollFadein
+                      ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
+                      moduleId={moduleId}
+                    >
+                      {singleModule}
+                    </ScrollFadein>
+                  </div>
+                }
               </Waypoint>
             </div>
           </Waypoint>

@@ -9,23 +9,31 @@ const A = styled.a`
   text-decoration: none;
 `
 
+const PlainContainer = styled.div``
+
 // noTxtDec = noTextDecoration
 const TRLink = (props) => {
-  const { href, redirect, codeHover } = props
+  const { href, redirect, plain } = props
+  let ContentContainer
+  if (plain) {
+    ContentContainer = PlainContainer
+  } else {
+    ContentContainer = HoverEffect
+  }
   if (redirect) {
     return (
       <A href={`https://www.twreporter.org/${href}`} target="_blank" rel="noreferrer noopener">
-        <HoverEffect codeHover={codeHover}>
+        <ContentContainer>
           {props.children}
-        </HoverEffect>
+        </ContentContainer>
       </A>
     )
   }
   return (
     <Link to={`/${href}`}>
-      <HoverEffect codeHover={codeHover}>
+      <ContentContainer>
         {props.children}
-      </HoverEffect>
+      </ContentContainer>
     </Link>
   )
 }
@@ -33,12 +41,12 @@ const TRLink = (props) => {
 TRLink.defaultProps = {
   href: '',
   redirect: false,
-  codeHover: false,
+  plain: false,
 }
 
 TRLink.propTypes = {
   href: PropTypes.string,
-  codeHover: PropTypes.bool,
+  plain: PropTypes.bool,
   children: PropTypes.any.isRequired,
   redirect: PropTypes.bool,
 }

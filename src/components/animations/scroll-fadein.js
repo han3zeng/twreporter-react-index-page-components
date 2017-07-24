@@ -20,8 +20,8 @@ class ScrollFadein extends React.Component {
   render() {
     return (
       <VelocityComponent
-        animation={this.state.startAnimation ? { opacity: 1, marginTop: 0 } : { opacity: 0, marginTop: '50px' }}
-        duration={780}
+        animation={this.state.startAnimation ? { opacity: 1, marginTop: 0 } : { opacity: 0.5, marginTop: '50px' }}
+        duration={680}
         complete={this.onAnimationFinish}
       >
         {this.props.children}

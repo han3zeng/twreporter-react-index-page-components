@@ -2,6 +2,11 @@ import { VelocityComponent } from 'velocity-react'
 import PropTypes from 'prop-types'
 import React from 'react'
 
+// Prequeisite: in editor-picks section,
+// there are multiple description and image divs are setted to absolute.
+// they are overlaied at same place relatively based on their category(image or description).
+
+
 class FadeInFadeOut extends React.Component {
   constructor(props) {
     super(props)
@@ -11,17 +16,19 @@ class FadeInFadeOut extends React.Component {
     this.onAnimationFinish = this._onAnimationFinish.bind(this)
   }
 
-  componentDidMount() {
-    if (this.Node && this.props.isSelected) {
-      this.Node.style.display = 'inline'
+  componentWillReceiveProps(nextProps) {
+    // when user click on button and start animation to change the selected div.
+    for (const property in nextProps) {
+      if (Object.hasOwnProperty.call(this.props, property)) {
+        if (property === 'isSelected' && nextProps[property] !== this.props[property]) {
+          this.setState({
+            onAnimate: true,
+          })
+        }
+      }
     }
   }
 
-  componentWillReceiveProps() {
-    this.setState({
-      onAnimate: true,
-    })
-  }
   _onAnimationFinish() {
     if (this.state.onAnimate) {
       this.setState({
@@ -35,12 +42,15 @@ class FadeInFadeOut extends React.Component {
 
   render() {
     const { isSelected } = this.props
+    // only show selected or onAnimate one.
+    const style = isSelected || this.state.onAnimate ? { display: 'inline' } : { display: 'none' }
     return (
       <VelocityComponent
         animation={
           isSelected
           ?
           (() => {
+            // Previously, the node is unselected one, so display in none.
             if (this.Node) {
               this.Node.style.display = 'inline'
             }
@@ -54,9 +64,7 @@ class FadeInFadeOut extends React.Component {
       >
         <div
           ref={(node) => { this.Node = node }}
-          style={{
-            display: 'none',
-          }}
+          style={style}
         >
           {this.props.children}
         </div>

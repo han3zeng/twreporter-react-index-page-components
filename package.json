@@ -1,6 +1,6 @@
 {
   "name": "twreporter-react-index-page-components",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "twreporter index page version 2",
   "main": "lib/index.js",
   "scripts": {

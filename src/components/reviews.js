@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
@@ -122,12 +123,17 @@ const More = styled.div`
   margin-top: 60px;
 `
 
-class Reviews extends React.PureComponent {
+class Reviews extends SrcToSrcset {
   render() {
     const { data, moreURI } = this.props
     const ReviewsItem = data.map((post) => {
       const style = _.get(post, 'style', '')
       const href = getHref(_.get(post, 'slug', 'error'), style)
+      const imgAttributes = {
+        alt: _.get(post, 'hero_image.description'),
+        src: _.get(post, 'hero_image.resized_targets.tiny.url'),
+        srcSet: this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : '',
+      }
       return (
         <FlexItem
           key={_.get(post, 'id')}
@@ -135,9 +141,9 @@ class Reviews extends React.PureComponent {
           <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
-                alt={_.get(post, 'hero_image.description')}
-                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
-                srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
+                alt={imgAttributes.alt}
+                src={imgAttributes.src}
+                srcSet={imgAttributes.srcSet}
               />
             </ImgFrame>
             <TextFrame>

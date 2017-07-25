@@ -11,6 +11,7 @@ import TruncatText from './truncat-text'
 import TRLink from './common-utils/twreporter-link'
 import strings from '../constants/strings'
 import sectionStrings from '../constants/section-strings'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import get from 'lodash/get'
 import styled from 'styled-components'
 import { breakPoints, finalMedia } from '../utils/style-utils'
@@ -44,7 +45,7 @@ const List = styled.div`
 
 const Item = styled.div`
   padding-bottom: 60px;
-  max-width: 544px;
+  width: 544px;
   &:nth-child(odd) {
     margin-right: 32px;
   }
@@ -53,11 +54,11 @@ const Item = styled.div`
   }
 
   ${finalMedia.desktop`
-    max-width: 369px;
+    width: 369px;
   `}
 
   ${finalMedia.tablet`
-    max-width: 280px;
+    width: 280px;
 
     &:nth-child(odd) {
       margin-right: 20px;
@@ -65,7 +66,7 @@ const Item = styled.div`
   `}
 
   ${finalMedia.mobile`
-    max-width: 100%;
+    width: 100%;
     &:nth-child(odd) {
       margin-right: 0px;
     }
@@ -93,6 +94,7 @@ const Title = styled.div`
 
 const Img = styled.div`
   height: 364px;
+  width: 100%;
   margin: 0 auto;
   ${finalMedia.desktop`
     height: 247px;
@@ -141,8 +143,13 @@ const More = styled.div`
 
 class Topic extends React.PureComponent {
   render() {
-    const { title, topicName, desc, imgObj, slug } = this.props
+    const { title, topicName, desc, imgObj, slug, ifSrcset } = this.props
     const href = `topics/${slug}`
+    const imgAttributes = {
+      alt: _.get(imgObj, 'description'),
+      src: _.get(imgObj, 'resized_targets.tiny.url'),
+      srcSet: ifSrcset ? getImageSrcSet(imgObj) : '',
+    }
     return (
       <Item>
         <TRLink href={href}>
@@ -152,9 +159,9 @@ class Topic extends React.PureComponent {
           </Title>
           <Img>
             <ImgWrapper
-              src={_.get(imgObj, 'resized_targets.tiny.url')}
-              alt={_.get(imgObj, 'description')}
-              srcSet={getImageSrcSet(imgObj)}
+              src={imgAttributes.src}
+              alt={imgAttributes.alt}
+              srcSet={imgAttributes.srcSet}
             />
           </Img>
           <Desc>
@@ -177,6 +184,7 @@ Topic.defaultProps = {
   desc: '',
   imgObj: {},
   slug: '',
+  ifSrcset: false,
 }
 
 Topic.propTypes = {
@@ -185,9 +193,10 @@ Topic.propTypes = {
   desc: PropTypes.string,
   imgObj: PropTypes.object,
   slug: PropTypes.string,
+  ifSrcset: PropTypes.bool,
 }
 
-class TopicsSection extends React.PureComponent {
+class TopicsSection extends SrcToSrcset {
   render() {
     const totalTopics = 4
     const { items } = this.props
@@ -203,6 +212,7 @@ class TopicsSection extends React.PureComponent {
           imgObj={imgObj}
           slug={_.get(item, 'slug')}
           style={_.get(item, 'style', '')}
+          ifSrcset={this.state.ifSrcset}
         />
       )
     })

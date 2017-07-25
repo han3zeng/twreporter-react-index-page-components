@@ -10,6 +10,7 @@ import categoryStrings from '../constants/category-strings'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
@@ -139,16 +140,21 @@ const More = styled.div`
 
 class Photography extends React.PureComponent {
   render() {
-    const { title, imgObj, isHover, slug, style } = this.props
+    const { title, imgObj, isHover, slug, style, ifSrcset } = this.props
     const href = getHref(slug, style)
+    const imgAttributes = {
+      alt: _.get(imgObj, 'description'),
+      src: _.get(imgObj, 'resized_targets.tiny.url'),
+      srcSet: ifSrcset ? getImageSrcSet(imgObj) : '',
+    }
     return (
       <Item>
         <TRLink href={href} redirect={style === 'interactive'}>
           <Img>
             <ImgWrapper
-              alt={_.get(imgObj, 'description')}
-              src={_.get(imgObj, 'resized_targets.tiny.url')}
-              srcSet={getImageSrcSet(imgObj)}
+              alt={imgAttributes.alt}
+              src={imgAttributes.src}
+              srcSet={imgAttributes.srcSet}
             >
               <Overlay
                 isHover={isHover}
@@ -174,6 +180,7 @@ Photography.defaultProps = {
   isHover: false,
   slug: '',
   style: '',
+  ifSrcset: false,
 }
 
 Photography.propTypes = {
@@ -182,9 +189,10 @@ Photography.propTypes = {
   isHover: PropTypes.bool,
   slug: PropTypes.string,
   style: PropTypes.string,
+  ifSrcset: PropTypes.bool,
 }
 
-class PhotographySection extends React.Component {
+class PhotographySection extends SrcToSrcset {
   constructor(props) {
     super(props)
     this.state = {
@@ -261,6 +269,7 @@ class PhotographySection extends React.Component {
               isHover={isHover}
               slug={_.get(item, 'slug')}
               style={_.get(item, 'style', '')}
+              ifSrcset={this.state.ifSrcset}
             />
           </span>
         </Waypoint>

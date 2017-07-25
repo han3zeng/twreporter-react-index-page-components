@@ -10,6 +10,7 @@ import SectionName from './common-utils/section-name'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import { breakPoints, finalMedia, truncate } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
@@ -168,9 +169,14 @@ const More = styled.div`
 
 class Infographic extends React.PureComponent {
   render() {
-    const { title, imgObj, isPortrait, slug, style } = this.props
+    const { title, imgObj, isPortrait, slug, style, ifSrcset } = this.props
     const path = getHref(slug, style)
     const href = `https://www.twreporter.org/${path}`
+    const imgAttributes = {
+      alt: _.get(imgObj, 'description'),
+      src: _.get(imgObj, 'resized_targets.tiny.url'),
+      srcSet: ifSrcset ? getImageSrcSet(imgObj) : '',
+    }
     return (
       <Item>
         <A href={href} target="_blank">
@@ -178,9 +184,9 @@ class Infographic extends React.PureComponent {
             isPortrait={isPortrait}
           >
             <ImgWrapper
-              alt={_.get(imgObj, 'description')}
-              src={_.get(imgObj, 'resized_targets.tiny.url')}
-              srcSet={getImageSrcSet(imgObj)}
+              alt={imgAttributes.alt}
+              src={imgAttributes.src}
+              srcSet={imgAttributes.srcSet}
             />
           </ImgFrame>
           <WordBlock>
@@ -199,6 +205,7 @@ Infographic.defaultProps = {
   isPortrait: false,
   slug: '',
   style: '',
+  ifSrcset: false,
 }
 
 Infographic.propTypes = {
@@ -207,9 +214,10 @@ Infographic.propTypes = {
   isPortrait: PropTypes.bool,
   slug: PropTypes.string,
   style: PropTypes.string,
+  ifSrcset: PropTypes.bool,
 }
 
-class InfographicSection extends React.PureComponent {
+class InfographicSection extends SrcToSrcset {
   render() {
     const { items, moreURI } = this.props
     const listNumber = 3
@@ -232,6 +240,7 @@ class InfographicSection extends React.PureComponent {
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}
           style={_.get(item, 'style')}
+          ifSrcset={this.state.ifSrcset}
         />
       )
     })

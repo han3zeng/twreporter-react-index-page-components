@@ -9,6 +9,8 @@ class ScrollFadein extends React.Component {
       startAnimation: false,
     }
     this.startAnimation = this._startAnimation.bind(this)
+    this.onAnimationFinish = this._onAnimationFinish.bind(this)
+    this.ifInitialization = true
   }
 
   _startAnimation() {
@@ -17,14 +19,23 @@ class ScrollFadein extends React.Component {
     })
   }
 
+  _onAnimationFinish() {
+    if (!this.ifInitialization && this.module.srcToSrcset) {
+      this.module.srcToSrcset()
+    } else {
+      this.ifInitialization = false
+    }
+  }
+
   render() {
     return (
       <VelocityComponent
         animation={this.state.startAnimation ? { opacity: 1, marginTop: 0 } : { opacity: 0.5, marginTop: '50px' }}
         duration={680}
         complete={this.onAnimationFinish}
+        runOnMount={false}
       >
-        {this.props.children}
+        {React.cloneElement(this.props.children, { ref: (node) => { this.module = node } })}
       </VelocityComponent>
     )
   }

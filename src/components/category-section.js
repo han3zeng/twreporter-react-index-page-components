@@ -10,9 +10,11 @@ import Section from './common-utils/section'
 import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { getHref } from '../utils/getHref'
+import { getImageSrcSet } from '../utils/image-processor'
 import { fonts, colors } from '../styles/common-variables'
 
 const _ = {
@@ -129,11 +131,16 @@ const More = styled.div`
   }
 `
 
-class Category extends React.PureComponent {
+class Category extends SrcToSrcset {
   render() {
     const items = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
       const href = getHref(_.get(item, 'slug', 'error'), style)
+      const imgAttributes = {
+        alt: _.get(item, 'img.description'),
+        src: _.get(item, 'img.src'),
+        srcSet: this.state.ifSrcset ? getImageSrcSet(_.get(item, 'hero_image')) : '',
+      }
       return (
         <FlexItem
           key={_.get(item, 'id')}
@@ -144,8 +151,9 @@ class Category extends React.PureComponent {
           <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
-                alt={_.get(item, 'img.description')}
-                src={_.get(item, 'img.src')}
+                alt={imgAttributes.alt}
+                src={imgAttributes.src}
+                srcSet={imgAttributes.srcSet}
               />
             </ImgFrame>
             <TextFrame>

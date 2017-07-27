@@ -12,17 +12,18 @@ const screenSize = {
 /**
  * Get image set as imgSrc attribute of <img> tag
  * @param {object} imgObj - Image object
- * @param {object} imgObj.desktop
- * @param {object} imgObj.tablet
- * @param {object} imgObj.mobile
- * @param {string} imgObj.desktop.url
- * @param {string} imgObj.tablet.url
- * @param {string} imgObj.mobile.url
+ * @param {object} imgObj.resized_targets
+ * @param {object} imgObj.resized_targets.desktop
+ * @param {object} imgObj.resized_targets.tablet
+ * @param {object} imgObj.resized_targets.mobile
+ * @param {string} imgObj.resized_targets.desktop.url
+ * @param {string} imgObj.resized_targets.tablet.url
+ * @param {string} imgObj.resized_targets.mobile.url
  * @return {string} srcSet
  */
 export const getImageSrcSet = (imgObj) => {
-  if (!imgObj) {
-    return undefined
+  if (typeof imgObj !== 'object') {
+    return ''
   }
   const desktopSrc = replaceStorageUrlPrefix(get(imgObj, 'resized_targets.desktop.url'))
   const tabletSrc = replaceStorageUrlPrefix(get(imgObj, 'resized_targets.tablet.url'))

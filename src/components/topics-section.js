@@ -143,13 +143,8 @@ const More = styled.div`
 
 class Topic extends React.PureComponent {
   render() {
-    const { title, topicName, desc, imgObj, slug, ifSrcset } = this.props
+    const { title, topicName, desc, imgObj, slug } = this.props
     const href = `topics/${slug}`
-    const imgAttributes = {
-      alt: _.get(imgObj, 'description'),
-      src: _.get(imgObj, 'resized_targets.tiny.url'),
-      srcSet: ifSrcset ? getImageSrcSet(imgObj) : '',
-    }
     return (
       <Item>
         <TRLink href={href}>
@@ -159,9 +154,9 @@ class Topic extends React.PureComponent {
           </Title>
           <Img>
             <ImgWrapper
-              src={imgAttributes.src}
-              alt={imgAttributes.alt}
-              srcSet={imgAttributes.srcSet}
+              src={imgObj.src}
+              alt={imgObj.alt}
+              srcSet={imgObj.srcSet}
             />
           </Img>
           <Desc>
@@ -184,7 +179,6 @@ Topic.defaultProps = {
   desc: '',
   imgObj: {},
   slug: '',
-  ifSrcset: false,
 }
 
 Topic.propTypes = {
@@ -193,7 +187,6 @@ Topic.propTypes = {
   desc: PropTypes.string,
   imgObj: PropTypes.object,
   slug: PropTypes.string,
-  ifSrcset: PropTypes.bool,
 }
 
 class TopicsSection extends SrcToSrcset {
@@ -209,10 +202,13 @@ class TopicsSection extends SrcToSrcset {
           title={_.get(item, 'title')}
           topicName={_.get(item, 'topic_name')}
           desc={desc}
-          imgObj={imgObj}
+          imgObj={{
+            alt: _.get(imgObj, 'description'),
+            src: _.get(imgObj, 'resized_targets.tiny.url'),
+            srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+          }}
           slug={_.get(item, 'slug')}
           style={_.get(item, 'style', '')}
-          ifSrcset={this.state.ifSrcset}
         />
       )
     })

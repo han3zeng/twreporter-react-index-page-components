@@ -129,7 +129,6 @@ class SideBar extends React.Component {
     this.handleOnFadeIn = this._handleOnFadeIn.bind(this)
     this.moduleMap = {}
     this.fadeInSectionMap = {}
-    this.actualModuleMap = {}
     this.currentSection = anchorsList[0]
     this.previousSection = ''
   }
@@ -147,7 +146,6 @@ class SideBar extends React.Component {
   componentWillUnmount() {
     this.moduleMap = {}
     this.fadeInSectionMap = {}
-    this.actualModuleMap = {}
   }
 
   _handleOnEnter(nextSection) {

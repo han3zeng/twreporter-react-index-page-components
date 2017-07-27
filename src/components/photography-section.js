@@ -140,21 +140,16 @@ const More = styled.div`
 
 class Photography extends React.PureComponent {
   render() {
-    const { title, imgObj, isHover, slug, style, ifSrcset } = this.props
+    const { title, imgObj, isHover, slug, style } = this.props
     const href = getHref(slug, style)
-    const imgAttributes = {
-      alt: _.get(imgObj, 'description'),
-      src: _.get(imgObj, 'resized_targets.tiny.url'),
-      srcSet: ifSrcset ? getImageSrcSet(imgObj) : '',
-    }
     return (
       <Item>
         <TRLink href={href} redirect={style === 'interactive'}>
           <Img>
             <ImgWrapper
-              alt={imgAttributes.alt}
-              src={imgAttributes.src}
-              srcSet={imgAttributes.srcSet}
+              alt={imgObj.alt}
+              src={imgObj.src}
+              srcSet={imgObj.srcSet}
             >
               <Overlay
                 isHover={isHover}
@@ -180,7 +175,6 @@ Photography.defaultProps = {
   isHover: false,
   slug: '',
   style: '',
-  ifSrcset: false,
 }
 
 Photography.propTypes = {
@@ -189,7 +183,6 @@ Photography.propTypes = {
   isHover: PropTypes.bool,
   slug: PropTypes.string,
   style: PropTypes.string,
-  ifSrcset: PropTypes.bool,
 }
 
 class PhotographySection extends SrcToSrcset {
@@ -265,7 +258,11 @@ class PhotographySection extends SrcToSrcset {
           <span>
             <Photography
               title={_.get(item, 'title')}
-              imgObj={imgObj}
+              imgObj={{
+                alt: _.get(imgObj, 'description'),
+                src: _.get(imgObj, 'resized_targets.tiny.url'),
+                srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+              }}
               isHover={isHover}
               slug={_.get(item, 'slug')}
               style={_.get(item, 'style', '')}

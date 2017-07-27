@@ -136,11 +136,6 @@ class Category extends SrcToSrcset {
     const items = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
       const href = getHref(_.get(item, 'slug', 'error'), style)
-      const imgAttributes = {
-        alt: _.get(item, 'img.description'),
-        src: _.get(item, 'img.src'),
-        srcSet: this.state.ifSrcset ? getImageSrcSet(_.get(item, 'hero_image')) : '',
-      }
       return (
         <FlexItem
           key={_.get(item, 'id')}
@@ -151,9 +146,9 @@ class Category extends SrcToSrcset {
           <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
-                alt={imgAttributes.alt}
-                src={imgAttributes.src}
-                srcSet={imgAttributes.srcSet}
+                alt={_.get(item, 'hero_image.description')}
+                src={_.get(item, 'hero_image.resized_targets.tiny.url')}
+                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(item, 'hero_image')) : ''}
               />
             </ImgFrame>
             <TextFrame>

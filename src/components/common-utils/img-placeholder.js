@@ -17,18 +17,23 @@ const Img = styled.div`
   background-position: center center;
 `
 
-const ImgPlaceholder = ({ src }) => {
+const ImgPlaceholder = ({ src, alt }) => {
   return (
-    <Img url={src} />
+    <Img
+      url={src}
+      alt={alt}
+    />
   )
 }
 
 ImgPlaceholder.defaultProps = {
   src: '',
+  alt: '',
 }
 
 ImgPlaceholder.propTypes = {
   src: PropTypes.string,
+  alt: PropTypes.string,
 }
 
 export default ImgPlaceholder

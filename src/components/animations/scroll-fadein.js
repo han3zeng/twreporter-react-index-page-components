@@ -20,11 +20,11 @@ class ScrollFadein extends React.Component {
   }
 
   _onAnimationFinish() {
-    if (!this.ifInitialization && this.module.srcToSrcset) {
+    if (!this.ifInitialization && typeof this.module.srcToSrcset === 'function') {
       this.module.srcToSrcset()
-    } else {
-      this.ifInitialization = false
+      return
     }
+    this.ifInitialization = false
   }
 
   render() {
@@ -41,12 +41,8 @@ class ScrollFadein extends React.Component {
   }
 }
 
-ScrollFadein.defaultProps = {
-  children: null,
-}
-
 ScrollFadein.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
+  children: PropTypes.element.isRequired,
 }
 
 export default ScrollFadein

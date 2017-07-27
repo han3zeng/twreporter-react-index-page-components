@@ -169,14 +169,9 @@ const More = styled.div`
 
 class Infographic extends React.PureComponent {
   render() {
-    const { title, imgObj, isPortrait, slug, style, ifSrcset } = this.props
+    const { title, imgObj, isPortrait, slug, style } = this.props
     const path = getHref(slug, style)
     const href = `https://www.twreporter.org/${path}`
-    const imgAttributes = {
-      alt: _.get(imgObj, 'description'),
-      src: _.get(imgObj, 'resized_targets.tiny.url'),
-      srcSet: ifSrcset ? getImageSrcSet(imgObj) : '',
-    }
     return (
       <Item>
         <A href={href} target="_blank">
@@ -184,9 +179,9 @@ class Infographic extends React.PureComponent {
             isPortrait={isPortrait}
           >
             <ImgWrapper
-              alt={imgAttributes.alt}
-              src={imgAttributes.src}
-              srcSet={imgAttributes.srcSet}
+              alt={imgObj.alt}
+              src={imgObj.src}
+              srcSet={imgObj.srcSet}
             />
           </ImgFrame>
           <WordBlock>
@@ -205,7 +200,6 @@ Infographic.defaultProps = {
   isPortrait: false,
   slug: '',
   style: '',
-  ifSrcset: false,
 }
 
 Infographic.propTypes = {
@@ -214,7 +208,6 @@ Infographic.propTypes = {
   isPortrait: PropTypes.bool,
   slug: PropTypes.string,
   style: PropTypes.string,
-  ifSrcset: PropTypes.bool,
 }
 
 class InfographicSection extends SrcToSrcset {
@@ -235,7 +228,11 @@ class InfographicSection extends SrcToSrcset {
         <Infographic
           key={_.get(item, 'id')}
           category={_.get(item, 'categories.[0].name')}
-          imgObj={imgObj}
+          imgObj={{
+            alt: _.get(imgObj, 'description'),
+            src: _.get(imgObj, 'resized_targets.tiny.url'),
+            srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+          }}
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}

@@ -158,11 +158,6 @@ class LatestTopic extends SrcToSrcset {
     const relateds = _.get(data, 'relateds', []).slice(0, 3).map((post) => {
       const style = _.get(post, 'style', '')
       const href = getHref(_.get(post, 'slug', 'error'), style)
-      const imgAttributes = {
-        alt: _.get(post, 'hero_image.description'),
-        src: _.get(post, 'hero_image.resized_targets.tiny.url'),
-        srcSet: this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : '',
-      }
       return (
         <FlexItem
           key={_.get(post, 'id')}
@@ -171,9 +166,9 @@ class LatestTopic extends SrcToSrcset {
           <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
-                alt={imgAttributes.alt}
-                src={imgAttributes.src}
-                srcSet={imgAttributes.srcSet}
+                alt={_.get(post, 'hero_image.description')}
+                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
+                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : ''}
               />
             </ImgFrame>
             <RelatedsContentFrame>

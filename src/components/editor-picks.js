@@ -8,10 +8,29 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import TRLink from './common-utils/twreporter-link'
+import { VelocityComponent } from 'velocity-react'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
+
+const OVER_DESKTOP = 'OVERDESKTOP'
+const BELOW_DESKTOP = 'BELOWDESKTOP'
+
+const getScreenObj = () => {
+  if (typeof window !== 'undefined') {
+    if (window.innerWidth <= 1439) {
+      return {
+        marginTop: '-540px',
+        screenType: BELOW_DESKTOP,
+      }
+    }
+  }
+  return {
+    marginTop: '-770px',
+    screenType: OVER_DESKTOP,
+  }
+}
 
 const _ = {
   get,
@@ -35,17 +54,18 @@ const FlexContainer = styled.div`
 `
 
 // FlexItem is for moving Title
+// transform: ${props => (props.selected !== 0 ? `translateX(-${(props.selected - 1) * (200)}%)` : 'translateX(200%)')};
+// transition: 500ms transform linear, 500ms margin-top linear;
+// margin-top: ${props => (props.middle ? '-770px' : '16px')};
+// @media (max-width: ${breakPoints.desktopMaxWidth}) {
+//   margin-top: ${props => (props.middle ? '-540px' : '16px')};
+// }
+// transition: 500ms margin-top ease-in;
 const FlexItem = styled.div`
   flex: 0 0 20%;
   margin-right: 20%;
-  margin-top: ${props => (props.middle ? '-770px' : '16px')};
-  transform: ${props => (props.selected !== 0 ? `translateX(-${(props.selected - 1) * (200)}%)` : 'translateX(200%)')};
-  transition: 500ms transform linear, 500ms margin-top linear;
   position: relative;
   cursor: pointer;
-  @media (max-width: ${breakPoints.desktopMaxWidth}) {
-    margin-top: ${props => (props.middle ? '-540px' : '16px')};
-  }
 `
 
 const ImgFrame = styled.div`
@@ -145,11 +165,27 @@ class EditorPicks extends React.Component {
     this.state = {
       selected: 1,
       ifHover: false,
+      marginTop: getScreenObj().marginTop,
     }
     this.onShiftToLeft = this._onShiftToLeft.bind(this)
     this.onShiftToRight = this._onShiftToRight.bind(this)
     this.handleOnMouseEnter = this._handleOnMouseEnter.bind(this)
     this.handleOnMouseLeave = this._handleOnMouseLeave.bind(this)
+    this.handleOnResize = this._handleOnResize.bind(this)
+    this.prescreenType = getScreenObj().screenType
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleOnResize, false)
+  }
+
+  _handleOnResize() {
+    if (this.prescreenType !== getScreenObj().screenType) {
+      this.setState({
+        marginTop: getScreenObj().marginTop,
+      })
+      this.prescreenType = getScreenObj().screenType
+    }
   }
 
   _onShiftToLeft() {
@@ -205,30 +241,40 @@ class EditorPicks extends React.Component {
           propsMap.onClick = this.onShiftToLeft
         }
         return (
-          <FlexItem
-            middle={propsMap.middle}
-            selected={this.state.selected}
-            onClick={() => { propsMap.onClick(`a/${_.get(obj, 'slug', 'error')}`) }}
+          <VelocityComponent
             key={`key_${obj.title}`}
+            animation={{
+              translateX: this.state.selected !== 0 ? `-${(this.state.selected - 1) * (200)}%` : '200%',
+              marginTop: propsMap.middle ? `${this.state.marginTop}` : '16px',
+            }}
+            duration={500}
+            runOnMount={false}
+            easing="ease-in"
           >
-            { i === this.state.selected ?
-              <TRLink href={href} redirect={style === 'interactive'} plain>
-                <HoverEffect ifHover={this.state.ifHover}>
-                  <Title
-                    middle={propsMap.middle}
-                    onMouseEnter={this.handleOnMouseEnter}
-                    onMouseLeave={this.handleOnMouseLeave}
-                  >
-                    <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
-                  </Title>
-                </HoverEffect>
-              </TRLink>
-            :
-              <Title middle={propsMap.middle}>
-                <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
-              </Title>
-            }
-          </FlexItem>
+            <FlexItem
+              middle={propsMap.middle}
+              selected={this.state.selected}
+              onClick={() => { propsMap.onClick(`a/${_.get(obj, 'slug', 'error')}`) }}
+            >
+              { i === this.state.selected ?
+                <TRLink href={href} redirect={style === 'interactive'} plain>
+                  <HoverEffect ifHover={this.state.ifHover}>
+                    <Title
+                      middle={propsMap.middle}
+                      onMouseOver={this.handleOnMouseEnter}
+                      onMouseLeave={this.handleOnMouseLeave}
+                    >
+                      <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
+                    </Title>
+                  </HoverEffect>
+                </TRLink>
+              :
+                <Title middle={propsMap.middle}>
+                  <div>{ propsMap.middle ? getTruncate(obj.title) : obj.title }</div>
+                </Title>
+              }
+            </FlexItem>
+          </VelocityComponent>
         )
       })
     })()

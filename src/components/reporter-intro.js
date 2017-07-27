@@ -134,13 +134,6 @@ class ReporterIntro extends React.PureComponent {
             <ItemLink><BottomLink text="前往作者群" path={authorHref} /></ItemLink>
           </Item>
           <Item>
-            <ItemTitle>訂閱</ItemTitle>
-            <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
-            <ItemDescription>
-              即將推出  敬請期待
-            </ItemDescription>
-          </Item>
-          <Item>
             <ItemTitle>贊助我們</ItemTitle>
             <ItemIconContainer>
               <AboutDonateIcon />
@@ -149,6 +142,13 @@ class ReporterIntro extends React.PureComponent {
               您的支持，將成為《報導者》繼續追蹤真相的動力！
             </ItemDescription>
             <ItemLink><BottomLink text="前往贊助夥伴" path={donationHref} redirect target={'_blank'} /></ItemLink>
+          </Item>
+          <Item>
+            <ItemTitle>訂閱</ItemTitle>
+            <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
+            <ItemDescription>
+              即將推出  敬請期待
+            </ItemDescription>
           </Item>
         </FlexContainer>
       </ContentContainer>

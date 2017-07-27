@@ -45,17 +45,25 @@ const Container = styled.div`
   }
 `
 
+// writing-mode: vertical-rl;
+// letter-spacing: 2px;
 const SectionButton = styled.div`
-  writing-mode: vertical-rl;
-  letter-spacing: 2px;
   margin-bottom: 18px;
-  padding: 3px 0;
-  font-weight: 500;
+  padding-top: 2px;
+  padding-bottom: 2px;
   &:hover {
     cursor: pointer;
   }
   color: ${props => (props.highlight ? 'white' : `${colors.primaryColor}`)};
   background: ${props => (props.highlight ? `${colors.primaryColor}` : 'none')};
+`
+
+const SingleWord = styled.div`
+  display: block;
+  margin: 2px 3px;
+  padding: 0;
+  font-weight: 500;
+  line-height: 14px;
 `
 
 class Anchors extends React.Component {
@@ -85,6 +93,15 @@ class Anchors extends React.Component {
   }
 
   render() {
+    const AssembleWord = (words) => {
+      return words.split('').map((word) => {
+        return (
+          <SingleWord key={`single_word_${word}`}>
+            {word}
+          </SingleWord>
+        )
+      })
+    }
     const navBarSections = anchorsList.map((value) => {
       return (
         <Link
@@ -95,7 +112,7 @@ class Anchors extends React.Component {
           <SectionButton
             highlight={value === this.state.currentSection}
           >
-            {sectionStrings[value]}
+            {AssembleWord(sectionStrings[value])}
           </SectionButton>
         </Link>
       )

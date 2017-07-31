@@ -19,7 +19,7 @@ const BELOW_DESKTOP = 'BELOWDESKTOP'
 
 const getScreenObj = () => {
   if (typeof window !== 'undefined') {
-    if (window.innerWidth <= 1439) {
+    if (window.innerWidth <= parseInt(breakPoints.desktopMaxWidth.replace('px', ''), 10)) {
       return {
         marginTop: '-540px',
         screenType: BELOW_DESKTOP,
@@ -176,7 +176,18 @@ class EditorPicks extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleOnResize, false)
+    let resizeTimeout
+    function resizeThrottler() {
+      // ignore resize events as long as an actualResizeHandler execution is in the queue
+      if (!resizeTimeout) {
+        resizeTimeout = setTimeout(() => {
+          resizeTimeout = null
+          this.handleOnResize()
+        }, 500)
+      }
+    }
+
+    window.addEventListener('resize', resizeThrottler.bind(this), false)
   }
 
   _handleOnResize() {

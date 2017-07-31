@@ -14,8 +14,8 @@ import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { getHref } from '../utils/getHref'
-import { getImageSrcSet } from '../utils/image-processor'
 import { fonts, colors } from '../styles/common-variables'
+import { replaceStorageUrlPrefix } from '../utils/url-processor'
 
 const _ = {
   get,
@@ -146,9 +146,9 @@ class Category extends SrcToSrcset {
           <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
-                alt={_.get(item, 'hero_image.description')}
-                src={_.get(item, 'hero_image.resized_targets.tiny.url')}
-                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(item, 'hero_image')) : ''}
+                alt={_.get(item, 'img.description')}
+                src={_.get(item, 'img.src')}
+                srcSet={this.state.ifSrcset ? replaceStorageUrlPrefix(_.get(item, 'img.srcset')) : ''}
               />
             </ImgFrame>
             <TextFrame>

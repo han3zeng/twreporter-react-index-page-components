@@ -2,6 +2,7 @@ import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListUtils from './common-utils/mobile-list'
@@ -150,8 +151,7 @@ const ImgFrame = styled.div`
   `}
 `
 
-class LatestTopic extends React.PureComponent {
-
+class LatestTopic extends SrcToSrcset {
   render() {
     const { data } = this.props
     const maxSwipableItems = 2
@@ -167,8 +167,8 @@ class LatestTopic extends React.PureComponent {
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
-                src={_.get(post, 'hero_image.resized_targets.mobile.url')}
-                srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
+                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
+                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : ''}
               />
             </ImgFrame>
             <RelatedsContentFrame>

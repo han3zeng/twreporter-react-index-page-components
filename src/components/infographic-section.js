@@ -10,6 +10,7 @@ import SectionName from './common-utils/section-name'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import { breakPoints, finalMedia, truncate } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
@@ -178,9 +179,9 @@ class Infographic extends React.PureComponent {
             isPortrait={isPortrait}
           >
             <ImgWrapper
-              alt={_.get(imgObj, 'description')}
-              src={_.get(imgObj, 'resized_targets.mobile.url')}
-              srcSet={getImageSrcSet(imgObj)}
+              alt={imgObj.alt}
+              src={imgObj.src}
+              srcSet={imgObj.srcSet}
             />
           </ImgFrame>
           <WordBlock>
@@ -209,7 +210,7 @@ Infographic.propTypes = {
   style: PropTypes.string,
 }
 
-class InfographicSection extends React.PureComponent {
+class InfographicSection extends SrcToSrcset {
   render() {
     const { items, moreURI } = this.props
     const listNumber = 3
@@ -227,11 +228,16 @@ class InfographicSection extends React.PureComponent {
         <Infographic
           key={_.get(item, 'id')}
           category={_.get(item, 'categories.[0].name')}
-          imgObj={imgObj}
+          imgObj={{
+            alt: _.get(imgObj, 'description'),
+            src: _.get(imgObj, 'resized_targets.tiny.url'),
+            srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+          }}
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}
           style={_.get(item, 'style')}
+          ifSrcset={this.state.ifSrcset}
         />
       )
     })

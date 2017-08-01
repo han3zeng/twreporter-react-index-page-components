@@ -10,6 +10,7 @@ import categoryStrings from '../constants/category-strings'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
@@ -146,9 +147,9 @@ class Photography extends React.PureComponent {
         <TRLink href={href} redirect={style === 'interactive'}>
           <Img>
             <ImgWrapper
-              alt={_.get(imgObj, 'description')}
-              src={_.get(imgObj, 'resized_targets.mobile.url')}
-              srcSet={getImageSrcSet(imgObj)}
+              alt={imgObj.alt}
+              src={imgObj.src}
+              srcSet={imgObj.srcSet}
             >
               <Overlay
                 isHover={isHover}
@@ -184,7 +185,7 @@ Photography.propTypes = {
   style: PropTypes.string,
 }
 
-class PhotographySection extends React.Component {
+class PhotographySection extends SrcToSrcset {
   constructor(props) {
     super(props)
     this.state = {
@@ -257,10 +258,15 @@ class PhotographySection extends React.Component {
           <span>
             <Photography
               title={_.get(item, 'title')}
-              imgObj={imgObj}
+              imgObj={{
+                alt: _.get(imgObj, 'description'),
+                src: _.get(imgObj, 'resized_targets.tiny.url'),
+                srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+              }}
               isHover={isHover}
               slug={_.get(item, 'slug')}
               style={_.get(item, 'style', '')}
+              ifSrcset={this.state.ifSrcset}
             />
           </span>
         </Waypoint>

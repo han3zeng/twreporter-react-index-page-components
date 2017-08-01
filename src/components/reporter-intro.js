@@ -129,16 +129,9 @@ class ReporterIntro extends React.PureComponent {
             <ItemTitle>作者群</ItemTitle>
             <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
             <ItemDescription>
-              果八現程使無生數我考書天然體朋可話的別想著地面指
+              透過報導認識報導者們
             </ItemDescription>
-            <ItemLink><BottomLink text="前往作者頁" path={authorHref} /></ItemLink>
-          </Item>
-          <Item>
-            <ItemTitle>訂閱</ItemTitle>
-            <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
-            <ItemDescription>
-              COMING SOON 敬請期待
-            </ItemDescription>
+            <ItemLink><BottomLink text="前往作者群" path={authorHref} /></ItemLink>
           </Item>
           <Item>
             <ItemTitle>贊助我們</ItemTitle>
@@ -146,9 +139,16 @@ class ReporterIntro extends React.PureComponent {
               <AboutDonateIcon />
             </ItemIconContainer>
             <ItemDescription>
-              果八現程使無生數我考書天然體朋可話的別想著地面指
+              您的支持，將成為《報導者》繼續追蹤真相的動力！
             </ItemDescription>
-            <ItemLink><BottomLink text="前往贊助頁" path={donationHref} redirect target={'_blank'} /></ItemLink>
+            <ItemLink><BottomLink text="前往贊助夥伴" path={donationHref} redirect target={'_blank'} /></ItemLink>
+          </Item>
+          <Item>
+            <ItemTitle>訂閱</ItemTitle>
+            <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
+            <ItemDescription>
+              即將推出  敬請期待
+            </ItemDescription>
           </Item>
         </FlexContainer>
       </ContentContainer>

@@ -10,10 +10,12 @@ import Section from './common-utils/section'
 import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { getHref } from '../utils/getHref'
 import { fonts, colors } from '../styles/common-variables'
+import { replaceStorageUrlPrefix } from '../utils/url-processor'
 
 const _ = {
   get,
@@ -129,7 +131,7 @@ const More = styled.div`
   }
 `
 
-class Category extends React.PureComponent {
+class Category extends SrcToSrcset {
   render() {
     const items = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
@@ -146,6 +148,7 @@ class Category extends React.PureComponent {
               <ImgWrapper
                 alt={_.get(item, 'img.description')}
                 src={_.get(item, 'img.src')}
+                srcSet={this.state.ifSrcset ? replaceStorageUrlPrefix(_.get(item, 'img.srcset')) : ''}
               />
             </ImgFrame>
             <TextFrame>

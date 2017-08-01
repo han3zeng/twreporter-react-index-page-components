@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
+import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import { fonts, colors } from '../styles/common-variables'
 import { getImageSrcSet } from '../utils/image-processor'
@@ -122,7 +123,7 @@ const More = styled.div`
   margin-top: 60px;
 `
 
-class Reviews extends React.PureComponent {
+class Reviews extends SrcToSrcset {
   render() {
     const { data, moreURI } = this.props
     const ReviewsItem = data.map((post) => {
@@ -136,8 +137,8 @@ class Reviews extends React.PureComponent {
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
-                src={_.get(post, 'hero_image.resized_targets.mobile.url')}
-                srcSet={getImageSrcSet(_.get(post, 'hero_image'))}
+                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
+                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : ''}
               />
             </ImgFrame>
             <TextFrame>

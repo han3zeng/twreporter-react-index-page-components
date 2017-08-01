@@ -176,7 +176,7 @@ class LatestSection extends React.Component {
             <ImageFrame>
               <ImgWrapper
                 alt={_.get(item, 'hero_image.description', '')}
-                src={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
+                src={_.get(item, 'hero_image.resized_targets.tiny.url', '')}
                 srcSet={getImageSrcSet(_.get(item, 'hero_image'))}
               />
             </ImageFrame>

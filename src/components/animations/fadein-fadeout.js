@@ -63,6 +63,7 @@ class FadeInFadeOut extends React.Component {
         }
         duration={500}
         complete={this.onAnimationFinish}
+        runOnMount={false}
       >
         <div
           ref={(node) => { this.Node = node }}

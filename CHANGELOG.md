@@ -1,3 +1,9 @@
+### 1.0.16
+- Implement lazy load (smooth animation)/(src -> srcset)
+- Solve animation problem in editor picks in safari
+- Update reporter info text
+- Solve side bar problem in IE, Edge
+
 ### 1.0.15
 - Assemble Media Query
 - parallax scroll

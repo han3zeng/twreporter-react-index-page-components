@@ -32,5 +32,8 @@
     "stage-0",
     "react",
   ],
-  "ignore": []
+  "ignore": [
+    "src/**/*.json",
+    "src/**/*.svg"
+  ]
 }

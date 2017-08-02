@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Section from './common-utils/section'
 import SectionName from './common-utils/section-name'
+import TRLink from './common-utils/twreporter-link'
 import get from 'lodash/get'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
@@ -158,11 +159,6 @@ const ImgFrame = styled.div`
     height: 186px;
   `}
 `
-
-const A = styled.a`
-  text-decoration: none;
-`
-
 const More = styled.div`
   text-align: center;
 `
@@ -170,11 +166,10 @@ const More = styled.div`
 class Infographic extends React.PureComponent {
   render() {
     const { title, imgObj, isPortrait, slug, style } = this.props
-    const path = getHref(slug, style)
-    const href = `https://www.twreporter.org/${path}`
+    const href = getHref(slug, style)
     return (
       <Item>
-        <A href={href} target="_blank">
+        <TRLink href={href} redirect={style === 'interactive'}>
           <ImgFrame
             isPortrait={isPortrait}
           >
@@ -188,7 +183,7 @@ class Infographic extends React.PureComponent {
             <CategoryName>{sectionStrings.infographic}</CategoryName>
             <Title>{title}</Title>
           </WordBlock>
-        </A>
+        </TRLink>
       </Item>
     )
   }

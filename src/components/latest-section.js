@@ -1,6 +1,6 @@
 import CategoryName from './common-utils/category-name'
 import get from 'lodash/get'
-import Header, { headerPadding } from './header'
+import Header from 'twreporter-react-header-components'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -12,7 +12,6 @@ import { getHref } from '../utils/getHref'
 import { getImageSrcSet } from '../utils/image-processor'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
-
 const _ = {
   get,
 }
@@ -20,6 +19,11 @@ const _ = {
 const mobileMaxWidth = '600px'
 const mobileMidWidth = '550px'
 const mobileMinWidth = '414px'
+const headerPadding = {
+  desktop: '47px',
+  tablet: '34px',
+  mobile: '16px',
+}
 
 const Container = styled.div`
   padding-top: 62px;
@@ -194,7 +198,7 @@ class LatestSection extends React.Component {
     return (
       <Container>
         <HeaderContainer ifPinned={this.state.ifPinned}>
-          <Header />
+          <Header isIndex />
         </HeaderContainer>
         <ContentContainer id="latestSection" innerRef={(node) => { this.ContentContainer = node }}>
           {latestItems}

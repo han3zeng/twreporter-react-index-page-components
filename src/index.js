@@ -1,6 +1,5 @@
 import CategorySection from './components/category-section'
 import EditorPicks from './components/editor-picks'
-import Header from './components/header'
 import InforgraphicSection from './components/infographic-section'
 import LatestTopicSection from './components/latest-topic'
 import LatestSection from './components/latest-section'
@@ -15,7 +14,6 @@ export default {
   components: {
     CategorySection,
     EditorPicks,
-    Header,
     InforgraphicSection,
     LatestTopicSection,
     LatestSection,

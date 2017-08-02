@@ -1,6 +1,6 @@
 {
   "name": "twreporter-react-index-page-components",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "twreporter index page version 2",
   "main": "lib/index.js",
   "scripts": {
@@ -42,6 +42,7 @@
     "react-waypoint": "^7.0.3",
     "smoothscroll": "^0.3.0",
     "styled-components": "^2.0.0",
+    "twreporter-react-header-components": "^1.0.2",
     "velocity-react": "^1.3.3"
   },
   "devDependencies": {

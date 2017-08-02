@@ -23,20 +23,16 @@ function copyToCustomerFolder() {
 }
 
 function transpile() {
-  return gulp.src('./src/**/*.js', theBase)
+  return gulp.src('./src/**/*', theBase)
     .pipe(babel())
     .pipe(gulp.dest(dest))
 }
 
-function watch() {
-  gulp.watch('./src/**/*.js', transpile)
-}
-
 gulp.task('build', transpile)
 
-gulp.task('dev', () => {
+gulp.task('dev', gulp.series(transpile, copyToCustomerFolder, () => {
   const watcher = gulp.watch(['src/**'], gulp.series('build', copyToCustomerFolder))
   watcher.on('change', (filePath) => {
     console.log(`File ${filePath} was changed, running tasks...`)
   })
-})
+}))

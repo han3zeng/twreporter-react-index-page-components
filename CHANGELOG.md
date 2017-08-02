@@ -1,3 +1,6 @@
+### 1.0.19
+- Bug fix. Don't transiple json, svg files. Just copy them to dest folder
+
 ### 1.0.18
 - Update src/components/infographic-section.js. 
 

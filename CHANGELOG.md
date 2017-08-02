@@ -1,3 +1,7 @@
+### 1.0.20
+
+- Update dependency twreporter-react-header-components
+
 ### 1.0.19
 - Bug fix. Don't transiple json, svg files. Just copy them to dest folder
 

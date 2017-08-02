@@ -219,7 +219,7 @@ class InfographicSection extends SrcToSrcset {
       const leadingImg = _.get(item, 'leading_image_portrait')
       let imgObj = _.get(item, 'hero_image')
 
-      if ((index === 0 || index === 5)) {
+      if ((index === 0 || index === 4 || index === 5)) {
         if (typeof _.get(leadingImg, 'resized_targets') === 'object') {
           imgObj = leadingImg
         }

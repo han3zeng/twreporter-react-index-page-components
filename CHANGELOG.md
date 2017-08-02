@@ -1,5 +1,7 @@
-### 1.0.17
+### 1.0.18
+- Update src/components/infographic-section.js. 
 
+### 1.0.17
 - Remove Header in twreporter-react-index-page-components and use Header from twreporter-react-components
 
 ### 1.0.16

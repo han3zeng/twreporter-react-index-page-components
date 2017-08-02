@@ -5,10 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha $(find src -name '*.test.js') --compilers js:babel-core/register",
-    "dev": "gulp",
-    "build": "npm run prebuild:lib && npm run build:lib",
-    "prebuild:lib": "rimraf lib/*",
-    "build:lib": "babel --out-dir lib src --copy-files",
+    "dev": "gulp dev",
+    "build": "npm run clean && gulp build",
+    "clean": "rimraf ./lib",
     "lint": "eslint -c .eslintrc . ",
     "validate": "npm ls"
   },

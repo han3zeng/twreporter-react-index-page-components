@@ -1,3 +1,4 @@
+import get from 'lodash/get'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Swipeable from 'react-swipeable'
@@ -5,6 +6,10 @@ import SwipeableMixin from './common-utils/swipable-mixin'
 import styled from 'styled-components'
 import { itemPlusPaddingWidthPct, itemPaddingRightPct,
   firstItemMarginLeftPct } from '../constants/mobile-mockup-specification'
+
+const _ = {
+  get,
+}
 
 const FlexList = styled.ul`
   list-style-type: none;
@@ -39,6 +44,12 @@ const FlexItem = styled.li`
 class SwipableFlexItems extends SwipeableMixin {
   componentWillMount() {
     this.onSetMaxItems(this.props.maxSwipableItems)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (_.get(nextProps, 'maxSwipableItems') !== _.get(this.props, 'maxSwipableItems')) {
+      this.onSetMaxItems(nextProps.maxSwipableItems)
+    }
   }
 
   render() {

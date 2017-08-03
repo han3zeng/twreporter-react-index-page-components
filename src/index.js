@@ -7,8 +7,11 @@ import PhotographySection from './components/photography-section'
 import ReporterIntro from './components/reporter-intro'
 import ReviewsSection from './components/reviews'
 import SeachBox from './components/search-box'
-import SideBar, { moduleIdObj } from './components/side-bar'
+import SideBar from './components/side-bar'
+import ScrollFadein from './components/animations/scroll-fadein'
 import TopicsSection from './components/topics-section'
+import { moduleIdObj, moduleLabelObj } from './utils/side-bar-label-id'
+import { moduleBackgounds } from './styles/common-variables'
 
 export default {
   components: {
@@ -22,9 +25,12 @@ export default {
     ReviewsSection,
     SeachBox,
     SideBar,
+    ScrollFadein,
     TopicsSection,
   },
   utility: {
     moduleIdObj,
+    moduleLabelObj,
+    moduleBackgounds,
   },
 }

@@ -1,22 +1,10 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import Waypoint from 'react-waypoint'
-import sectionStrings from '../constants/section-strings'
 import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
-import ScrollFadein from './animations/scroll-fadein'
 import { breakPoints } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
-import { Link } from 'react-router'
-
-const anchorsList = []
-const moduleIdObj = {}
-for (const key in sectionStrings) {
-  if (Object.prototype.hasOwnProperty.call(sectionStrings, key)) {
-    anchorsList.push(key)
-    moduleIdObj[key] = key
-  }
-}
 
 const ifSafari = () => {
   const ua = navigator.userAgent.toLowerCase()
@@ -85,7 +73,7 @@ class Anchors extends React.Component {
   _scrollTo(moduleId, e) {
     e.preventDefault()
     const node = this.props.moduleMap[moduleId]
-    const offsetTop = moduleId === anchorsList[0] ? node.offsetTop + 278 : node.offsetTop
+    const offsetTop = moduleId === this.props.anchorsList[0] ? node.offsetTop + 278 : node.offsetTop
     if (node) {
       return smoothScroll(offsetTop)
     }
@@ -102,19 +90,15 @@ class Anchors extends React.Component {
         )
       })
     }
-    const navBarSections = anchorsList.map((value) => {
+    const navBarSections = this.props.anchorsList.map((value) => {
       return (
-        <Link
-          to={`/#${value}`}
-          key={`SectionButton_${value}`}
+        <SectionButton
+          highlight={value === this.state.currentSection}
           onClick={(e) => { this.scrollTo(value, e) }}
+          key={`SectionButton_${value}`}
         >
-          <SectionButton
-            highlight={value === this.state.currentSection}
-          >
-            {AssembleWord(sectionStrings[value])}
-          </SectionButton>
-        </Link>
+          {AssembleWord(this.props.moduleLabelObj[value])}
+        </SectionButton>
       )
     })
     return (
@@ -127,11 +111,15 @@ class Anchors extends React.Component {
 
 Anchors.defaultProps = {
   moduleMap: {},
+  moduleLabelObj: {},
+  anchorsList: [],
   curretSection: '',
 }
 
 Anchors.propTypes = {
   moduleMap: PropTypes.object,
+  moduleLabelObj: PropTypes.object,
+  anchorsList: PropTypes.array,
   curretSection: PropTypes.string,
 }
 
@@ -143,10 +131,11 @@ class SideBar extends React.Component {
     }
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
-    this.handleOnFadeIn = this._handleOnFadeIn.bind(this)
+    // moduleId to Module
     this.moduleMap = {}
-    this.fadeInSectionMap = {}
-    this.currentSection = anchorsList[0]
+    // moduleId list
+    this.anchorsList = []
+    this.currentSection = ''
     this.previousSection = ''
   }
 
@@ -158,11 +147,15 @@ class SideBar extends React.Component {
         })
       }
     }
+
+    this.props.children.forEach((module) => {
+      this.anchorsList.push(module.props.moduleId)
+    })
+    this.currentSection = this.anchorsList[0]
   }
 
   componentWillUnmount() {
     this.moduleMap = {}
-    this.fadeInSectionMap = {}
   }
 
   _handleOnEnter(nextSection) {
@@ -179,55 +172,26 @@ class SideBar extends React.Component {
     }
   }
 
-  _handleOnFadeIn(upComingSection) {
-    if (upComingSection !== anchorsList[0]) {
-      this.fadeInSectionMap[upComingSection].startAnimation()
-    }
-  }
-
   render() {
     const webSiteContent = this.props.children.map((singleModule, index) => {
       const { moduleId } = singleModule.props
-      if (anchorsList.includes(moduleId)) {
-        return (
-          <Waypoint
-            key={`Single_Module_${moduleId}`}
-            onLeave={() => { this.handleOnLeave(moduleId) }}
-            onEnter={() => { this.handleOnEnter(moduleId) }}
-            fireOnRapidScroll
-            topOffset="4%"
-            bottomOffset={(index + 1) === this.props.children.length ? '50%' : '95%'}
+      return (
+        <Waypoint
+          key={`Single_Module_${moduleId}`}
+          onLeave={() => { this.handleOnLeave(moduleId) }}
+          onEnter={() => { this.handleOnEnter(moduleId) }}
+          fireOnRapidScroll
+          topOffset="4%"
+          bottomOffset={(index + 1) === this.props.children.length ? '50%' : '95%'}
+        >
+          <div
+            id={moduleId}
+            ref={(node) => { this.moduleMap[moduleId] = node }}
           >
-            <div
-              id={moduleId}
-              ref={(node) => { this.moduleMap[moduleId] = node }}
-            >
-              <Waypoint
-                onEnter={() => { this.handleOnFadeIn(moduleId) }}
-                fireOnRapidScroll
-                topOffset="80%"
-                bottomOffset="19%"
-              >
-                { moduleId === anchorsList[0] ?
-                  <div>
-                    {singleModule}
-                  </div>
-                  :
-                  <div>
-                    <ScrollFadein
-                      ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
-                      moduleId={moduleId}
-                    >
-                      {singleModule}
-                    </ScrollFadein>
-                  </div>
-                }
-              </Waypoint>
-            </div>
-          </Waypoint>
-        )
-      }
-      return <span key={`${moduleId}`} />
+            {singleModule}
+          </div>
+        </Waypoint>
+      )
     })
 
     return (
@@ -237,8 +201,10 @@ class SideBar extends React.Component {
         >
           <Anchors
             ref={(node) => { this.anchorsNode = node }}
-            curretSection={anchorsList[0]}
+            curretSection={this.anchorsList[0]}
             moduleMap={this.moduleMap}
+            anchorsList={this.anchorsList}
+            moduleLabelObj={this.props.moduleLabelObj}
           />
         </Container>
         {webSiteContent}
@@ -249,11 +215,12 @@ class SideBar extends React.Component {
 
 SideBar.defaultProps = {
   children: [],
+  moduleLabelObj: {},
 }
 
 SideBar.propTypes = {
   children: PropTypes.array,
+  moduleLabelObj: PropTypes.object,
 }
 
 export default SideBar
-export { moduleIdObj }

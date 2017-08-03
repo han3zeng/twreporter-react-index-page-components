@@ -24,7 +24,6 @@ const _ = {
 // const desktopWidth = '1440px'
 // const tabletWidth = '1024px'
 const mobileWidth = breakPoints.mobileMaxWidth
-const maxSwipableItems = 7
 const backgroundColor = '#e2e2e2'
 
 const Container = styled.div`
@@ -132,6 +131,17 @@ const More = styled.div`
 `
 
 class Category extends SrcToSrcset {
+  constructor(props) {
+    super(props)
+    this.maxSwipableItems = 5
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (_.get(nextProps, 'data') !== _.get(this.props, 'data')) {
+      this.maxSwipableItems = nextProps.data.length - 1
+    }
+  }
+
   render() {
     const items = this.props.data.map((item) => {
       const style = _.get(item, 'style', '')
@@ -186,7 +196,7 @@ class Category extends SrcToSrcset {
             <MobileFlexSwipeable.SwipableFlexItems
               alignItems={'stretch'}
               mobileWidth={mobileWidth}
-              maxSwipableItems={maxSwipableItems}
+              maxSwipableItems={this.maxSwipableItems}
               categorySection
             >
               {items}

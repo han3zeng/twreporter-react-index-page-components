@@ -213,6 +213,7 @@ Category.propTypes = {
     title: PropTypes.string.isRequired,
     listName: PropTypes.string.isRequired,
     moreURI: PropTypes.string.isRequired,
+    style: PropTypes.string.isRequired,
   })),
 }
 

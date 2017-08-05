@@ -231,7 +231,7 @@ class EditorPicks extends React.Component {
     const { data } = this.props
     const getTruncate = (title) => {
       if (title.length > 28) {
-        return `${title.slice(0, 26)}...`
+        return `${title.slice(0, 25)}...`
       }
       return title
     }

@@ -1,5 +1,7 @@
-### 1.0.20
+### 1.0.21
+- Bug fix. Title in editor-picks section will be truncated well.
 
+### 1.0.20
 - Update dependency twreporter-react-header-components
 
 ### 1.0.19

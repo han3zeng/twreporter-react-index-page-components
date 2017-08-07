@@ -10,8 +10,6 @@ import SeachBox from './components/search-box'
 import SideBar from './components/side-bar'
 import ScrollFadein from './components/animations/scroll-fadein'
 import TopicsSection from './components/topics-section'
-import { moduleIdObj, moduleLabelObj } from './utils/side-bar-label-id'
-import { moduleBackgounds } from './styles/common-variables'
 
 export default {
   components: {
@@ -27,10 +25,5 @@ export default {
     SideBar,
     ScrollFadein,
     TopicsSection,
-  },
-  utility: {
-    moduleIdObj,
-    moduleLabelObj,
-    moduleBackgounds,
   },
 }

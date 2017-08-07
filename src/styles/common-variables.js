@@ -37,20 +37,7 @@ const colors = {
   sectionGrey: '#f2f2f2',
 }
 
-const moduleBackgounds = {
-  latest: '#f2f2f2',
-  editorPick: 'white',
-  latestTopic: '#f2f2f2',
-  review: 'white',
-  category: '#e2e2e2',
-  topic: '#f2f2f2',
-  photography: '#08192d',
-  infographic: '#f2f2f2',
-  donation: 'white',
-}
-
 export {
   fonts,
   colors,
-  moduleBackgounds,
 }

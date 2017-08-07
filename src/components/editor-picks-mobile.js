@@ -23,7 +23,6 @@ const _ = {
   get,
 }
 
-const numberOfSwipableItems = 5
 const mobileWidth = breakPoints.mobileMaxWidth
 
 const CarouselContainer = Section.extend`
@@ -84,10 +83,6 @@ class EditorPicksMobile extends SwipableMixin {
   constructor(props) {
     super(props)
     this.redirect = this._redirect.bind(this)
-  }
-
-  componentWillMount() {
-    this.onSetMaxItems(numberOfSwipableItems)
   }
 
   _redirect(href) {

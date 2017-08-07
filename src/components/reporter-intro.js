@@ -109,54 +109,49 @@ class ReporterIntro extends React.PureComponent {
   render() {
     const authorHref = 'authors'
     const donationHref = 'https://twreporter.backme.tw/cashflow/checkout?project_id=175&reward_id=718'
-    // the outtest div is for animation scroll fadein
-    // the fadein animation will manipulate the padding value of the outtest div,
-    // by this manner, animation will not influence the layout of the module content
     return (
-      <div>
-        <ContentContainer
+      <ContentContainer
+        mobileWidth={mobileWidth}
+      >
+        <SectionName
           mobileWidth={mobileWidth}
         >
-          <SectionName
-            mobileWidth={mobileWidth}
-          >
-            <span>{sectionStrings.donation}</span>
-          </SectionName>
-          <TopContainer>
-            <ReporterIconWrapper>
-              <ReporterIcon />
-            </ReporterIconWrapper>
-            <span itemProp="description">{appConfig.description}</span>
-          </TopContainer>
-          <FlexContainer>
-            <Item>
-              <ItemTitle>作者群</ItemTitle>
-              <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
-              <ItemDescription>
-                透過報導認識報導者們
-              </ItemDescription>
-              <ItemLink><BottomLink text="前往作者群" path={authorHref} /></ItemLink>
-            </Item>
-            <Item>
-              <ItemTitle>贊助我們</ItemTitle>
-              <ItemIconContainer>
-                <AboutDonateIcon />
-              </ItemIconContainer>
-              <ItemDescription>
-                您的支持，將成為《報導者》繼續追蹤真相的動力！
-              </ItemDescription>
-              <ItemLink><BottomLink text="前往贊助夥伴" path={donationHref} redirect target={'_blank'} /></ItemLink>
-            </Item>
-            <Item>
-              <ItemTitle>訂閱</ItemTitle>
-              <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
-              <ItemDescription>
-                即將推出  敬請期待
-              </ItemDescription>
-            </Item>
-          </FlexContainer>
-        </ContentContainer>
-      </div>
+          <span>{sectionStrings.donation}</span>
+        </SectionName>
+        <TopContainer>
+          <ReporterIconWrapper>
+            <ReporterIcon />
+          </ReporterIconWrapper>
+          <span itemProp="description">{appConfig.description}</span>
+        </TopContainer>
+        <FlexContainer>
+          <Item>
+            <ItemTitle>作者群</ItemTitle>
+            <ItemIconContainer><AboutAuthorIcon /></ItemIconContainer>
+            <ItemDescription>
+              透過報導認識報導者們
+            </ItemDescription>
+            <ItemLink><BottomLink text="前往作者群" path={authorHref} /></ItemLink>
+          </Item>
+          <Item>
+            <ItemTitle>贊助我們</ItemTitle>
+            <ItemIconContainer>
+              <AboutDonateIcon />
+            </ItemIconContainer>
+            <ItemDescription>
+              您的支持，將成為《報導者》繼續追蹤真相的動力！
+            </ItemDescription>
+            <ItemLink><BottomLink text="前往贊助夥伴" path={donationHref} redirect target={'_blank'} /></ItemLink>
+          </Item>
+          <Item>
+            <ItemTitle>訂閱</ItemTitle>
+            <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
+            <ItemDescription>
+              即將推出  敬請期待
+            </ItemDescription>
+          </Item>
+        </FlexContainer>
+      </ContentContainer>
     )
   }
 }

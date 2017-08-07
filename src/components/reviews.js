@@ -156,41 +156,36 @@ class Reviews extends SrcToSrcset {
         </FlexItem>
       )
     })
-    // the outtest div is for animation scroll fadein
-    // the fadein animation will manipulate the padding value of the outtest div,
-    // by this manner, animation will not influence the layout of the module content
     return (
-      <div>
-        <Container
+      <Container
+        mobileWidth={mobileWidth}
+      >
+        <SectionName
           mobileWidth={mobileWidth}
         >
-          <SectionName
+          <span>{sectionStrings.review}</span>
+        </SectionName>
+        <FlexBox>
+          {ReviewsItem}
+        </FlexBox>
+        <MobileListUtils
+          maxWidth={mobileWidth}
+        >
+          <MobileFlexSwipeable.SwipableFlexItems
+            alignItems={'flex-start'}
             mobileWidth={mobileWidth}
+            maxSwipableItems={maxSwipableItems}
           >
-            <span>{sectionStrings.review}</span>
-          </SectionName>
-          <FlexBox>
             {ReviewsItem}
-          </FlexBox>
-          <MobileListUtils
-            maxWidth={mobileWidth}
-          >
-            <MobileFlexSwipeable.SwipableFlexItems
-              alignItems={'flex-start'}
-              mobileWidth={mobileWidth}
-              maxSwipableItems={maxSwipableItems}
-            >
-              {ReviewsItem}
-            </MobileFlexSwipeable.SwipableFlexItems>
-          </MobileListUtils>
-          <More>
-            <BottomLink
-              text={moreText}
-              path={moreURI}
-            />
-          </More>
-        </Container>
-      </div>
+          </MobileFlexSwipeable.SwipableFlexItems>
+        </MobileListUtils>
+        <More>
+          <BottomLink
+            text={moreText}
+            path={moreURI}
+          />
+        </More>
+      </Container>
     )
   }
 }

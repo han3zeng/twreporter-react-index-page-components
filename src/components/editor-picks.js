@@ -1,8 +1,10 @@
+/* eslint-disable no-param-reassign */
 import CategoryName from './common-utils/category-name'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import EditorPicksMobile from './editor-picks-mobile'
 import FadeInFadeOut from './animations/fadein-fadeout'
 import get from 'lodash/get'
+import clone from 'lodash/clone'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -34,6 +36,18 @@ const getScreenObj = () => {
 
 const _ = {
   get,
+  clone,
+}
+
+const swapArrayElements = (arr, indexA, indexB) => {
+  if (Array.isArray(arr) && arr.length > 2) {
+    const newArr = _.clone(arr)
+    const tmp = newArr[indexA]
+    newArr[indexA] = newArr[indexB]
+    newArr[indexB] = tmp
+    return newArr
+  }
+  return arr
 }
 
 const CarouselContainer = ContentWrapper.extend`
@@ -229,6 +243,7 @@ class EditorPicks extends React.Component {
 
   render() {
     const { data } = this.props
+    const swappedData = swapArrayElements(data, 0, 1)
     const getTruncate = (title) => {
       if (title.length > 28) {
         return `${title.slice(0, 25)}...`
@@ -236,7 +251,7 @@ class EditorPicks extends React.Component {
       return title
     }
     const FlexItems = (() => {
-      return data.map((obj, i) => {
+      return swappedData.map((obj, i) => {
         const style = _.get(obj, 'style', '')
         const href = getHref(_.get(obj, 'slug', 'error'), style)
         const propsMap = {
@@ -321,7 +336,7 @@ class EditorPicks extends React.Component {
       ]
 
       return propList.map((theProp) => {
-        return data.map((post, index) => {
+        return swappedData.map((post, index) => {
           const style = _.get(post, 'style', '')
           const href = getHref(_.get(post, 'slug', 'error'), style)
           const currentData = _.get(post, theProp.dataPath, '')
@@ -361,7 +376,7 @@ class EditorPicks extends React.Component {
       })
     })()
 
-    const Images = data.map((post, index) => {
+    const Images = swappedData.map((post, index) => {
       const { hero_image } = post
       const style = _.get(post, 'style', '')
       const href = getHref(_.get(post, 'slug', 'error'), style)
@@ -397,7 +412,10 @@ class EditorPicks extends React.Component {
             {FlexItems}
           </FlexContainer>
         </CarouselContainer>
-        <EditorPicksMobile data={this.props.data} />
+        <EditorPicksMobile
+          data={this.props.data}
+          maxSwipableItems={5}
+        />
       </div>
     )
   }

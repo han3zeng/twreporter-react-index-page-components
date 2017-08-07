@@ -1,6 +1,7 @@
 import { VelocityComponent } from 'velocity-react'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Waypoint from 'react-waypoint'
 
 class ScrollFadein extends React.Component {
   constructor(props) {
@@ -29,14 +30,25 @@ class ScrollFadein extends React.Component {
 
   render() {
     return (
-      <VelocityComponent
-        animation={this.state.startAnimation ? { opacity: 1, marginTop: 0 } : { opacity: 0.5, marginTop: '50px' }}
-        duration={680}
-        complete={this.onAnimationFinish}
-        runOnMount={false}
+      <Waypoint
+        onEnter={this.startAnimation}
+        fireOnRapidScroll
+        topOffset="80%"
+        bottomOffset="19%"
       >
-        {React.cloneElement(this.props.children, { ref: (node) => { this.module = node } })}
-      </VelocityComponent>
+        <div>
+          <VelocityComponent
+            animation={this.state.startAnimation ? { opacity: 1, paddingTop: 0 } : { opacity: 0.5, paddingTop: '50px' }}
+            duration={680}
+            complete={this.onAnimationFinish}
+            runOnMount={false}
+          >
+            <div>
+              {React.cloneElement(this.props.children, { ref: (node) => { this.module = node } })}
+            </div>
+          </VelocityComponent>
+        </div>
+      </Waypoint>
     )
   }
 }

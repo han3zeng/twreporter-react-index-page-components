@@ -156,7 +156,6 @@ class Reviews extends SrcToSrcset {
         </FlexItem>
       )
     })
-
     return (
       <Container
         mobileWidth={mobileWidth}

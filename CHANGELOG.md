@@ -1,3 +1,8 @@
+### 1.0.22
+- Implement dynamic max swipeable items.
+- Solve module gap problem (background color)
+- swap data in editor pick section
+
 ### 1.0.21
 - Bug fix. Title in editor-picks section will be truncated well.
 
@@ -8,7 +13,7 @@
 - Bug fix. Don't transiple json, svg files. Just copy them to dest folder
 
 ### 1.0.18
-- Update src/components/infographic-section.js. 
+- Update src/components/infographic-section.js.
 
 ### 1.0.17
 - Remove Header in twreporter-react-index-page-components and use Header from twreporter-react-components

@@ -1,21 +1,14 @@
+import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Waypoint from 'react-waypoint'
-import sectionStrings from '../constants/section-strings'
 import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
-import ScrollFadein from './animations/scroll-fadein'
 import { breakPoints } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
-import { Link } from 'react-router'
 
-const anchorsList = []
-const moduleIdObj = {}
-for (const key in sectionStrings) {
-  if (Object.prototype.hasOwnProperty.call(sectionStrings, key)) {
-    anchorsList.push(key)
-    moduleIdObj[key] = key
-  }
+const _ = {
+  get,
 }
 
 const ifSafari = () => {
@@ -70,7 +63,7 @@ class Anchors extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentSection: props.curretSection,
+      currentSection: this.props.IdLabelList[0].id,
     }
     this.changeHighlight = this._changeHighlight.bind(this)
     this.scrollTo = this._scrollTo.bind(this)
@@ -85,7 +78,7 @@ class Anchors extends React.Component {
   _scrollTo(moduleId, e) {
     e.preventDefault()
     const node = this.props.moduleMap[moduleId]
-    const offsetTop = moduleId === anchorsList[0] ? node.offsetTop + 278 : node.offsetTop
+    const offsetTop = moduleId === this.props.IdLabelList[0].id ? node.offsetTop + 278 : node.offsetTop
     if (node) {
       return smoothScroll(offsetTop)
     }
@@ -102,19 +95,17 @@ class Anchors extends React.Component {
         )
       })
     }
-    const navBarSections = anchorsList.map((value) => {
+    const navBarSections = this.props.IdLabelList.map((idLabelObj, index) => {
+      const moduleId = _.get(idLabelObj, 'id', `module_${index}`)
+      const moduleLabel = _.get(idLabelObj, 'label', `moduleLabel_${index}`)
       return (
-        <Link
-          to={`/#${value}`}
-          key={`SectionButton_${value}`}
-          onClick={(e) => { this.scrollTo(value, e) }}
+        <SectionButton
+          highlight={moduleId === this.state.currentSection}
+          onClick={(e) => { this.scrollTo(moduleId, e) }}
+          key={`SectionButton_${moduleId}`}
         >
-          <SectionButton
-            highlight={value === this.state.currentSection}
-          >
-            {AssembleWord(sectionStrings[value])}
-          </SectionButton>
-        </Link>
+          {AssembleWord(moduleLabel)}
+        </SectionButton>
       )
     })
     return (
@@ -127,12 +118,12 @@ class Anchors extends React.Component {
 
 Anchors.defaultProps = {
   moduleMap: {},
-  curretSection: '',
+  IdLabelList: [],
 }
 
 Anchors.propTypes = {
   moduleMap: PropTypes.object,
-  curretSection: PropTypes.string,
+  IdLabelList: PropTypes.array,
 }
 
 class SideBar extends React.Component {
@@ -143,10 +134,9 @@ class SideBar extends React.Component {
     }
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
-    this.handleOnFadeIn = this._handleOnFadeIn.bind(this)
+    // moduleId to Module
     this.moduleMap = {}
-    this.fadeInSectionMap = {}
-    this.currentSection = anchorsList[0]
+    this.currentSection = ''
     this.previousSection = ''
   }
 
@@ -162,7 +152,6 @@ class SideBar extends React.Component {
 
   componentWillUnmount() {
     this.moduleMap = {}
-    this.fadeInSectionMap = {}
   }
 
   _handleOnEnter(nextSection) {
@@ -179,55 +168,40 @@ class SideBar extends React.Component {
     }
   }
 
-  _handleOnFadeIn(upComingSection) {
-    if (upComingSection !== anchorsList[0]) {
-      this.fadeInSectionMap[upComingSection].startAnimation()
-    }
-  }
-
   render() {
-    const webSiteContent = this.props.children.map((singleModule, index) => {
-      const { moduleId } = singleModule.props
-      if (anchorsList.includes(moduleId)) {
-        return (
-          <Waypoint
-            key={`Single_Module_${moduleId}`}
-            onLeave={() => { this.handleOnLeave(moduleId) }}
-            onEnter={() => { this.handleOnEnter(moduleId) }}
-            fireOnRapidScroll
-            topOffset="4%"
-            bottomOffset={(index + 1) === this.props.children.length ? '50%' : '95%'}
+    const { children } = this.props
+    let modules = children
+    const IdLabelList = []
+    if (children && !Array.isArray(children)) {
+      modules = [children]
+    }
+    if (this.currentSection === '') {
+      this.currentSection = _.get(modules[0], 'props.moduleId', 'module_01')
+    }
+    const webSiteContent = modules.map((singleModule, index) => {
+      const moduleId = _.get(singleModule, 'props.moduleId', `module_${index}`)
+      const moduleLabel = _.get(singleModule, 'props.moduleLabel', `moduleLabel_${index}`)
+      IdLabelList.push({
+        id: moduleId,
+        label: moduleLabel,
+      })
+      return (
+        <Waypoint
+          key={`Single_Module_${moduleId}`}
+          onLeave={() => { this.handleOnLeave(moduleId) }}
+          onEnter={() => { this.handleOnEnter(moduleId) }}
+          fireOnRapidScroll
+          topOffset="4%"
+          bottomOffset={(index + 1) === modules.length ? '50%' : '95%'}
+        >
+          <div
+            id={moduleId}
+            ref={(node) => { this.moduleMap[moduleId] = node }}
           >
-            <div
-              id={moduleId}
-              ref={(node) => { this.moduleMap[moduleId] = node }}
-            >
-              <Waypoint
-                onEnter={() => { this.handleOnFadeIn(moduleId) }}
-                fireOnRapidScroll
-                topOffset="80%"
-                bottomOffset="19%"
-              >
-                { moduleId === anchorsList[0] ?
-                  <div>
-                    {singleModule}
-                  </div>
-                  :
-                  <div>
-                    <ScrollFadein
-                      ref={(node) => { this.fadeInSectionMap[moduleId] = node }}
-                      moduleId={moduleId}
-                    >
-                      {singleModule}
-                    </ScrollFadein>
-                  </div>
-                }
-              </Waypoint>
-            </div>
-          </Waypoint>
-        )
-      }
-      return <span key={`${moduleId}`} />
+            {singleModule}
+          </div>
+        </Waypoint>
+      )
     })
 
     return (
@@ -237,8 +211,8 @@ class SideBar extends React.Component {
         >
           <Anchors
             ref={(node) => { this.anchorsNode = node }}
-            curretSection={anchorsList[0]}
             moduleMap={this.moduleMap}
+            IdLabelList={IdLabelList}
           />
         </Container>
         {webSiteContent}
@@ -256,4 +230,3 @@ SideBar.propTypes = {
 }
 
 export default SideBar
-export { moduleIdObj }

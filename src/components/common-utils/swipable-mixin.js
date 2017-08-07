@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 
 class SwipableMixin extends React.Component {
@@ -6,15 +7,13 @@ class SwipableMixin extends React.Component {
     this.state = {
       selected: 0,
     }
-    this.maxSwipableItems = 0
     this.onSwipedRight = this._onSwipedRight.bind(this)
     this.onSwipedLeft = this._onSwipedLeft.bind(this)
-    this.onSetMaxItems = this._onSetMaxItems.bind(this)
   }
 
   _onSwipedLeft() {
     const { selected } = this.state
-    if (selected < this.maxSwipableItems) {
+    if (selected < this.props.maxSwipableItems) {
       this.setState({
         selected: selected + 1,
       })
@@ -29,10 +28,14 @@ class SwipableMixin extends React.Component {
       })
     }
   }
+}
 
-  _onSetMaxItems(num) {
-    this.maxSwipableItems = num
-  }
+SwipableMixin.defaultProps = {
+  maxSwipableItems: 0,
+}
+
+SwipableMixin.propTypes = {
+  maxSwipableItems: PropTypes.string,
 }
 
 export default SwipableMixin

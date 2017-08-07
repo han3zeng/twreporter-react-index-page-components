@@ -24,7 +24,6 @@ const _ = {
 // const desktopWidth = '1440px'
 // const tabletWidth = '1024px'
 const mobileWidth = breakPoints.mobileMaxWidth
-const maxSwipableItems = 7
 const backgroundColor = '#e2e2e2'
 
 const Container = styled.div`
@@ -166,7 +165,6 @@ class Category extends SrcToSrcset {
         </FlexItem>
       )
     })
-
     return (
       <Container>
         <SectionWrapper
@@ -186,7 +184,7 @@ class Category extends SrcToSrcset {
             <MobileFlexSwipeable.SwipableFlexItems
               alignItems={'stretch'}
               mobileWidth={mobileWidth}
-              maxSwipableItems={maxSwipableItems}
+              maxSwipableItems={_.get(this.props, 'data.length', 1) - 1}
               categorySection
             >
               {items}

@@ -37,10 +37,6 @@ const FlexItem = styled.li`
 
 
 class SwipableFlexItems extends SwipeableMixin {
-  componentWillMount() {
-    this.onSetMaxItems(this.props.maxSwipableItems)
-  }
-
   render() {
     const { selected } = this.state
     const { alignItems, children, justifyContent, mobileWidth } = this.props

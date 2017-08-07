@@ -1,3 +1,6 @@
+### 1.0.23
+- Move twreporter-react-header-components to peer
+
 ### 1.0.22
 - Implement dynamic max swipeable items.
 - Solve module gap problem (background color)

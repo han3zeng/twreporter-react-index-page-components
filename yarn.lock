@@ -4885,9 +4885,9 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-twreporter-react-header-components@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/twreporter-react-header-components/-/twreporter-react-header-components-1.0.5.tgz#34468ec6450da879a8b9cf8ddd204b9d067bacf4"
+twreporter-react-header-components@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/twreporter-react-header-components/-/twreporter-react-header-components-1.0.7.tgz#27c428c965cbebd0178e7ae728ae52617663457a"
   dependencies:
     lodash "^4.17.4"
     prop-types "^15.5.10"

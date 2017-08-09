@@ -48,7 +48,7 @@ const SectionAnimationWrapper = (WrappedComponent) => {
         >
           <div>
             <VelocityComponent
-              animation={this.state.toAnimateScroll ? { opacity: 1, paddingTop: 0 } : { opacity: 1, paddingTop: '50px' }}
+              animation={this.state.toAnimateScroll ? { paddingTop: 0 } : { paddingTop: '50px' }}
               duration={500}
               complete={this.onScrollAnimationFinish}
               runOnMount={false}

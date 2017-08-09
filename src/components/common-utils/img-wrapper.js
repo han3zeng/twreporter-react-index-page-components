@@ -55,6 +55,9 @@ class ImgWrapper extends React.Component {
           alt={alt}
           src={replaceStorageUrlPrefix(src)}
           srcSet={srcSet}
+          style={{
+            transform: 'translateZ(0)',
+          }}
         />
         {this.props.children}
       </ImgObjectFit>

@@ -1,15 +1,15 @@
 import CategoryName from './common-utils/category-name'
-import get from 'lodash/get'
 import Header from 'twreporter-react-header-components'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import TRLink from './common-utils/twreporter-link'
+import get from 'lodash/get'
+import postPropType from './prop-types/post'
+import styled from 'styled-components'
 import { fonts } from '../styles/common-variables'
 import { getHref } from '../utils/getHref'
-import { getImageSrcSet } from '../utils/image-processor'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
 const _ = {
@@ -180,8 +180,7 @@ class LatestSection extends React.Component {
             <ImageFrame>
               <ImgWrapper
                 alt={_.get(item, 'hero_image.description', '')}
-                src={_.get(item, 'hero_image.resized_targets.tiny.url', '')}
-                srcSet={getImageSrcSet(_.get(item, 'hero_image'))}
+                src={_.get(item, 'hero_image.resized_targets.mobile.url', '')}
               />
             </ImageFrame>
             <ContentFrame>
@@ -213,7 +212,7 @@ LatestSection.defaultProps = {
 }
 
 LatestSection.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(postPropType()),
 }
 
 export default LatestSection

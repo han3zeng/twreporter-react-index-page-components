@@ -1,19 +1,19 @@
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
-import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListUtils from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
+import SectionAnimationWrapper from './animations/section-animation-wrapper'
 import SectionName from './common-utils/section-name'
 import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
-import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
+import get from 'lodash/get'
+import postPropType from './prop-types/post'
+import styled from 'styled-components'
 import { fonts, colors } from '../styles/common-variables'
-import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
@@ -123,9 +123,9 @@ const More = styled.div`
   margin-top: 60px;
 `
 
-class Reviews extends SrcToSrcset {
+class Reviews extends React.PureComponent {
   render() {
-    const { data, moreURI } = this.props
+    const { data, moreURI, useTinyImg } = this.props
     const ReviewsItem = data.map((post) => {
       const style = _.get(post, 'style', '')
       const href = getHref(_.get(post, 'slug', 'error'), style)
@@ -137,8 +137,7 @@ class Reviews extends SrcToSrcset {
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
-                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
-                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : ''}
+                src={_.get(post, ['hero_image', 'resized_targets', useTinyImg ? 'tiny' : 'mobile', 'url'])}
               />
             </ImgFrame>
             <TextFrame>
@@ -193,11 +192,13 @@ class Reviews extends SrcToSrcset {
 Reviews.defaultProps = {
   data: [],
   moreURI: '/categories/reviews',
+  useTinyImg: false,
 }
 
 Reviews.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(postPropType()),
   moreURI: PropTypes.string,
+  useTinyImg: PropTypes.bool,
 }
 
-export default Reviews
+export default SectionAnimationWrapper(Reviews)

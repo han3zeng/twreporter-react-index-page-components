@@ -3,16 +3,16 @@ import CategoryName from './common-utils/category-name'
 import ContentWrapper from './common-utils/section-content-wrapper'
 import EditorPicksMobile from './editor-picks-mobile'
 import FadeInFadeOut from './animations/fadein-fadeout'
-import get from 'lodash/get'
-import clone from 'lodash/clone'
 import ImgWrapper from './common-utils/img-wrapper'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled from 'styled-components'
 import TRLink from './common-utils/twreporter-link'
+import clone from 'lodash/clone'
+import get from 'lodash/get'
+import postPropType from './prop-types/post'
+import styled from 'styled-components'
 import { VelocityComponent } from 'velocity-react'
 import { fonts, colors } from '../styles/common-variables'
-import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 import { truncate, breakPoints, finalMedia } from '../utils/style-utils'
 
@@ -377,12 +377,12 @@ class EditorPicks extends React.Component {
     })()
 
     const Images = swappedData.map((post, index) => {
-      const { hero_image } = post
+      const heroImg = _.get(post, 'hero_image')
       const style = _.get(post, 'style', '')
       const href = getHref(_.get(post, 'slug', 'error'), style)
       return (
         <FadeInFadeOut
-          key={_.get(post, 'hero_image.id')}
+          key={_.get(heroImg, 'id')}
           isSelected={index === this.state.selected}
         >
           <TRLink href={href} redirect={style === 'interactive'} plain>
@@ -392,9 +392,8 @@ class EditorPicks extends React.Component {
                 onMouseLeave={this.handleOnMouseLeave}
               >
                 <ImgWrapper
-                  alt={_.get(hero_image, 'description')}
-                  src={_.get(hero_image, 'resized_targets.tiny.url')}
-                  srcSet={getImageSrcSet(hero_image)}
+                  alt={_.get(heroImg, 'description')}
+                  src={_.get(heroImg, 'resized_targets.tablet.url')}
                 />
               </ImgFrame>
             </HoverEffect>
@@ -426,7 +425,7 @@ EditorPicks.defaultProps = {
 }
 
 EditorPicks.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(postPropType()),
 }
 
 export default EditorPicks

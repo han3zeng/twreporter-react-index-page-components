@@ -1,21 +1,21 @@
 /* eslint-disable no-param-reassign */
 import BottomLink from './common-utils/bottom-link'
-import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListUtils from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Section from './common-utils/section'
-import styled from 'styled-components'
+import SectionAnimationWrapper from './animations/section-animation-wrapper'
 import SectionName from './common-utils/section-name'
-import sectionStrings from '../constants/section-strings'
-import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
+import get from 'lodash/get'
+import postPropType from './prop-types/post'
+import sectionStrings from '../constants/section-strings'
+import styled from 'styled-components'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { getHref } from '../utils/getHref'
 import { fonts, colors } from '../styles/common-variables'
-import { replaceStorageUrlPrefix } from '../utils/url-processor'
 
 const _ = {
   get,
@@ -130,9 +130,10 @@ const More = styled.div`
   }
 `
 
-class Category extends SrcToSrcset {
+class Category extends React.PureComponent {
   render() {
-    const items = this.props.data.map((item) => {
+    const { data, useTinyImg } = this.props
+    const items = data.map((item) => {
       const style = _.get(item, 'style', '')
       const href = getHref(_.get(item, 'slug', 'error'), style)
       return (
@@ -145,9 +146,8 @@ class Category extends SrcToSrcset {
           <TRLink href={href} redirect={style === 'interactive'}>
             <ImgFrame>
               <ImgWrapper
-                alt={_.get(item, 'img.description')}
-                src={_.get(item, 'img.src')}
-                srcSet={this.state.ifSrcset ? replaceStorageUrlPrefix(_.get(item, 'img.srcset')) : ''}
+                alt={_.get(item, 'hero_image.description')}
+                src={_.get(item, ['hero_image', 'resized_targets', useTinyImg ? 'tiny' : 'mobile', 'url'])}
               />
             </ImgFrame>
             <TextFrame>
@@ -198,21 +198,17 @@ class Category extends SrcToSrcset {
 
 Category.defaultProps = {
   data: [],
+  useTinyImg: false,
 }
 
 Category.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
-    img: PropTypes.shape({
-      src: PropTypes.string,
-      description: PropTypes.string,
+  data: PropTypes.arrayOf(
+    postPropType({
+      listName: PropTypes.string.isRequired,
+      moreURI: PropTypes.string.isRequired,
     }),
-    title: PropTypes.string.isRequired,
-    listName: PropTypes.string.isRequired,
-    moreURI: PropTypes.string.isRequired,
-    style: PropTypes.string.isRequired,
-  })),
+  ),
+  useTinyImg: PropTypes.bool,
 }
 
-export default Category
+export default SectionAnimationWrapper(Category)

@@ -6,6 +6,7 @@ import LatestSection from './components/latest-section'
 import PhotographySection from './components/photography-section'
 import ReporterIntro from './components/reporter-intro'
 import ReviewsSection from './components/reviews'
+import ScrollFadein from './components/animations/scroll-fadein'
 import SeachBox from './components/search-box'
 import SideBar from './components/side-bar'
 import TopicsSection from './components/topics-section'
@@ -20,6 +21,7 @@ export default {
     PhotographySection,
     ReporterIntro,
     ReviewsSection,
+    ScrollFadein,
     SeachBox,
     SideBar,
     TopicsSection,

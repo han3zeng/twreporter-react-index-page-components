@@ -6,17 +6,17 @@ import MobileList from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Section from './common-utils/section'
+import SectionAnimationWrapper from './animations/section-animation-wrapper'
 import SectionName from './common-utils/section-name'
 import TruncatText from './truncat-text'
 import TRLink from './common-utils/twreporter-link'
-import strings from '../constants/strings'
-import sectionStrings from '../constants/section-strings'
-import SrcToSrcset from './common-utils/src-to-srcset'
 import get from 'lodash/get'
+import sectionStrings from '../constants/section-strings'
+import strings from '../constants/strings'
 import styled from 'styled-components'
+import topicPropType from './prop-types/topic'
 import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
-import { getImageSrcSet } from '../utils/image-processor'
 
 const _ = {
   get,
@@ -189,13 +189,13 @@ Topic.propTypes = {
   slug: PropTypes.string,
 }
 
-class TopicsSection extends SrcToSrcset {
+class TopicsSection extends React.PureComponent {
   render() {
     const totalTopics = 4
-    const { items } = this.props
-    const topicComps = items.map((item) => {
+    const { data, useTinyImg } = this.props
+    const topicComps = data.map((item) => {
       const desc = _.get(item, 'og_description')
-      const imgObj = _.get(item, 'hero_image') || _.get(item, 'og_image')
+      const imgObj = _.get(item, 'leading_image') || _.get(item, 'og_image')
       return (
         <Topic
           key={_.get(item, 'id')}
@@ -204,11 +204,9 @@ class TopicsSection extends SrcToSrcset {
           desc={desc}
           imgObj={{
             alt: _.get(imgObj, 'description'),
-            src: _.get(imgObj, 'resized_targets.tiny.url'),
-            srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+            src: _.get(imgObj, ['resized_targets', useTinyImg ? 'tiny' : 'mobile', 'url']),
           }}
           slug={_.get(item, 'slug')}
-          style={_.get(item, 'style', '')}
         />
       )
     })
@@ -244,11 +242,13 @@ class TopicsSection extends SrcToSrcset {
 }
 
 TopicsSection.defaultProps = {
-  items: [],
+  data: [],
+  useTinyImg: false,
 }
 
 TopicsSection.propTypes = {
-  items: PropTypes.array,
+  data: PropTypes.arrayOf(topicPropType()),
+  useTinyImg: PropTypes.bool,
 }
 
-export default TopicsSection
+export default SectionAnimationWrapper(TopicsSection)

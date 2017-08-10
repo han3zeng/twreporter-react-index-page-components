@@ -6,15 +6,15 @@ import MobileListBase from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Section from './common-utils/section'
+import SectionAnimationWrapper from './animations/section-animation-wrapper'
 import SectionName from './common-utils/section-name'
 import TRLink from './common-utils/twreporter-link'
 import get from 'lodash/get'
+import postPropType from './prop-types/post'
 import sectionStrings from '../constants/section-strings'
 import styled from 'styled-components'
-import SrcToSrcset from './common-utils/src-to-srcset'
 import { breakPoints, finalMedia, truncate } from '../utils/style-utils'
 import { fonts } from '../styles/common-variables'
-import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 
 const _ = {
@@ -176,7 +176,6 @@ class Infographic extends React.PureComponent {
             <ImgWrapper
               alt={imgObj.alt}
               src={imgObj.src}
-              srcSet={imgObj.srcSet}
             />
           </ImgFrame>
           <WordBlock>
@@ -205,18 +204,18 @@ Infographic.propTypes = {
   style: PropTypes.string,
 }
 
-class InfographicSection extends SrcToSrcset {
+class InfographicSection extends React.PureComponent {
   render() {
-    const { items, moreURI } = this.props
+    const { data, moreURI, useTinyImg } = this.props
     const listNumber = 3
 
-    const postComps = items.slice(0, 6).map((item, index) => {
-      const leadingImg = _.get(item, 'leading_image_portrait')
+    const postComps = data.slice(0, 6).map((item, index) => {
+      const portraitImg = _.get(item, 'leading_image_portrait')
       let imgObj = _.get(item, 'hero_image')
 
       if ((index === 0 || index === 4 || index === 5)) {
-        if (typeof _.get(leadingImg, 'resized_targets') === 'object') {
-          imgObj = leadingImg
+        if (typeof _.get(portraitImg, 'resized_targets') === 'object') {
+          imgObj = portraitImg
         }
       }
       return (
@@ -225,14 +224,12 @@ class InfographicSection extends SrcToSrcset {
           category={_.get(item, 'categories.[0].name')}
           imgObj={{
             alt: _.get(imgObj, 'description'),
-            src: _.get(imgObj, 'resized_targets.tiny.url'),
-            srcSet: this.state.ifSrcset ? getImageSrcSet(imgObj) : '',
+            src: _.get(imgObj, ['resized_targets', useTinyImg ? 'tiny' : 'mobile', 'url']),
           }}
           title={_.get(item, 'title')}
           isPortrait={index === 0 || index === 4 || index === 5}
           slug={_.get(item, 'slug')}
           style={_.get(item, 'style')}
-          ifSrcset={this.state.ifSrcset}
         />
       )
     })
@@ -272,13 +269,15 @@ class InfographicSection extends SrcToSrcset {
 }
 
 InfographicSection.defaultProps = {
-  items: [],
+  data: [],
   moreURI: 'categories/infographic',
+  useTinyImg: false,
 }
 
 InfographicSection.propTypes = {
-  items: PropTypes.array,
   moreURI: PropTypes.string,
+  data: PropTypes.arrayOf(postPropType()),
+  useTinyImg: PropTypes.bool,
 }
 
-export default InfographicSection
+export default SectionAnimationWrapper(InfographicSection)

@@ -1,3 +1,6 @@
+### 1.1.0
+- Wrap sections with animation 
+
 ### 1.0.23
 - Move twreporter-react-header-components to peer
 

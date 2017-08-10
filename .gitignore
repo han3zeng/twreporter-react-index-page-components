@@ -5,7 +5,7 @@ static/dist
 
 .jshintignore
 .jshintrc
-npm-debug.log
+npm-debug.log*
 
 # Ignore transpiled files
 dist/

@@ -1,21 +1,21 @@
 import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
-import get from 'lodash/get'
 import ImgWrapper from './common-utils/img-wrapper'
-import SrcToSrcset from './common-utils/src-to-srcset'
 import TRLink from './common-utils/twreporter-link'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
 import MobileListUtils from './common-utils/mobile-list'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Section from './common-utils/section'
+import SectionAnimationWrapper from './animations/section-animation-wrapper'
+import SectionName from './common-utils/section-name'
+import get from 'lodash/get'
+import sectionStrings from '../constants/section-strings'
 import strings from '../constants/strings'
 import styled from 'styled-components'
-import Section from './common-utils/section'
-import SectionName from './common-utils/section-name'
-import sectionStrings from '../constants/section-strings'
+import topicPropType from './prop-types/topic'
 import { breakPoints, finalMedia, truncate } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
-import { getImageSrcSet } from '../utils/image-processor'
 import { getHref } from '../utils/getHref'
 import { itemWidthPct } from '../constants/mobile-mockup-specification'
 
@@ -151,9 +151,9 @@ const ImgFrame = styled.div`
   `}
 `
 
-class LatestTopic extends SrcToSrcset {
+class LatestTopic extends React.PureComponent {
   render() {
-    const { data } = this.props
+    const { data, useTinyImg } = this.props
     const maxSwipableItems = 2
     const relateds = _.get(data, 'relateds', []).slice(0, 3).map((post) => {
       const style = _.get(post, 'style', '')
@@ -167,8 +167,7 @@ class LatestTopic extends SrcToSrcset {
             <ImgFrame>
               <ImgWrapper
                 alt={_.get(post, 'hero_image.description')}
-                src={_.get(post, 'hero_image.resized_targets.tiny.url')}
-                srcSet={this.state.ifSrcset ? getImageSrcSet(_.get(post, 'hero_image')) : ''}
+                src={_.get(post, ['hero_image', 'resized_targets', useTinyImg ? 'tiny' : 'mobile', 'url'])}
               />
             </ImgFrame>
             <RelatedsContentFrame>
@@ -230,10 +229,12 @@ class LatestTopic extends SrcToSrcset {
 
 LatestTopic.defaultProps = {
   data: {},
+  useTinyImg: false,
 }
 
 LatestTopic.propTypes = {
-  data: PropTypes.object,
+  data: topicPropType(),
+  useTinyImg: PropTypes.bool,
 }
 
-export default LatestTopic
+export default SectionAnimationWrapper(LatestTopic)

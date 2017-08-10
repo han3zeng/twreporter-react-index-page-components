@@ -4,11 +4,12 @@ import AboutSubscribeIcon from '../static/about-subscribe.svg'
 import BottomLink from './common-utils/bottom-link'
 import ReporterIcon from '../static/reporter-large.svg'
 import React from 'react'
-import styled from 'styled-components'
+import SectionAnimationWrapper from './animations/section-animation-wrapper'
 import SectionName from './common-utils/section-name'
-import sectionStrings from '../constants/section-strings'
 import Section from './common-utils/section'
 import appConfig from '../conf/app-config.json'
+import sectionStrings from '../constants/section-strings'
+import styled from 'styled-components'
 import { centerBlock, finalMedia, breakPoints } from '../utils/style-utils'
 import { colors, fonts } from '../styles/common-variables'
 import { itemPlusPaddingWidthPct } from '../constants/mobile-mockup-specification'
@@ -156,4 +157,4 @@ class ReporterIntro extends React.PureComponent {
   }
 }
 
-export default ReporterIntro
+export default SectionAnimationWrapper(ReporterIntro)

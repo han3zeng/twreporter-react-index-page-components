@@ -38,7 +38,7 @@ const SectionAnimationWrapper = (WrappedComponent) => {
     }
 
     render() {
-      const { data } = this.props
+      const { data, moreURI } = this.props
       return (
         <Waypoint
           onEnter={this.startScrollAnimation}
@@ -57,6 +57,7 @@ const SectionAnimationWrapper = (WrappedComponent) => {
               <div>
                 <WrappedComponent
                   data={data}
+                  moreURI={moreURI}
                   useTinyImg={!this.state.isScrollAnimated}
                 />
               </div>
@@ -69,6 +70,7 @@ const SectionAnimationWrapper = (WrappedComponent) => {
 
   Wrapper.defaultProps = {
     data: [],
+    moreURI: undefined,
   }
 
   Wrapper.propTypes = {
@@ -76,6 +78,7 @@ const SectionAnimationWrapper = (WrappedComponent) => {
       PropTypes.object,
       PropTypes.array,
     ]),
+    moreURI: PropTypes.string,
   }
 
   return Wrapper

@@ -191,7 +191,7 @@ class Reviews extends React.PureComponent {
 
 Reviews.defaultProps = {
   data: [],
-  moreURI: '/categories/reviews',
+  moreURI: 'categories/reviews',
   useTinyImg: false,
 }
 

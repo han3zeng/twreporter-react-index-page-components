@@ -1,3 +1,6 @@
+### 1.1.1
+- Bug fix. Add `moreURI` prop in section-animation-wrapper.js
+
 ### 1.1.0
 - Wrap sections with animation 
 

@@ -123,7 +123,7 @@ const More = styled.div`
   padding-top: 16px;
   transform: translateX(-50%);
   text-align: center;
-  width: 100%;
+  width: 101%;
   background-color: ${backgroundColor};
   @media (max-width: ${mobileWidth}) {
     bottom: -24px;

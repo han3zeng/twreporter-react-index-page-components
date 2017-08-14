@@ -88,7 +88,7 @@ const FlexItem = styled.div`
   min-height: 335px;
   width: 426px;
   &:nth-child(2) {
-    margin: 0 20px;
+    margin: 0 36px;
   }
   ${finalMedia.desktop`
     width: 290px;

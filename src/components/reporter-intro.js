@@ -18,20 +18,18 @@ const mobileWidth = breakPoints.mobileMaxWidth
 const ContentContainer = Section.extend`
   position: relative;
   color: ${colors.textGrey};
+  max-width: ${breakPoints.desktopMinWidth}
 `
 
 const TopContainer = styled.div`
-  padding: 0 10px 5px 10px;
+  padding: 0 10px 100px 10px;
   ${centerBlock}
   font-size: ${fonts.size.medium};
   ${finalMedia.mobile`
     padding-left: 5%;
     padding-right: 5%;
   `}
-  max-width: 660px;
-  @media (max-width: ${breakPoints.desktopMaxWidth}) {
-    max-width: 500px;
-  }
+  max-width: 500px;
   ${finalMedia.mobile`
     max-width: ${itemPlusPaddingWidthPct}%;
   `}
@@ -47,7 +45,8 @@ const FlexContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: stretch;
   padding: 0 4%;
   margin-top: 15px;
   ${finalMedia.mobile`
@@ -59,6 +58,7 @@ const FlexContainer = styled.div`
 const Item = styled.div`
   display: flex;
   flex-direction:column;
+  justify-content: space-around;
   text-align: center;
   width: 33%;
   margin: 10px 0;
@@ -150,6 +150,7 @@ class ReporterIntro extends React.PureComponent {
             <ItemDescription>
               即將推出  敬請期待
             </ItemDescription>
+            <ItemLink />
           </Item>
         </FlexContainer>
       </ContentContainer>

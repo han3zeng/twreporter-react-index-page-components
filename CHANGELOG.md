@@ -1,3 +1,6 @@
+### 1.1.2
+- Style tuning after designer's review 
+
 ### 1.1.1
 - Bug fix. Add `moreURI` prop in section-animation-wrapper.js
 

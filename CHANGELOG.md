@@ -1,3 +1,6 @@
+### 1.1.3
+- Style update for reporter-intro section
+
 ### 1.1.2
 - Style tuning after designer's review 
 

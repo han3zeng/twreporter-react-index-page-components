@@ -16,21 +16,22 @@ import { itemPlusPaddingWidthPct } from '../constants/mobile-mockup-specificatio
 
 const mobileWidth = breakPoints.mobileMaxWidth
 const ContentContainer = Section.extend`
-  position: relative;
+  padding-bottom: 123px;
   color: ${colors.textGrey};
-  max-width: ${breakPoints.desktopMinWidth}
+  ${finalMedia.mobile`
+    padding-bottom: 0px;
+  `}
 `
 
 const TopContainer = styled.div`
   padding: 0 10px 100px 10px;
   ${centerBlock}
   font-size: ${fonts.size.medium};
-  ${finalMedia.mobile`
-    padding-left: 5%;
-    padding-right: 5%;
-  `}
   max-width: 500px;
+  text-align: justify;
+
   ${finalMedia.mobile`
+    padding: 0 0 40px 0;
     max-width: ${itemPlusPaddingWidthPct}%;
   `}
 `
@@ -42,34 +43,38 @@ const ReporterIconWrapper = styled.div`
 `
 
 const FlexContainer = styled.div`
+  max-width: 860px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  padding: 0 4%;
-  margin-top: 15px;
+
+  ${finalMedia.tablet`
+    max-width: 700px;
+  `}
   ${finalMedia.mobile`
-    flex: 1 100%;
-    padding: 10px 9.5%;
+    display: block;
   `}
 `
 
 const Item = styled.div`
+  position: relative;
+  flex-shrink: 1;
+  flex-basis: 220px;
   display: flex;
   flex-direction:column;
-  justify-content: space-around;
+  justify-content: flex-start;
+  margin: 0;
   text-align: center;
-  width: 33%;
-  margin: 10px 0;
-  padding: 5px 3.6%;
   ${finalMedia.mobile`
-    width: 100%;
-    padding: 20px 20px;
+    margin: 0 auto 60px auto;
   `}
 `
 
 const ItemTitle = styled.h3`
+  margin: 0;
   font-size: ${fonts.size.xlarge};
   font-weight: ${fonts.weight.bold};
   ${finalMedia.mobile`
@@ -90,20 +95,32 @@ const ItemIconContainer = styled.div`
   `}
 `
 
+// 320 is the iPhone5 mobile width
+// 186 is the width on the mockup
+const mobileDescPct = ((186 / 320) * 100)
+
 const ItemDescription = styled.div`
   line-height: 1.5;
   font-size: ${fonts.size.medium};
   ${finalMedia.mobile`
-    flex: 1 100%;
     font-size: ${fonts.size.medium};
     line-height: 1.43;
     font-size: ${fonts.size.large};
+    max-width: ${`${mobileDescPct}%`};
+    margin: 0 auto;
   `}
 `
 
 const ItemLink = styled.div`
-  margin: 7px;
-  padding: 15px 5px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -43px;
+  ${finalMedia.mobile`
+    position: relative;
+    margin-top: 20px;
+    bottom: 0;
+  `}
 `
 
 class ReporterIntro extends React.PureComponent {

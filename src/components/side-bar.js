@@ -40,7 +40,7 @@ const Container = styled.div`
 
 // writing-mode: vertical-rl;
 // letter-spacing: 2px;
-const SectionButton = styled.div`
+const Anchor = styled.div`
   margin-bottom: 18px;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -51,7 +51,7 @@ const SectionButton = styled.div`
   background: ${props => (props.highlight ? `${colors.primaryColor}` : 'none')};
 `
 
-const SingleWord = styled.div`
+const Label = styled.div`
   display: block;
   margin: 2px 3px;
   padding: 0;
@@ -63,10 +63,9 @@ class Anchors extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentSection: this.props.IdLabelList[0].id,
+      currentSection: _.get(this.props, 'data.0.id'),
     }
     this.changeHighlight = this._changeHighlight.bind(this)
-    this.scrollTo = this._scrollTo.bind(this)
   }
 
   _changeHighlight(currentSection) {
@@ -75,55 +74,53 @@ class Anchors extends React.Component {
     })
   }
 
-  _scrollTo(moduleId, e) {
-    e.preventDefault()
-    const node = this.props.moduleMap[moduleId]
-    const offsetTop = moduleId === this.props.IdLabelList[0].id ? node.offsetTop + 278 : node.offsetTop
-    if (node) {
-      return smoothScroll(offsetTop)
-    }
-    return null
-  }
-
   render() {
     const AssembleWord = (words) => {
       return words.split('').map((word) => {
         return (
-          <SingleWord key={`single_word_${word}`}>
+          <Label key={`anchor_label_${word}`}>
             {word}
-          </SingleWord>
+          </Label>
         )
       })
     }
-    const navBarSections = this.props.IdLabelList.map((idLabelObj, index) => {
-      const moduleId = _.get(idLabelObj, 'id', `module_${index}`)
-      const moduleLabel = _.get(idLabelObj, 'label', `moduleLabel_${index}`)
-      return (
-        <SectionButton
-          highlight={moduleId === this.state.currentSection}
-          onClick={(e) => { this.scrollTo(moduleId, e) }}
-          key={`SectionButton_${moduleId}`}
-        >
-          {AssembleWord(moduleLabel)}
-        </SectionButton>
-      )
+    const anchorBts = []
+    this.props.data.forEach((anchorObj) => {
+      const moduleID = _.get(anchorObj, 'id', '')
+      const moduleLabel = _.get(anchorObj, 'label', '')
+
+      // moduleID and moduleLable are not empty string
+      if (moduleID && moduleLabel) {
+        anchorBts.push(
+          <Anchor
+            highlight={moduleID === this.state.currentSection}
+            onClick={(e) => { this.props.handleClickAnchor(moduleID, e) }}
+            key={`SectionButton_${moduleID}`}
+          >
+            {AssembleWord(moduleLabel)}
+          </Anchor>,
+        )
+      }
     })
     return (
       <div>
-        { navBarSections }
+        { anchorBts }
       </div>
     )
   }
 }
 
 Anchors.defaultProps = {
-  moduleMap: {},
-  IdLabelList: [],
+  handleClickAnchor: () => {},
+  data: [],
 }
 
 Anchors.propTypes = {
-  moduleMap: PropTypes.object,
-  IdLabelList: PropTypes.array,
+  handleClickAnchor: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    label: PropTypes.string,
+  })),
 }
 
 class SideBar extends React.Component {
@@ -132,9 +129,10 @@ class SideBar extends React.Component {
     this.state = {
       isSafari: false,
     }
+    this.scrollTo = this._scrollTo.bind(this)
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
-    // moduleId to Module
+    // moduleID to Module
     this.moduleMap = {}
     this.currentSection = ''
     this.previousSection = ''
@@ -154,6 +152,16 @@ class SideBar extends React.Component {
     this.moduleMap = {}
   }
 
+  _scrollTo(moduleID, e) {
+    e.preventDefault()
+    const node = this.moduleMap[moduleID]
+    if (node) {
+      const offsetTop = moduleID === _.get(this.props, 'anchors.0.id') ? node.offsetTop + 278 : node.offsetTop
+      return smoothScroll(offsetTop)
+    }
+    return null
+  }
+
   _handleOnEnter(nextSection) {
     this.anchorsNode.changeHighlight(nextSection)
     this.previousSection = this.currentSection
@@ -169,40 +177,35 @@ class SideBar extends React.Component {
   }
 
   render() {
-    const { children } = this.props
+    const { children, anchors } = this.props
     let modules = children
-    const IdLabelList = []
     if (children && !Array.isArray(children)) {
       modules = [children]
     }
     if (this.currentSection === '') {
-      this.currentSection = _.get(modules[0], 'props.moduleId', 'module_01')
+      this.currentSection = _.get(anchors, '0.id')
     }
-    const webSiteContent = modules.map((singleModule, index) => {
-      const moduleId = _.get(singleModule, 'props.moduleId', `module_${index}`)
-      const moduleLabel = _.get(singleModule, 'props.moduleLabel', `moduleLabel_${index}`)
-      IdLabelList.push({
-        id: moduleId,
-        label: moduleLabel,
-      })
+    const webSiteContent = modules.map((module, index) => {
+      const moduleID = _.get(anchors, [index, 'id'], `side_bar_module_${index}`)
       return (
         <Waypoint
-          key={`Single_Module_${moduleId}`}
-          onLeave={() => { this.handleOnLeave(moduleId) }}
-          onEnter={() => { this.handleOnEnter(moduleId) }}
+          key={moduleID}
+          onLeave={() => { this.handleOnLeave(moduleID) }}
+          onEnter={() => { this.handleOnEnter(moduleID) }}
           fireOnRapidScroll
           topOffset="4%"
           bottomOffset={(index + 1) === modules.length ? '50%' : '95%'}
         >
           <div
-            id={moduleId}
-            ref={(node) => { this.moduleMap[moduleId] = node }}
+            id={moduleID}
+            ref={(node) => { this.moduleMap[moduleID] = node }}
           >
-            {singleModule}
+            {module}
           </div>
         </Waypoint>
       )
-    })
+    },
+    )
 
     return (
       <div>
@@ -211,8 +214,8 @@ class SideBar extends React.Component {
         >
           <Anchors
             ref={(node) => { this.anchorsNode = node }}
-            moduleMap={this.moduleMap}
-            IdLabelList={IdLabelList}
+            data={anchors}
+            handleClickAnchor={this.scrollTo}
           />
         </Container>
         {webSiteContent}
@@ -223,10 +226,15 @@ class SideBar extends React.Component {
 
 SideBar.defaultProps = {
   children: [],
+  anchors: [],
 }
 
 SideBar.propTypes = {
   children: PropTypes.array,
+  anchors: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    label: PropTypes.string,
+  })),
 }
 
 export default SideBar

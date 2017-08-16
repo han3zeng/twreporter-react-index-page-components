@@ -53,6 +53,7 @@ const EmailInput = styled.input`
   padding-left: 16px;
   &:focus {
     outline: none;
+    box-shadow: none;
   }
 
   &:-webkit-autofill {
@@ -68,6 +69,7 @@ const SubscribeInput = styled.input`
   font-size: 16px;
   &:focus {
     outline: none;
+    box-shadow: none;
   }
 `
 

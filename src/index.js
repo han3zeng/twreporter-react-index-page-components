@@ -3,6 +3,7 @@ import EditorPicks from './components/editor-picks'
 import InforgraphicSection from './components/infographic-section'
 import LatestTopicSection from './components/latest-topic'
 import LatestSection from './components/latest-section'
+import NewsLetterSection from './components/news-letter-section'
 import PhotographySection from './components/photography-section'
 import ReporterIntro from './components/reporter-intro'
 import ReviewsSection from './components/reviews'
@@ -18,6 +19,7 @@ export default {
     InforgraphicSection,
     LatestTopicSection,
     LatestSection,
+    NewsLetterSection,
     PhotographySection,
     ReporterIntro,
     ReviewsSection,

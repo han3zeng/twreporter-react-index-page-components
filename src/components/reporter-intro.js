@@ -165,9 +165,9 @@ class ReporterIntro extends React.PureComponent {
             <ItemTitle>訂閱</ItemTitle>
             <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
             <ItemDescription>
-              即將推出  敬請期待
+              透過電子報追蹤報導者們
             </ItemDescription>
-            <ItemLink />
+            <ItemLink><BottomLink text="前往訂閱電子報" path="#news-letter" redirect target={'_self'} /></ItemLink>
           </Item>
         </FlexContainer>
       </ContentContainer>

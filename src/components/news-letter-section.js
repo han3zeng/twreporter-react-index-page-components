@@ -2,6 +2,7 @@ import React from 'react'
 import EmailIcon from '../static/subscribe-icon.svg'
 import delay from 'lodash/delay'
 import styled from 'styled-components'
+import { finalMedia } from '../utils/style-utils'
 
 const _ = {
   delay,
@@ -10,10 +11,22 @@ const _ = {
 const mailChimpURL = '//twreporter.us14.list-manage.com/subscribe/post?u=4da5a7d3b98dbc9fdad009e7e&id=754d51d1e3'
 const bgColor = '#f2f2f2'
 
+const mockup = {
+  defaultWidth: 320,
+  contentWidth: 288,
+  inputWidth: 274,
+}
+const mobileContentWidthPct = (mockup.contentWidth / mockup.defaultWidth) * 100
+const mobileInputWidthPct = (mockup.inputWidth / mockup.contentWidth) * 100
+
 const Container = styled.div`
   background-color: ${bgColor};
   padding-top: 70px;
   padding-bottom: 70px;
+  ${finalMedia.mobile`
+    padding-top: 30px;
+    padding-bottom: 60px;
+  `}
 `
 
 const ContentContainer = styled.div`
@@ -21,6 +34,11 @@ const ContentContainer = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: flex-start;
+
+  ${finalMedia.mobile`
+    max-width: ${mobileContentWidthPct}%;
+    display: block;
+  `}
 `
 
 const Icon = styled.div`
@@ -30,6 +48,16 @@ const Icon = styled.div`
   }
 
   margin-right: 20px;
+
+  ${finalMedia.mobile`
+    width: 46px;
+    height: 30px;
+    margin: 0 auto;
+    > svg {
+      width: 46px;
+      height: 30px;
+    }
+  `}
 `
 
 const SignupForm = styled.div`
@@ -44,6 +72,10 @@ const SignupForm = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${finalMedia.mobile`
+    margin-top: 20px;
+  `}
 `
 
 const EmailInput = styled.input`
@@ -51,6 +83,7 @@ const EmailInput = styled.input`
   flex-basis: 100%;
   width: 100%;
   padding-left: 16px;
+  font-size: 16px;
   &:focus {
     outline: none;
     box-shadow: none;
@@ -59,6 +92,14 @@ const EmailInput = styled.input`
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset;
   }
+
+  ${finalMedia.mobile`
+    font-size: 14px;
+    display: inline;
+    padding-left: 34px;
+    text-align: center;
+    width: ${mobileInputWidthPct}%
+  `}
 `
 
 const SubscribeInput = styled.input`
@@ -71,6 +112,10 @@ const SubscribeInput = styled.input`
     outline: none;
     box-shadow: none;
   }
+
+  ${finalMedia.mobile`
+    font-size: 12px;
+  `}
 `
 
 const Form = styled.form`

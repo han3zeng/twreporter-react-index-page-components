@@ -1,3 +1,7 @@
+### 1.1.4
+- Add news-letter section.
+- Code refactor for side-bar.js. 
+
 ### 1.1.3
 - Style update for reporter-intro section
 

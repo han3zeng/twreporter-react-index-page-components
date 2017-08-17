@@ -1,7 +1,7 @@
 import AboutAuthorIcon from '../static/about-author.svg'
 import AboutDonateIcon from '../static/about-donate.svg'
 import AboutSubscribeIcon from '../static/about-subscribe.svg'
-import BottomLink from './common-utils/bottom-link'
+import BottomLink, { Wrapper as BTWrapper, TextSpan as BTText, LinkIcon } from './common-utils/bottom-link'
 import ReporterIcon from '../static/reporter-large.svg'
 import React from 'react'
 import SectionAnimationWrapper from './animations/section-animation-wrapper'
@@ -9,6 +9,7 @@ import SectionName from './common-utils/section-name'
 import Section from './common-utils/section'
 import appConfig from '../conf/app-config.json'
 import sectionStrings from '../constants/section-strings'
+import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
 import { centerBlock, finalMedia, breakPoints } from '../utils/style-utils'
 import { colors, fonts } from '../styles/common-variables'
@@ -124,6 +125,28 @@ const ItemLink = styled.div`
 `
 
 class ReporterIntro extends React.PureComponent {
+  constructor(props) {
+    super(props)
+
+    this.handleNewsLetterLinkClick = this._handleNewsLetterLinkClick.bind(this)
+  }
+
+  _handleNewsLetterLinkClick() {
+    /* WORKAROUND
+     * react-router does not scroll the target element into view
+     * when you are using anchor links like
+     * <Link to="#news-letter" />
+     * Hence, the following code is a navie way to scroll to
+     * news-letter section
+     */
+    const element = document.getElementById('news-letter')
+    if (element) {
+      const offsetTop = element.offsetTop
+      return smoothScroll(offsetTop)
+    }
+    return null
+  }
+
   render() {
     const authorHref = 'authors'
     const donationHref = 'https://twreporter.backme.tw/cashflow/checkout?project_id=175&reward_id=718'
@@ -167,7 +190,14 @@ class ReporterIntro extends React.PureComponent {
             <ItemDescription>
               透過電子報追蹤報導者們
             </ItemDescription>
-            <ItemLink><BottomLink text="前往訂閱電子報" path="#news-letter" redirect target={'_self'} /></ItemLink>
+            <ItemLink>
+              <BTWrapper onClick={this.handleNewsLetterLinkClick}>
+                <BTText>
+                  前往訂閱電子報
+                </BTText>
+                <LinkIcon />
+              </BTWrapper>
+            </ItemLink>
           </Item>
         </FlexContainer>
       </ContentContainer>

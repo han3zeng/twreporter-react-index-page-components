@@ -67,3 +67,11 @@ BottomLink.defaultProps = {
 }
 
 export default BottomLink
+
+export {
+  A,
+  TextSpan,
+  Wrapper,
+  LinkIcon,
+  DarkBgIcon,
+}

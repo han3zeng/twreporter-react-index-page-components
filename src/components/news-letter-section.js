@@ -3,13 +3,13 @@ import EmailIcon from '../static/subscribe-icon.svg'
 import delay from 'lodash/delay'
 import styled from 'styled-components'
 import { finalMedia } from '../utils/style-utils'
+import { fonts, colors } from '../styles/common-variables'
 
 const _ = {
   delay,
 }
 
 const mailChimpURL = '//twreporter.us14.list-manage.com/subscribe/post?u=4da5a7d3b98dbc9fdad009e7e&id=754d51d1e3'
-const bgColor = '#f2f2f2'
 
 const mockup = {
   defaultWidth: 320,
@@ -20,7 +20,7 @@ const mobileContentWidthPct = (mockup.contentWidth / mockup.defaultWidth) * 100
 const mobileInputWidthPct = (mockup.inputWidth / mockup.contentWidth) * 100
 
 const Container = styled.div`
-  background-color: ${bgColor};
+  background-color: ${colors.sectionGrey};
   padding-top: 70px;
   padding-bottom: 70px;
   ${finalMedia.mobile`
@@ -62,7 +62,7 @@ const Icon = styled.div`
 
 const SignupForm = styled.div`
   width: 100%;
-  background-color: #fff;
+  background-color: ${colors.sectionWhite};
   height: 40px;
 
   input {
@@ -83,7 +83,7 @@ const EmailInput = styled.input`
   flex-basis: 100%;
   width: 100%;
   padding-left: 16px;
-  font-size: 16px;
+  font-size: ${fonts.size.medium};
   &:focus {
     outline: none;
     box-shadow: none;
@@ -94,7 +94,7 @@ const EmailInput = styled.input`
   }
 
   ${finalMedia.mobile`
-    font-size: 14px;
+    font-size: ${fonts.size.base};
     display: inline;
     padding-left: 34px;
     text-align: center;
@@ -104,17 +104,17 @@ const EmailInput = styled.input`
 
 const SubscribeInput = styled.input`
   display: block;
-  background-color: #fff;
+  background-color: ${colors.sectionWhite};
   padding-right: 10px;
-  color: #c4333e;
-  font-size: 16px;
+  color: ${colors.primaryColor};
+  font-size: ${fonts.size.medium};
   &:focus {
     outline: none;
     box-shadow: none;
   }
 
   ${finalMedia.mobile`
-    font-size: 12px;
+    font-size: ${fonts.size.small};
   `}
 `
 

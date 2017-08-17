@@ -1,3 +1,6 @@
+### 1.1.5
+- Workaround to scroll to news-letter section.
+
 ### 1.1.4
 - Add news-letter section.
 - Code refactor for side-bar.js. 

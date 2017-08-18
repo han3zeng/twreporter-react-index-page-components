@@ -1,3 +1,6 @@
+### 1.1.7
+- Add more link in topics section 
+
 ### 1.1.6
 - Use process.env.RELEASE_BRANCH environment variable to hide the news-letter section
 

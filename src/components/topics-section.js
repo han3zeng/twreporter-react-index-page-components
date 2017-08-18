@@ -1,4 +1,4 @@
-// import BottomLink from './common-utils/bottom-link'
+import BottomLink from './common-utils/bottom-link'
 import CategoryName from './common-utils/category-name'
 import ImgWrapper from './common-utils/img-wrapper'
 import MobileFlexSwipeable from './mobile-flex-swipeable'
@@ -66,6 +66,7 @@ const Item = styled.div`
   `}
 
   ${finalMedia.mobile`
+    padding-bottom: 40px;
     width: 100%;
     &:nth-child(odd) {
       margin-right: 0px;
@@ -112,7 +113,7 @@ const Img = styled.div`
 const Desc = styled.div`
   margin: 15px auto 0 auto;
   max-width: 504px;
-  height: 140px;
+  height: 95px;
   font-size: ${fonts.size.medium};
   p {
     margin: 0;
@@ -130,16 +131,14 @@ const Desc = styled.div`
 
   ${finalMedia.mobile`
     max-width: 100%;
-    height: 208px;
+    height: 120px;
     font-size: ${fonts.size.large};
   `}
 `
 
-  /*
 const More = styled.div`
   text-align: center;
 `
-*/
 
 class Topic extends React.PureComponent {
   render() {
@@ -162,7 +161,7 @@ class Topic extends React.PureComponent {
           <Desc>
             <TruncatText
               backgroundColor={'#f2f2f2'}
-              lines={7}
+              lines={4}
               lineHeight={1.5}
               dangerouslySetInnerHTML={{ __html: desc }}
             />
@@ -192,7 +191,7 @@ Topic.propTypes = {
 class TopicsSection extends React.PureComponent {
   render() {
     const totalTopics = 4
-    const { data, useTinyImg } = this.props
+    const { data, useTinyImg, moreURI } = this.props
     const topicComps = data.map((item) => {
       const desc = _.get(item, 'og_description')
       const imgObj = _.get(item, 'leading_image') || _.get(item, 'og_image')
@@ -234,7 +233,7 @@ class TopicsSection extends React.PureComponent {
               {topicComps}
             </MobileFlexSwipeable.SwipableFlexItems>
           </MobileList>
-          {/* <More><BottomLink text="更多報導者專題" path="moretopicssection" /></More>*/}
+          <More><BottomLink text="更多報導者專題" path={moreURI} /></More>
         </Section>
       </Container>
     )
@@ -243,11 +242,13 @@ class TopicsSection extends React.PureComponent {
 
 TopicsSection.defaultProps = {
   data: [],
+  moreURI: 'topics',
   useTinyImg: false,
 }
 
 TopicsSection.propTypes = {
   data: PropTypes.arrayOf(topicPropType()),
+  moreURI: PropTypes.string,
   useTinyImg: PropTypes.bool,
 }
 

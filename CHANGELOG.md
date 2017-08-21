@@ -1,3 +1,6 @@
+### 1.1.8
+- Change mailChimpURL for production environment.
+
 ### 1.1.7
 - Add more link in topics section 
 

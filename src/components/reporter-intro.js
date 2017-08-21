@@ -187,26 +187,17 @@ class ReporterIntro extends React.PureComponent {
           <Item>
             <ItemTitle>訂閱</ItemTitle>
             <ItemIconContainer><AboutSubscribeIcon /></ItemIconContainer>
-            { /* Here is a temporarily solution to hide news-letter section */
-              process.env.RELEASE_BRANCH !== 'production' ? (
-                <div>
-                  <ItemDescription>
-                    透過電子報追蹤報導者們
-                  </ItemDescription>
-                  <ItemLink>
-                    <BTWrapper onClick={this.handleNewsLetterLinkClick}>
-                      <BTText>
-                        前往訂閱電子報
-                      </BTText>
-                      <LinkIcon />
-                    </BTWrapper>
-                  </ItemLink>
-                </div>
-            ) : (
-              <ItemDescription>
-                即將推出 敬請期待
-              </ItemDescription>
-            ) }
+            <ItemDescription>
+              透過電子報追蹤報導者們
+            </ItemDescription>
+            <ItemLink>
+              <BTWrapper onClick={this.handleNewsLetterLinkClick}>
+                <BTText>
+                  前往訂閱電子報
+                </BTText>
+                <LinkIcon />
+              </BTWrapper>
+            </ItemLink>
           </Item>
         </FlexContainer>
       </ContentContainer>

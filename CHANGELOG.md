@@ -1,3 +1,6 @@
+### 1.1.9
+- Show news-letter section whatever the environment is.
+
 ### 1.1.8
 - Change mailChimpURL for production environment.
 

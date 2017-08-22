@@ -26,6 +26,13 @@ const _ = {
 const mobileWidth = breakPoints.mobileMaxWidth
 const backgroundColor = '#e2e2e2'
 
+const mockup = {
+  mobile: {
+    titleWidth: 209,
+    titleFrameWidth: 237,
+  },
+}
+
 const Container = styled.div`
   background-color: ${backgroundColor};
 `
@@ -70,7 +77,8 @@ const FlexItem = styled.div`
   `}
   ${finalMedia.mobile`
     width: 100%;
-    margin: 0 0 24px 0;
+    height: 100%;
+    margin-bottom: 0;
   `}
 `
 
@@ -112,7 +120,7 @@ const Title = styled.div`
   width: 92%;
   margin: 0 auto;
   @media (max-width: ${mobileWidth}) {
-    width: 95%;
+    width: ${(mockup.mobile.titleWidth/mockup.mobile.titleFrameWidth)*100}%;
   }
 `
 
@@ -182,7 +190,7 @@ class Category extends React.PureComponent {
             maxWidth={mobileWidth}
           >
             <MobileFlexSwipeable.SwipableFlexItems
-              alignItems={'stretch'}
+              alignItems='stretch'
               mobileWidth={mobileWidth}
               maxSwipableItems={_.get(this.props, 'data.length', 1) - 1}
               categorySection

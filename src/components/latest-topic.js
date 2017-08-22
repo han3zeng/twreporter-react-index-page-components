@@ -65,6 +65,7 @@ const Description = styled.div`
   ${finalMedia.mobile`
     width: ${itemWidthPct}%;
     margin: 6px auto 0 auto;
+    font-size: ${fonts.size.large};
   `}
 `
 
@@ -130,6 +131,10 @@ const RelatedDescription = styled.div`
   line-height: 20px;
   color: ${colors.textGrey};
   ${truncate('relative', 1.43, 3, '#f2f2f2')};
+
+  ${finalMedia.mobile`
+    font-size: ${fonts.size.large};
+  `}
 `
 const MoreFrame = styled.div`
   margin: 60px auto 0 auto;

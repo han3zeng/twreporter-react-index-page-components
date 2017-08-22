@@ -112,10 +112,13 @@ const Description = styled.div`
   margin-top: 8px;
   font-size: ${fonts.size.medium};
   color: ${colors.textGrey};
+  ${truncate('relative', 1.5, 3, 'white')}
   ${finalMedia.tablet`
     width: 144px;
   `}
-  ${truncate('relative', 1.5, 3, 'white')}
+  ${finalMedia.mobile`
+    font-size: ${fonts.size.large};
+  `}
 `
 
 const More = styled.div`

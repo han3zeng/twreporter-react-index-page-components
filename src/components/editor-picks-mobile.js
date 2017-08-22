@@ -34,7 +34,7 @@ const CarouselContainer = Section.extend`
 `
 
 const TextFrame = styled.div`
-  height: 230px;
+  height: 240px;
   position: relative;
 `
 
@@ -67,7 +67,7 @@ const TitleSpan = styled.span`
 const Description = styled.div`
   top: 150px;
   left: 50%;
-  font-size: ${fonts.size.base};
+  font-size: ${fonts.size.large};
   transform: translateX(-50%);
   width: ${itemWidthPct}%;
   text-align: left;

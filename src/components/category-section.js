@@ -120,7 +120,7 @@ const Title = styled.div`
   width: 92%;
   margin: 0 auto;
   @media (max-width: ${mobileWidth}) {
-    width: ${(mockup.mobile.titleWidth/mockup.mobile.titleFrameWidth)*100}%;
+    width: ${(mockup.mobile.titleWidth / mockup.mobile.titleFrameWidth) * 100}%;
   }
 `
 
@@ -190,7 +190,7 @@ class Category extends React.PureComponent {
             maxWidth={mobileWidth}
           >
             <MobileFlexSwipeable.SwipableFlexItems
-              alignItems='stretch'
+              alignItems="stretch"
               mobileWidth={mobileWidth}
               maxSwipableItems={_.get(this.props, 'data.length', 1) - 1}
               categorySection

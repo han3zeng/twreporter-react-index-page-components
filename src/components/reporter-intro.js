@@ -34,6 +34,7 @@ const TopContainer = styled.div`
   ${finalMedia.mobile`
     padding: 0 0 40px 0;
     max-width: ${itemPlusPaddingWidthPct}%;
+    font-size: ${fonts.size.large};
   `}
 `
 
@@ -104,7 +105,6 @@ const ItemDescription = styled.div`
   line-height: 1.5;
   font-size: ${fonts.size.medium};
   ${finalMedia.mobile`
-    font-size: ${fonts.size.medium};
     line-height: 1.43;
     font-size: ${fonts.size.large};
     max-width: ${`${mobileDescPct}%`};

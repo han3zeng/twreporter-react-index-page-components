@@ -29,7 +29,7 @@ const fonts = {
 
 const colors = {
   primaryColor: '#c4333e',  // red
-  textGrey: '#4a4949',
+  textGrey: '#4a4a4a',
   moreBlue: '#55a1e5',
   lightBlue: '#5eb2fe',
   blue: '#5eb2fd',

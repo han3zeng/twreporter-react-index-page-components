@@ -159,6 +159,7 @@ const Description = styled.div`
   ${truncate('absolute', 1.43, 2, 'white')};
   @media (min-width: ${breakPoints.tabletMinWidth}) {
     ${props => (props.ifHover ? 'opacity: 0.7' : '')};
+    transition: .2s opacity linear;
   }
   z-index: 2;
 `
@@ -169,6 +170,7 @@ const HoverEffect = styled.div`
   color: ${colors.textGrey};
   @media (min-width: ${breakPoints.tabletMinWidth}) {
     ${props => (props.ifHover ? 'opacity: 0.7' : 'opacity: 1')};
+    transition: .2s opacity linear;
   }
 `
 

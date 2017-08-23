@@ -11,28 +11,15 @@ const _ = {
   get,
 }
 
-const ifSafari = () => {
-  const ua = navigator.userAgent.toLowerCase()
-  if (ua.includes('safari')) {
-    if (ua.includes('chrome')) {
-      return false
-    }
-    return true
-  }
-  return false
-}
-
-// right: calc((100% - 1024px)/2 + 1px);
 const Container = styled.div`
   font-size: ${fonts.size.base};
   position: fixed;
   color: ${colors.primaryColor};
   z-index: 2;
-  right: ${props => (props.isSafari ? '30px' : '10px')};
-  top: 93px;
-  @media (max-width: 1050px) {
-    right: ${props => (props.isSafari ? '21px' : '1px')};
-  }
+  right: 20px;
+  top: 50%;
+  z-index: 100;
+  transform: translateY(-50%);
   @media (max-width: ${breakPoints.mobileMaxWidth}) {
     display: none;
   }
@@ -123,12 +110,9 @@ Anchors.propTypes = {
   })),
 }
 
-class SideBar extends React.Component {
+class SideBar extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      isSafari: false,
-    }
     this.scrollTo = this._scrollTo.bind(this)
     this.handleOnEnter = this._handleOnEnter.bind(this)
     this.handleOnLeave = this._handleOnLeave.bind(this)
@@ -136,16 +120,6 @@ class SideBar extends React.Component {
     this.moduleMap = {}
     this.currentSection = ''
     this.previousSection = ''
-  }
-
-  componentWillMount() {
-    if (typeof window !== 'undefined') {
-      if (ifSafari()) {
-        this.setState({
-          isSafari: true,
-        })
-      }
-    }
   }
 
   componentWillUnmount() {
@@ -209,9 +183,7 @@ class SideBar extends React.Component {
 
     return (
       <div>
-        <Container
-          isSafari={this.state.isSafari}
-        >
+        <Container>
           <Anchors
             ref={(node) => { this.anchorsNode = node }}
             data={anchors}

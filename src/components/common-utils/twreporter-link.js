@@ -9,7 +9,10 @@ const A = styled.a`
   text-decoration: none;
 `
 
-const PlainContainer = styled.div``
+const PlainContainer = styled.div`
+  width:100%;
+  height: 100%;
+`
 
 // noTxtDec = noTextDecoration
 const TRLink = (props) => {

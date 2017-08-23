@@ -1,9 +1,10 @@
 import styled from 'styled-components'
+import { finalMedia } from '../../utils/style-utils'
 import { fonts } from '../../styles/common-variables'
 
 const SectionName = styled.div`
   display: none;
-  @media (max-width: ${props => props.mobileWidth}) {
+  ${finalMedia.mobile`
     display: block;
     font-size: ${fonts.size.small};
     position: absolute;
@@ -19,7 +20,7 @@ const SectionName = styled.div`
       padding-right: 5px;
       background-color: #c3000b;
     }
-  }
+  `}
 `
 
 export default SectionName

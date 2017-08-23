@@ -1,3 +1,6 @@
+### 1.1.11
+- Clear default input border 
+
 ### 1.1.10
 - Style tuning. Each card in the categories-section should have the same height
 - Code refactor for topics-section.js

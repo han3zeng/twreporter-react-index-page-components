@@ -1,3 +1,10 @@
+### 1.1.10
+- Style tuning. Each card in the categories-section should have the same height
+- Code refactor for topics-section.js
+- Shift side-bar left a little bit
+- Add hover transition in editor-picks section
+- Change text color and size
+
 ### 1.1.9
 - Show news-letter section whatever the environment is.
 

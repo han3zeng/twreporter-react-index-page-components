@@ -84,10 +84,8 @@ const EmailInput = styled.input`
   width: 100%;
   padding-left: 16px;
   font-size: ${fonts.size.medium};
-  &:focus {
-    outline: none;
-    box-shadow: none;
-  }
+  outline: none;
+  box-shadow: none;
 
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset;
@@ -108,10 +106,8 @@ const SubscribeInput = styled.input`
   padding-right: 10px;
   color: ${colors.primaryColor};
   font-size: ${fonts.size.medium};
-  &:focus {
-    outline: none;
-    box-shadow: none;
-  }
+  outline: none;
+  box-shadow: none;
 
   ${finalMedia.mobile`
     font-size: ${fonts.size.small};

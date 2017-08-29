@@ -4,8 +4,10 @@ import ContentWrapper from './common-utils/section-content-wrapper'
 import EditorPicksMobile from './editor-picks-mobile'
 import FadeInFadeOut from './animations/fadein-fadeout'
 import ImgWrapper from './common-utils/img-wrapper'
+import LeftArrowIcon from '../static/left-arrow.svg'
 import PropTypes from 'prop-types'
 import React from 'react'
+import RightArrowIcon from '../static/right-arrow.svg'
 import TRLink from './common-utils/twreporter-link'
 import clone from 'lodash/clone'
 import get from 'lodash/get'
@@ -98,6 +100,24 @@ const ImgFrame = styled.div`
     width: 459.2px;
     height: 295px;
   `}
+`
+
+// top: sideCategory + 27px
+const LeftArrow = styled.div`
+  position: absolute;
+  left: 17%;
+  top: 480px;
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
+    top: 365px;
+  }
+`
+const RightArrow = styled.div`
+  position: absolute;
+  right: 17%%;
+  top: 480px;
+  @media (max-width: ${breakPoints.desktopMaxWidth}) {
+    top: 365px;
+  }
 `
 
 const SideCategory = CategoryName.extend`
@@ -404,11 +424,25 @@ class EditorPicks extends React.Component {
       )
     })
 
+    const Arrows = (() => {
+      return (
+        <div>
+          <LeftArrow>
+            <LeftArrowIcon />
+          </LeftArrow>
+          <RightArrow>
+            <RightArrowIcon />
+          </RightArrow>
+        </div>
+      )
+    })()
+
     return (
       <div>
         <CarouselContainer>
           <FlexContainer>
             {Types}
+            {Arrows}
             {Images}
             {FlexItems}
           </FlexContainer>

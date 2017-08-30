@@ -93,7 +93,7 @@ const ImgFrame = styled.div`
   top: 236px;
   transform: translateX(-50%);
   ${finalMedia.desktop`
-    width: 608px;
+    width: 610px;
     height: 391px;
   `}
   ${finalMedia.tablet`
@@ -111,15 +111,19 @@ const Arrow = styled.div`
 // top: sideCategory + 27px
 const LeftArrow = Arrow.extend`
   left: 17%;
+  display: ${props => (props.selected === 0 ? 'none' : 'inline')};
   @media (max-width: ${breakPoints.desktopMaxWidth}) {
     top: 365px;
   }
+  transition: .2s display linear;
 `
 const RightArrow = Arrow.extend`
   right: 17%;
+  display: ${props => (props.selected === (props.dataLength - 1) ? 'none' : 'inline')};
   @media (max-width: ${breakPoints.desktopMaxWidth}) {
     top: 365px;
   }
+  transition: .2s display linear;
 `
 
 const SideCategory = CategoryName.extend`
@@ -432,10 +436,17 @@ class EditorPicks extends React.Component {
     const Arrows = (() => {
       return (
         <div>
-          <LeftArrow onClick={this.onShiftToRight}>
+          <LeftArrow
+            onClick={this.onShiftToRight}
+            selected={this.state.selected}
+          >
             <LeftArrowIcon />
           </LeftArrow>
-          <RightArrow onClick={this.onShiftToLeft}>
+          <RightArrow
+            onClick={this.onShiftToLeft}
+            selected={this.state.selected}
+            dataLength={this.props.data.length}
+          >
             <RightArrowIcon />
           </RightArrow>
         </div>

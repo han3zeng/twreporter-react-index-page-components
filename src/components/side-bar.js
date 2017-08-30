@@ -4,7 +4,7 @@ import React from 'react'
 import Waypoint from 'react-waypoint'
 import smoothScroll from 'smoothscroll'
 import styled from 'styled-components'
-import { breakPoints } from '../utils/style-utils'
+import { breakPoints, finalMedia } from '../utils/style-utils'
 import { fonts, colors } from '../styles/common-variables'
 
 const _ = {
@@ -15,11 +15,13 @@ const Container = styled.div`
   font-size: ${fonts.size.base};
   position: fixed;
   color: ${colors.primaryColor};
-  z-index: 2;
-  right: 3px;
+  right: 16px;
   top: 50%;
   z-index: 100;
   transform: translateY(-50%);
+  ${finalMedia.tablet`
+    right: 3px;
+  `}
   @media (max-width: ${breakPoints.mobileMaxWidth}) {
     display: none;
   }

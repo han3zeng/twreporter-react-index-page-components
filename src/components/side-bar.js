@@ -16,7 +16,7 @@ const Container = styled.div`
   position: fixed;
   color: ${colors.primaryColor};
   z-index: 2;
-  right: 20px;
+  right: 3px;
   top: 50%;
   z-index: 100;
   transform: translateY(-50%);

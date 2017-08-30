@@ -97,24 +97,26 @@ const ImgFrame = styled.div`
     height: 391px;
   `}
   ${finalMedia.tablet`
-    width: 459.2px;
+    width: 450px;
     height: 295px;
   `}
 `
 
-// top: sideCategory + 27px
-const LeftArrow = styled.div`
+const Arrow = styled.div`
+  cursor: pointer;
   position: absolute;
-  left: 17%;
   top: 480px;
+`
+
+// top: sideCategory + 27px
+const LeftArrow = Arrow.extend`
+  left: 17%;
   @media (max-width: ${breakPoints.desktopMaxWidth}) {
     top: 365px;
   }
 `
-const RightArrow = styled.div`
-  position: absolute;
-  right: 17%%;
-  top: 480px;
+const RightArrow = Arrow.extend`
+  right: 17%;
   @media (max-width: ${breakPoints.desktopMaxWidth}) {
     top: 365px;
   }
@@ -164,9 +166,12 @@ const Title = styled.div`
   left: 50%;
   transform: translateX(-50%);
   overflow: hidden;
-  @media (max-width: ${breakPoints.tabletMaxWidth}) {
-    width: ${props => (props.middle ? '450px' : '100px')};
-  }
+  ${finalMedia.desktop`
+    width: ${props => (props.middle ? '450px' : '120px')};
+  `}
+  ${finalMedia.tabletBelow`
+    width: ${props => (props.middle ? '450px' : '90px')};
+  `}
 `
 const Description = styled.div`
   position: absolute;
@@ -427,10 +432,10 @@ class EditorPicks extends React.Component {
     const Arrows = (() => {
       return (
         <div>
-          <LeftArrow>
+          <LeftArrow onClick={this.onShiftToRight}>
             <LeftArrowIcon />
           </LeftArrow>
-          <RightArrow>
+          <RightArrow onClick={this.onShiftToLeft}>
             <RightArrowIcon />
           </RightArrow>
         </div>
